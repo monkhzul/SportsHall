@@ -19,20 +19,20 @@ export default function SideNav() {
             </Sidenav.Header>
             <Sidenav.Body className=''>
                 <Nav activeKey={activeKey} onSelect={setActiveKey}>
-                    <Layout>
+           
                     <Nav.Item eventKey="1" icon={<DashboardIcon />}>
                         Dashboard
                     </Nav.Item>
-                    <Nav.Item eventKey="2" icon={<CalendarIcon />} href='/components/Admin/Booking'>
+                    <Nav.Item eventKey="2" icon={<CalendarIcon />} href='/components/User/Booking'>
                         Заалны цаг захиалах
                     </Nav.Item>
                     <Nav.Item eventKey="3" icon={<GroupIcon />} href='/'>
                         Test
                     </Nav.Item>
-                    <Nav.Item eventKey="4" icon={<GroupIcon />} href='/components/Admin/Schedule'>
+                    <Nav.Item eventKey="4" icon={<GroupIcon />} href='/components/User/Schedule'>
                         Test2
                     </Nav.Item>
-                    </Layout>
+
                     {/* <Nav.Menu placement="rightStart" eventKey="3" title="Advanced" icon={<MagicIcon />}>
                         <Nav.Item eventKey="3-1" href='/components/Admin/AddUser'>Хэрэглэгч нэмэх</Nav.Item>
                         <Nav.Item eventKey="3-2">Devices</Nav.Item>

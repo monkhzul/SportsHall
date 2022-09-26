@@ -2,7 +2,7 @@ import Head from 'next/head'
 import React from 'react'
 import Sidenav from '../components/Admin/Sidenav'
 import "rsuite/dist/rsuite.css";
-import Navbar from './NavbarUser';
+import NavbarUser from './NavbarUser';
 
 export default function App() {
     return (
@@ -13,7 +13,7 @@ export default function App() {
 
             <div className='w-full'>
                 <div className='nav w-full'>
-                    <Navbar />
+                    <NavbarUser />
                 </div>
                 <div className='flex flex-col sm:flex-row'>
                     <Sidenav />

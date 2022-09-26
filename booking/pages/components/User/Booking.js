@@ -1,6 +1,7 @@
 import React from 'react'
 import NavbarUser from '../NavbarUser'
 import Sidenav from '../Admin/Sidenav'
+import Layout from '../Layout/Layout'
 
 export default function Booking() {
   return (
@@ -9,7 +10,7 @@ export default function Booking() {
         <NavbarUser />
     </div>
     <div className='flex flex-col sm:flex-row'>
-        <Sidenav />
+        <Sidenav/>
         <div className='w-full border'>
             <div className='body p-3'>
                 <h3>Booking</h3>
