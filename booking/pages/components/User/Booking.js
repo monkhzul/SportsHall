@@ -9,20 +9,25 @@ import "react-datepicker/dist/react-datepicker.css";
 import Select from 'react-select';
 import Modal from 'react-bootstrap/Modal';
 import { ToastContainer, toast } from "react-toastify";
+import book from '../../../styles/Booking.module.css'
 
 export default function Booking() {
 
     const [modalShow, setModalShow] = useState(false);
     const [textarea, setTextArea] = useState('')
 
+    const currentDate = moment().set({ hours: 1, minute: 59, seconds: 59 });
+    const disabledDate = (date) => {
+        return currentDate.isAfter(date);
+    };
+
+    const [startTime, setStartTime] = useState('')
+    // const [endTime, setEndTime] = useState('')
+
     const date = new Date();
     var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     const [startdate, setStartDate] = useState(today);
 
-    const currentDate = moment().set({ hours: 0, minute: 59, second: 59 });
-    const disabledDate = (date) => {
-        return currentDate.isAfter(date);
-    };
 
     var timeArray = [];
 
@@ -34,28 +39,44 @@ export default function Booking() {
         }
     }
 
+    const hallType = [
+        { value: 'Цагаар', label: 'Цагаар' },
+        { value: 'Өдрөөр', label: 'Өдрөөр' }
+    ]
+
+    const hallSize = [
+        { value: 'Хагас', label: 'Хагас' },
+        { value: 'Бүтэн', label: 'Бүтэн' }
+    ]
+
     function Request() {
         toast("Хүсэлт амжилттай илгээгдлээ")
         setModalShow(false)
     }
 
+    function time() {
+            var starttime = document.getElementById("startTime").value;
+            var parseTime = Number(starttime.slice(15,17))
+        }
+        console.log(typeof startTime)
+
     return (
         <div className='w-full'>
+            <title>Booking</title>
             <div className='nav w-full'>
                 <NavbarUser />
             </div>
             <div className='flex flex-col sm:flex-row'>
                 <Sidenav />
                 <div className='w-full border'>
-                    <div className='text-center'>
+                    <div className='text-center datepicker'>
                 <DatePicker
                             size="lg"
                             value={startdate}
                             oneTap
                             disabledDate={disabledDate}
-                            onChange={(date) => { setStartDate(date); }}
-                            startdate={startdate}
-                            className='h-[5%] my-2 w-1/6 mx-auto'
+                            onChange={setStartDate}
+                            className='h-[5%] my-2 mx-auto'
                             ranges={[
                                 {
                                     label: 'Today',
@@ -93,7 +114,7 @@ export default function Booking() {
                             </Table>
                         </div>
 
-                        <div className='w-[40%] bg-slate-100 p-2 text-center flex flex-col justify-start'>
+                        <div className={`${book.booking} w-[40%] bg-slate-100 p-2 text-center flex flex-col justify-start rounded-md`}>
                             <h4 className='w-full my-4'>Цаг захиалах</h4>
                             <div className='w-full'>
                                 <div className='flex w-full'>
@@ -106,27 +127,34 @@ export default function Booking() {
                                         placeholder='Дуусах цаг...'
                                     /> */}
                                     
-                                    <DatePicker 
-                                        format="HH:mm" 
+                                    <DatePicker
+                                        id='startTime'
+                                        format="HH:00" 
                                         ranges={[]} 
-                                        className='w-1/2 mx-2' 
-                                        disabledMinutes={minute => minute !== 0}
+                                        className='w-1/2 mx-2'
+                                        onChange={(time) => setStartTime(time)}
+                                        hideHours={hour => hour < 8 || hour > 24}
+                                        hideMinutes={minute => minute !== 0}
                                     />
                                     <DatePicker 
-                                        format="HH:mm" 
+                                        id='endTime'
+                                        format="HH:00" 
                                         ranges={[]} 
                                         className='w-1/2 mx-2' 
-                                        disabledMinutes={minute => minute !== 0}
+                                        hideHours={hour => hour < 8 || hour >= 24}
+                                        hideMinutes={minute => minute !== 0}
                                     />
                                 </div>
                                 <div className='my-2 flex'>
                                         <Select 
                                             className='w-1/2 my-2 mx-2'
                                             placeholder='Заал авах төрөл...'
+                                            options={hallType}
                                         />
                                         <Select 
                                             className='w-1/2 my-2 mx-2'
-                                            placeholder='Заалны хамрах хүрээ...'
+                                            placeholder='Хамрах хүрээ...'
+                                            options={hallSize}
                                         />
                                 </div>
                                 <div className='my-2 py-2 mx-2'>
