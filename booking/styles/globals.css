@@ -38,6 +38,19 @@ a {
 .dropdown-menu[data-bs-popper] {
   right: 0 !important;
 }
+.rs-picker-default .rs-picker-toggle {
+  border-color: #1f2937 !important;
+  box-shadow: 3px 3px 10px #1f2937;
+}
+.rs-picker-has-value .rs-btn .rs-picker-toggle-value, .rs-picker-has-value .rs-picker-toggle .rs-picker-toggle-value {
+  color: #1f2937 !important;
+  font-weight: 600 !important;
+  font-size: larger !important;
+}
+.rs-picker-toggle-caret {
+  color: #1f2937 !important;
+  font-size: 16px !important;
+}
 @media only screen and (max-width: 639px) {
   .rs-sidenav-collapse-in {
     width: 100% !important;
