@@ -21,13 +21,12 @@ export default function Booking() {
         return currentDate.isAfter(date);
     };
 
-    const [startTime, setStartTime] = useState('')
-    // const [endTime, setEndTime] = useState('')
-
     const date = new Date();
+    const [startTime, setStartTime] = useState(date.getHours())
+    const [endTime, setEndTime] = useState('')
+
     var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     const [startdate, setStartDate] = useState(today);
-
 
     var timeArray = [];
 
@@ -50,7 +49,7 @@ export default function Booking() {
     ]
 
     function Request() {
-        toast("Хүсэлт амжилттай илгээгдлээ")
+        toast("Хүсэлт амжилттай илгээгдлээ. Админ хүсэлтийг зөвшөөрсний дараа таны хүсэлт баталгаажихыг анхаарна уу!")
         setModalShow(false)
     }
 
@@ -58,7 +57,6 @@ export default function Booking() {
             var starttime = document.getElementById("startTime").value;
             var parseTime = Number(starttime.slice(15,17))
         }
-        console.log(typeof startTime)
 
     return (
         <div className='w-full'>
@@ -76,6 +74,7 @@ export default function Booking() {
                             oneTap
                             disabledDate={disabledDate}
                             onChange={setStartDate}
+                            cleanable={false}
                             className='h-[5%] my-2 mx-auto'
                             ranges={[
                                 {
@@ -99,7 +98,8 @@ export default function Booking() {
                                 <thead className='bg-gray-200'>
                                     <tr>
                                         <th colSpan={2} className='border-8 w-[20%] text-center text-lg font-semibold'>
-                                            {startdate.getFullYear() + '-' + (startdate.getMonth()+1) + '-' + startdate.getDate()}
+                                            {/* {startdate.getFullYear() + '-' + (startdate.getMonth()+1) + '-' + startdate.getDate()} */}
+                                            {startdate.toDateString()}
                                         </th>
                                     </tr>
                                 </thead>
@@ -117,6 +117,10 @@ export default function Booking() {
                         <div className={`${book.booking} w-[40%] bg-slate-100 p-2 text-center flex flex-col justify-start rounded-md`}>
                             <h4 className='w-full my-4'>Цаг захиалах</h4>
                             <div className='w-full'>
+                                    <div className='my-2 flex'>
+                                        <div className='w-1/2 mx-2 flex text-gray-400'>Эхлэх цаг</div>
+                                        <div className='w-1/2 mx-2 flex text-gray-400'>Дуусах цаг</div>
+                                    </div>
                                 <div className='flex w-full'>
                                     {/* <Select
                                         className='w-1/2 mx-2'
@@ -131,6 +135,8 @@ export default function Booking() {
                                         id='startTime'
                                         format="HH:00" 
                                         ranges={[]} 
+                                        cleanable={false}
+                                        placeholder='Эхлэх цаг...'
                                         className='w-1/2 mx-2'
                                         onChange={(time) => setStartTime(time)}
                                         hideHours={hour => hour < 8 || hour > 24}
@@ -140,19 +146,25 @@ export default function Booking() {
                                         id='endTime'
                                         format="HH:00" 
                                         ranges={[]} 
+                                        cleanable={false}
+                                        placeholder='Дуусах цаг...'
                                         className='w-1/2 mx-2' 
-                                        hideHours={hour => hour < 8 || hour >= 24}
+                                        hideHours={hour => hour < startTime.getHours()+1 || hour >= 24}
                                         hideMinutes={minute => minute !== 0}
                                     />
                                 </div>
+                                <div className='mt-4 flex'>
+                                        <div className='w-1/2 mx-2 flex text-gray-400'>Төрөл</div>
+                                        <div className='w-1/2 mx-2 flex text-gray-400'>Хэмжээ</div>
+                                    </div>
                                 <div className='my-2 flex'>
                                         <Select 
-                                            className='w-1/2 my-2 mx-2'
+                                            className='w-1/2 mb-2 mx-2'
                                             placeholder='Заал авах төрөл...'
                                             options={hallType}
                                         />
                                         <Select 
-                                            className='w-1/2 my-2 mx-2'
+                                            className='w-1/2 mb-2 mx-2'
                                             placeholder='Хамрах хүрээ...'
                                             options={hallSize}
                                         />

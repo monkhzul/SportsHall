@@ -1,6 +1,10 @@
 Zaalnii medeelel bolon zaal avsan tuuh 
 
-zahialgiin dugaar, Zaal zahialsan hugatsaa, zahialsan ognoo, Batalsan eseh,
+
+zahialgiin dugaar, Zaal zahialsan hugatsaa, zahialsan tsag, zahialsan ognoo, Batalsan eseh,
 zaal avah turul (tsagaar, udruur), zaal avah hemjee (hagas, buten),
 zaal zahialsan hunii ner, id, 
 
+
+Huselt zuvshuuruh
+RequestId, userid, username, isConfirm=boolean
