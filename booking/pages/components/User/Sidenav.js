@@ -2,32 +2,31 @@ import React, { useState } from 'react'
 import { Sidenav, Nav, Toggle } from 'rsuite';
 import DashboardIcon from '@rsuite/icons/legacy/Dashboard';
 import GroupIcon from '@rsuite/icons/legacy/Group';
-import MagicIcon from '@rsuite/icons/legacy/Magic';
+import HistoryIcon from '@rsuite/icons/History';
 import GearCircleIcon from '@rsuite/icons/legacy/GearCircle';
 import styles from '../../../styles/Home.module.css';
 import CalendarIcon from '@rsuite/icons/Calendar';
-import Layout from '../Layout/Layout';
 
 export default function SideNav() {
     const [activeKey, setActiveKey] = useState('1');
     const [expanded, setExpanded] = useState(true);
 
     return (
-        <Sidenav expanded={expanded} defaultOpenKeys={['3', '4']} className={``}>
+        <Sidenav expanded={expanded} defaultOpenKeys={['3', '4']} className={`h-screen`}>
             <Sidenav.Header>
                 <Sidenav.Toggle expanded={expanded} onToggle={expanded => setExpanded(expanded)} />
             </Sidenav.Header>
             <Sidenav.Body className=''>
                 <Nav activeKey={activeKey} onSelect={setActiveKey}>
            
-                    <Nav.Item eventKey="1" icon={<DashboardIcon />}>
-                        Dashboard
+                    <Nav.Item eventKey="1" icon={<DashboardIcon />} href='/components/User/Calendar'>
+                        7 хоног календар
                     </Nav.Item>
                     <Nav.Item eventKey="2" icon={<CalendarIcon />} href='/components/User/Booking'>
                         Заалны цаг захиалах
                     </Nav.Item>
-                    <Nav.Item eventKey="3" icon={<GroupIcon />} href='/'>
-                        Test
+                    <Nav.Item eventKey="3" icon={<HistoryIcon />} href='/components/User/History'>
+                        Заал авсан түүх
                     </Nav.Item>
                     <Nav.Item eventKey="4" icon={<GroupIcon />} href='/components/User/Schedule'>
                         Test2

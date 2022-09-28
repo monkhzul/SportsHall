@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import NavbarUser from '../NavbarUser'
-import Sidenav from '../Admin/Sidenav'
+import Sidenav from '../User/Sidenav'
 import { DatePicker } from 'rsuite'
 import moment from 'moment';
 import addDays from "date-fns/addDays";
 import Table from 'react-bootstrap/Table';
-import "react-datepicker/dist/react-datepicker.css";
 import Select from 'react-select';
 import Modal from 'react-bootstrap/Modal';
 import { ToastContainer, toast } from "react-toastify";
@@ -22,8 +21,10 @@ export default function Booking() {
     };
 
     const date = new Date();
-    const [startTime, setStartTime] = useState(date.getHours())
-    const [endTime, setEndTime] = useState('')
+    const [startTime, setStartTime] = useState(date)
+    const [endTime, setEndTime] = useState(date)
+    const [halltype, setHalltype] = useState('')
+    const [hallsize, setHallsize] = useState('')
 
     var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     const [startdate, setStartDate] = useState(today);
@@ -48,15 +49,26 @@ export default function Booking() {
         { value: 'Бүтэн', label: 'Бүтэн' }
     ]
 
+    function SentRequest() {
+        if (startTime == '' || endTime == '' || halltype == '' || hallsize == '') {
+            toast('Шаардлагатай талбаруудыг бөглөнө үү!')
+        }
+        else {
+            setModalShow(true)
+        }
+    }
+
     function Request() {
-        toast("Хүсэлт амжилттай илгээгдлээ. Админ хүсэлтийг зөвшөөрсний дараа таны хүсэлт баталгаажихыг анхаарна уу!")
+        toast("Хүсэлт амжилттай илгээгдлээ. Админ хүсэлтийг зөвшөөрсний дараа таны хүсэлт баталгаажихыг анхаарна уу!!!")
         setModalShow(false)
     }
 
-    function time() {
-            var starttime = document.getElementById("startTime").value;
-            var parseTime = Number(starttime.slice(15,17))
-        }
+    const HallType = (selectedOption) => {
+        setHalltype(selectedOption.value)
+    }
+    const HallSize = (selectedOption) => {
+        setHallsize(selectedOption.value)
+    }
 
     return (
         <div className='w-full'>
@@ -68,7 +80,7 @@ export default function Booking() {
                 <Sidenav />
                 <div className='w-full border'>
                     <div className='text-center datepicker'>
-                <DatePicker
+                        <DatePicker
                             size="lg"
                             value={startdate}
                             oneTap
@@ -91,7 +103,7 @@ export default function Booking() {
                                 }
                             ]}
                         />
-                        </div>
+                    </div>
                     <div className='body p-3 flex justify-evenly'>
                         <div className='w-[40%]'>
                             <Table bordered size="md" className=''>
@@ -104,7 +116,7 @@ export default function Booking() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {timeArray.map((time, i) => 
+                                    {timeArray.map((time, i) =>
                                         <tr key={i}>
                                             <td className='w-[30%] text-center'>{time}</td>
                                             <td className='text-center'>Mark</td>
@@ -117,10 +129,10 @@ export default function Booking() {
                         <div className={`${book.booking} w-[40%] bg-slate-100 p-2 text-center flex flex-col justify-start rounded-md`}>
                             <h4 className='w-full my-4'>Цаг захиалах</h4>
                             <div className='w-full'>
-                                    <div className='my-2 flex'>
-                                        <div className='w-1/2 mx-2 flex text-gray-400'>Эхлэх цаг</div>
-                                        <div className='w-1/2 mx-2 flex text-gray-400'>Дуусах цаг</div>
-                                    </div>
+                                <div className='my-2 flex'>
+                                    <div className='w-1/2 mx-2 flex text-gray-400'>Эхлэх цаг</div>
+                                    <div className='w-1/2 mx-2 flex text-gray-400'>Дуусах цаг</div>
+                                </div>
                                 <div className='flex w-full'>
                                     {/* <Select
                                         className='w-1/2 mx-2'
@@ -130,11 +142,11 @@ export default function Booking() {
                                         className='w-1/2 mx-2'
                                         placeholder='Дуусах цаг...'
                                     /> */}
-                                    
+
                                     <DatePicker
                                         id='startTime'
-                                        format="HH:00" 
-                                        ranges={[]} 
+                                        format="HH:00"
+                                        ranges={[]}
                                         cleanable={false}
                                         placeholder='Эхлэх цаг...'
                                         className='w-1/2 mx-2'
@@ -142,37 +154,40 @@ export default function Booking() {
                                         hideHours={hour => hour < 8 || hour > 24}
                                         hideMinutes={minute => minute !== 0}
                                     />
-                                    <DatePicker 
+                                    <DatePicker
                                         id='endTime'
-                                        format="HH:00" 
-                                        ranges={[]} 
+                                        format="HH:00"
+                                        ranges={[]}
                                         cleanable={false}
                                         placeholder='Дуусах цаг...'
-                                        className='w-1/2 mx-2' 
-                                        hideHours={hour => hour < startTime.getHours()+1 || hour >= 24}
+                                        className='w-1/2 mx-2'
+                                        onChange={(time) => setEndTime(time)}
+                                        hideHours={hour => hour < startTime.getHours() + 1 || hour >= 24}
                                         hideMinutes={minute => minute !== 0}
                                     />
                                 </div>
                                 <div className='mt-4 flex'>
-                                        <div className='w-1/2 mx-2 flex text-gray-400'>Төрөл</div>
-                                        <div className='w-1/2 mx-2 flex text-gray-400'>Хэмжээ</div>
-                                    </div>
+                                    <div className='w-1/2 mx-2 flex text-gray-400'>Төрөл</div>
+                                    <div className='w-1/2 mx-2 flex text-gray-400'>Хэмжээ</div>
+                                </div>
                                 <div className='my-2 flex'>
-                                        <Select 
-                                            className='w-1/2 mb-2 mx-2'
-                                            placeholder='Заал авах төрөл...'
-                                            options={hallType}
-                                        />
-                                        <Select 
-                                            className='w-1/2 mb-2 mx-2'
-                                            placeholder='Хамрах хүрээ...'
-                                            options={hallSize}
-                                        />
+                                    <Select
+                                        className='w-1/2 mb-2 mx-2'
+                                        placeholder='Заал авах төрөл...'
+                                        options={hallType}
+                                        onChange={HallType}
+                                    />
+                                    <Select
+                                        className='w-1/2 mb-2 mx-2'
+                                        placeholder='Хамрах хүрээ...'
+                                        options={hallSize}
+                                        onChange={HallSize}
+                                    />
                                 </div>
                                 <div className='my-2 py-2 mx-2'>
                                     <label className='flex my-1 font-semibold'>Тайлбар</label>
-                                    <textarea 
-                                        id="textarea" 
+                                    <textarea
+                                        id="textarea"
                                         className='border w-full p-2'
                                         type='text'
                                         placeholder={'Taйлбар...'}
@@ -180,33 +195,33 @@ export default function Booking() {
                                     </textarea>
                                 </div>
                                 <div className='flex'>
-                                        <div className='w-1/2 bg-white py-1 text-base mx-2 rounded-md font-semibold'>
-                                            <p>Захиалагч</p>
-                                        </div>
-                                        <div className='w-1/2 mx-2 py-1 font-semibold text-base'>
-                                            <p>Хэрэглэгчийн нэр</p>
-                                        </div>
+                                    <div className='w-1/2 bg-white py-1 text-base mx-2 rounded-md font-semibold'>
+                                        <p>Захиалагч</p>
+                                    </div>
+                                    <div className='w-1/2 mx-2 py-1 font-semibold text-base'>
+                                        <p>Хэрэглэгчийн нэр</p>
+                                    </div>
                                 </div>
                                 <div className='flex my-2'>
-                                        <div className='w-1/2 bg-white py-1 text-base mx-2 rounded-md font-semibold'>
-                                            <p>Заал авах өдөр</p>
-                                        </div>
-                                        <div className='w-1/2 mx-2 py-1 font-semibold text-base'>
-                                            <p>{startdate.getFullYear()}</p>
-                                        </div>
+                                    <div className='w-1/2 bg-white py-1 text-base mx-2 rounded-md font-semibold'>
+                                        <p>Заал авах өдөр</p>
+                                    </div>
+                                    <div className='w-1/2 mx-2 py-1 font-semibold text-base'>
+                                        <p>{startdate.toLocaleString().slice(0, 9)}</p>
+                                    </div>
                                 </div>
                                 <div className='mx-2'>
-                                        <div className='cursor-pointer bg-gray-800 text-gray-200 py-2 rounded-md mx-20 my-5 hover:bg-gray-900' 
-                                             onClick={() => setModalShow(true)}>
-                                                Хүсэлт илгээх
-                                        </div>
+                                    <div className='cursor-pointer bg-gray-800 text-gray-200 py-2 rounded-md mx-20 my-5 hover:bg-gray-900'
+                                        onClick={SentRequest}>
+                                        Хүсэлт илгээх
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <ToastContainer closeOnClick autoClose={1500} />
+            <ToastContainer closeOnClick />
             <Modal
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
@@ -218,9 +233,31 @@ export default function Booking() {
                         Хүсэлтийн дэлгэрэнгүй
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body className='p-5 flex justify-center'>
-                   <div className='bg-gray-800 text-gray-100 p-2 w-1/3 rounded-md text-center'
-                    onClick={Request}>
+                <Modal.Body className='p-5 flex flex-col justify-center'>
+                    <div className='my-3'>
+                        <div className='flex my-2'>
+                            <h5 className='w-1/3 text-center'>Захиалсан цаг: </h5>
+                            <p className='w-1/2 text-xl flex items-center font-bold'>{`${startTime.getHours()}:00 - ${endTime.getHours()}:00`}</p>
+                        </div>
+                        <div className='flex my-2'>
+                            <h5 className='w-1/3 text-center'>Заалны төрөл: </h5>
+                            <p className='w-1/2 text-xl flex items-center font-bold'>{halltype}</p>
+                        </div>
+                        <div className='flex my-2'>
+                            <h5 className='w-1/3 text-center'>Заалны хэмжээ: </h5>
+                            <p className='w-1/2 text-xl flex items-center font-bold'>{hallsize}</p>
+                        </div>
+                        <div className='flex my-2'>
+                            <h5 className='w-1/3 text-center'>Захиалагч: </h5>
+                            <p className='w-1/2 text-xl flex items-center font-bold'>{'Username'}</p>
+                        </div>
+                        <div className='flex my-2'>
+                            <h5 className='w-1/3 text-center'>Oгноо: </h5>
+                            <p className='w-1/2 text-xl flex items-center font-bold'>{startdate.toLocaleString().slice(0, 9)}</p>
+                        </div>
+                    </div>
+                    <div className='bg-gray-800 text-gray-100 p-2 w-1/3 rounded-md text-center mx-auto my-3'
+                        onClick={Request}>
                         Үргэлжлүүлэх
                     </div>
                 </Modal.Body>

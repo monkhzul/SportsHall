@@ -6,5 +6,3 @@ zaal avah turul (tsagaar, udruur), zaal avah hemjee (hagas, buten),
 zaal zahialsan hunii ner, id, 
 
 
-Huselt zuvshuuruh
-RequestId, userid, username, isConfirm=boolean

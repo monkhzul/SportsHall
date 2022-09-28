@@ -3,7 +3,6 @@ import Image from 'next/image'
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import "rsuite/dist/rsuite.css";
 
 export default function NavbarUser() {
     return (
