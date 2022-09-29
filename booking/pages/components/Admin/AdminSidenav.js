@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Sidenav, Nav, Toggle } from 'rsuite';
 import DashboardIcon from '@rsuite/icons/legacy/Dashboard';
 import GroupIcon from '@rsuite/icons/legacy/Group';
@@ -6,20 +6,20 @@ import MagicIcon from '@rsuite/icons/legacy/Magic';
 import GearCircleIcon from '@rsuite/icons/legacy/GearCircle';
 import styles from '../../../styles/Home.module.css';
 import CalendarIcon from '@rsuite/icons/Calendar';
-import Layout from '../Layout/Layout';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    useRouteMatch,
-    useParams,
-} from 'react-router-dom'
-import List from './List';
 import Link from 'next/link';
 
 export default function AdminSideNav() {
     const [activeKey, setActiveKey] = useState('1');
     const [expanded, setExpanded] = useState(true);
+
+    useEffect(() => {
+        if (window.location.pathname === '/components/Admin/RequestConfirm') {
+            setActiveKey('2')
+        }
+        else if (window.location.pathname === '/components/Admin/Schedule') {
+            setActiveKey('3')
+        }
+    },[])
 
     return (
         <Sidenav expanded={expanded} defaultOpenKeys={['3', '4']} className={`h-screen`}>

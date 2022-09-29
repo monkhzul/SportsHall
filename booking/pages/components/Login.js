@@ -3,16 +3,16 @@ import style from '../../styles/Home.module.css'
 import { useRouter } from 'next/router'
 import App from './App';
 
-export default function Login(props) {
+export default function Login(data) {
     const router = useRouter();
     function Login() {
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
 
         router.push({
-            pathname: 'components/App',
+            pathname: 'components/Admin/List',
             state: {
-                props
+                data
             }
         })
     }

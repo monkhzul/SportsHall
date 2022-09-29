@@ -6,10 +6,23 @@ import HistoryIcon from '@rsuite/icons/History';
 import GearCircleIcon from '@rsuite/icons/legacy/GearCircle';
 import styles from '../../../styles/Home.module.css';
 import CalendarIcon from '@rsuite/icons/Calendar';
+import Link from 'next/link';
 
 export default function SideNav() {
     const [activeKey, setActiveKey] = useState('1');
     const [expanded, setExpanded] = useState(true);
+
+    useEffect(() => {
+        if (window.location.pathname === '/components/User/Booking') {
+            setActiveKey('2')
+        }
+        else if (window.location.pathname === '/components/User/History') {
+            setActiveKey('3')
+        }
+        else if (window.location.pathname === '/components/User/Schedule') {
+            setActiveKey('4')
+        }
+    },[])
 
     return (
         <Sidenav expanded={expanded} defaultOpenKeys={['3', '4']} className={`h-screen`}>
@@ -19,17 +32,17 @@ export default function SideNav() {
             <Sidenav.Body className=''>
                 <Nav activeKey={activeKey} onSelect={setActiveKey}>
            
-                    <Nav.Item eventKey="1" icon={<DashboardIcon />} href='/components/User/Calendar'>
-                        7 хоног календар
+                    <Nav.Item eventKey="1" icon={<DashboardIcon />}>
+                        <Link href='/components/User/Calendar'>7 хоног календар</Link>
                     </Nav.Item>
-                    <Nav.Item eventKey="2" icon={<CalendarIcon />} href='/components/User/Booking'>
-                        Заалны цаг захиалах
+                    <Nav.Item eventKey="2" icon={<CalendarIcon />}>
+                        <Link href='/components/User/Booking'>Заалны цаг захиалах</Link>
                     </Nav.Item>
-                    <Nav.Item eventKey="3" icon={<HistoryIcon />} href='/components/User/History'>
-                        Заал авсан түүх
+                    <Nav.Item eventKey="3" icon={<HistoryIcon />}>
+                        <Link href='/components/User/History'>Заал авсан түүх</Link>
                     </Nav.Item>
-                    <Nav.Item eventKey="4" icon={<GroupIcon />} href='/components/User/Schedule'>
-                        Test2
+                    <Nav.Item eventKey="4" icon={<GroupIcon />}>
+                        <Link href='/components/User/Schedule'>Test</Link>
                     </Nav.Item>
 
                     {/* <Nav.Menu placement="rightStart" eventKey="3" title="Advanced" icon={<MagicIcon />}>
