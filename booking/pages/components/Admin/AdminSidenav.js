@@ -29,7 +29,7 @@ export default function AdminSideNav() {
       });
 
     return (
-        <Sidenav expanded={expanded} className={`h-screen`}>
+        <Sidenav expanded={expanded} className={`h-screen sidenav`}>
             <Sidenav.Header>
                 <Sidenav.Toggle expanded={expanded} onToggle={expanded => setExpanded(expanded)} />
             </Sidenav.Header>

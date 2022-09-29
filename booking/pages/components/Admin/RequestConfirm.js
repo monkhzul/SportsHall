@@ -30,15 +30,15 @@ export default function List(props) {
                         <HeaderCell>Id</HeaderCell>
                         <Cell dataKey="id" />
                     </Column>
-                    <Column width={200} fixed>
+                    <Column width={200} fixed className='font-semibold'>
                         <HeaderCell>Захиалагч</HeaderCell>
                         <Cell dataKey="title" />
                     </Column>
-                    <Column width={200} className='text-center'>
+                    <Column width={200} className='text-center font-semibold'>
                         <HeaderCell>Заал авах өдөр</HeaderCell>
                         <Cell dataKey="price" />
                     </Column>
-                    <Column width={200} className='text-center'>
+                    <Column width={200} className='text-center font-semibold'>
                         <HeaderCell>Заал авах цаг</HeaderCell>
                         <Cell dataKey="stock" />
                     </Column>
@@ -55,18 +55,18 @@ export default function List(props) {
                         <Cell>
                             {rowData => (
                                 <span>
-                                    <CheckIcon className='cursor-pointer bg-green-800 text-gray-50 rounded-sm text-xl hover:text-white hover:text-2xl'
+                                    <CheckIcon className='cursor-pointer bg-green-800 text-gray-50 rounded-sm text-2xl hover:text-white hover:bg-green-500'
                                         onClick={() => alert(`id:${rowData.id}`)}></CheckIcon>
                                 </span>
                             )}
                         </Cell>
                     </Column>
-                    <Column width={100} fixed="right" className="text-center">
+                    <Column width={150} fixed="right" className="text-center">
                         <HeaderCell>Цуцлах</HeaderCell>
                         <Cell>
                             {rowData => (
                                 <span>
-                                    <CloseIcon className='cursor-pointer text-xl bg-red-900 text-gray-50 rounded-sm hover:text-white hover:text-2xl'
+                                    <CloseIcon className='cursor-pointer text-2xl bg-red-900 text-gray-50 rounded-sm hover:text-white hover:bg-red-500'
                                         onClick={() => alert(`id:${rowData.id}`)}></CloseIcon>
                                 </span>
                             )}

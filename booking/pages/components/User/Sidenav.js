@@ -24,6 +24,15 @@ export default function SideNav() {
         }
     },[])
 
+    const NavLink = React.forwardRef((props, ref) => {
+        const { href, as, ...rest } = props;
+        return (
+          <Link href={href} as={as}>
+            <a ref={ref} {...rest} />
+          </Link>
+        );
+    });
+
     return (
         <Sidenav expanded={expanded} defaultOpenKeys={['3', '4']} className={`h-screen`}>
             <Sidenav.Header>
@@ -32,17 +41,17 @@ export default function SideNav() {
             <Sidenav.Body className=''>
                 <Nav activeKey={activeKey} onSelect={setActiveKey}>
            
-                    <Nav.Item eventKey="1" icon={<DashboardIcon />}>
-                        <Link href='/components/User/Calendar'>7 хоног календар</Link>
+                    <Nav.Item eventKey="1" icon={<DashboardIcon />} as={NavLink} href='/components/User/Calendar'>
+                        7 хоног календар
                     </Nav.Item>
-                    <Nav.Item eventKey="2" icon={<CalendarIcon />}>
-                        <Link href='/components/User/Booking'>Заалны цаг захиалах</Link>
+                    <Nav.Item eventKey="2" icon={<CalendarIcon />} as={NavLink} href='/components/User/Booking'>
+                        Заалны цаг захиалах
                     </Nav.Item>
-                    <Nav.Item eventKey="3" icon={<HistoryIcon />}>
-                        <Link href='/components/User/History'>Заал авсан түүх</Link>
+                    <Nav.Item eventKey="3" icon={<HistoryIcon />} as={NavLink} href='/components/User/History'>
+                        Заал авсан түүх
                     </Nav.Item>
-                    <Nav.Item eventKey="4" icon={<GroupIcon />}>
-                        <Link href='/components/User/Schedule'>Test</Link>
+                    <Nav.Item eventKey="4" icon={<GroupIcon />} as={NavLink} href='/components/User/Schedule'>
+                        Test
                     </Nav.Item>
 
                     {/* <Nav.Menu placement="rightStart" eventKey="3" title="Advanced" icon={<MagicIcon />}>

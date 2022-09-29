@@ -13,7 +13,7 @@ export default function Layout({ children }) {
         <AdminSideNav />
         <div className='w-full border'>
             <div className='body p-3'>
-                <div className='border'>
+                <div className='p-3'>
                         {children}
                 </div>
             </div>

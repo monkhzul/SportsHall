@@ -29,15 +29,15 @@ export default function List(props) {
                         <HeaderCell>Id</HeaderCell>
                         <Cell dataKey="id" />
                     </Column>
-                    <Column width={250} fixed>
+                    <Column width={250} fixed className='font-semibold'>
                         <HeaderCell>Захиалагч</HeaderCell>
                         <Cell dataKey="title" />
                     </Column>
-                    <Column width={150} className='text-center'>
+                    <Column width={150} className='text-center font-semibold'>
                         <HeaderCell>Заал авсан өдөр</HeaderCell>
                         <Cell dataKey="price" />
                     </Column>
-                    <Column width={200} className='text-center'>
+                    <Column width={200} className='text-center font-semibold'>
                         <HeaderCell>Заал авсан цаг</HeaderCell>
                         <Cell dataKey="stock" />
                     </Column>
