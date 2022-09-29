@@ -19,22 +19,31 @@ export default function AdminSideNav() {
         }
     },[])
 
+    const NavLink = React.forwardRef((props, ref) => {
+        const { href, as, ...rest } = props;
+        return (
+          <Link href={href} as={as}>
+            <a ref={ref} {...rest} />
+          </Link>
+        );
+      });
+
     return (
-        <Sidenav expanded={expanded} defaultOpenKeys={['3', '4']} className={`h-screen`}>
+        <Sidenav expanded={expanded} className={`h-screen`}>
             <Sidenav.Header>
                 <Sidenav.Toggle expanded={expanded} onToggle={expanded => setExpanded(expanded)} />
             </Sidenav.Header>
             <Sidenav.Body className=''>
                 <Nav activeKey={activeKey} onSelect={setActiveKey}>
 
-                    <Nav.Item eventKey="1" icon={<DashboardIcon />}>
-                        <Link href={'/components/Admin/List'} className=''>Захиалгын лист</Link>
+                    <Nav.Item eventKey="1" icon={<DashboardIcon />} as={NavLink} href={'/components/Admin/List'}>
+                        Захиалгын лист
                     </Nav.Item>
-                    <Nav.Item eventKey="2" icon={<CalendarIcon />}>
-                        <Link href={'/components/Admin/RequestConfirm'} className=''>Хүлээгдэж буй хүсэлтүүд</Link>
+                    <Nav.Item eventKey="2" icon={<CalendarIcon />} as={NavLink} href={'/components/Admin/RequestConfirm'}>
+                        Хүлээгдэж буй хүсэлтүүд
                     </Nav.Item>
-                    <Nav.Item eventKey="3" icon={<GroupIcon />}>
-                        <Link href={'/components/Admin/Schedule'}>Хуваарь</Link>
+                    <Nav.Item eventKey="3" icon={<GroupIcon />} as={NavLink} href={'/components/Admin/Schedule'}>
+                        Хуваарь
                     </Nav.Item>
                     <Nav.Item eventKey="4" icon={<GroupIcon />}>
                         Test2
