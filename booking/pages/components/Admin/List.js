@@ -1,30 +1,28 @@
-import React, {useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import NavbarUser from '../NavbarUser'
-import AdminSidenav from '../Admin/AdminSidenav'
+import AdminSidenav from './AdminSidenav'
 import { Table, Pagination } from 'rsuite';
-import { mockUsers } from './mock';
 
-const { Column, HeaderCell, Cell } = Table;
-const defaultData = mockUsers(100);
+export default function List(props) {
 
-export default function List() {
+    // console.log(props.db.products);
 
-   /* https://rsuitejs.com/components/table/ */
+    const { Column, HeaderCell, Cell } = Table;
 
-    const [limit, setLimit] = useState(10);
+    const [limit, setLimit] = useState(15);
     const [page, setPage] = useState(1);
+    const [data, setData] = useState([]);
 
     const handleChangeLimit = dataKey => {
         setPage(1);
         setLimit(dataKey);
     };
 
-    const data = defaultData.filter((v, i) => {
+    const datas = data.filter((v, i) => {
         const start = limit * (page - 1);
         const end = start + limit;
-        return i >= start && i < end;
+        return (i >= start && i < end);
     });
-
 
     return (
         <div className='w-full'>
@@ -36,30 +34,31 @@ export default function List() {
                 <div className='w-full border'>
                     <div className='body p-3'>
                         <div className='border'>
-                            <div>
-                                <Table height={420} data={data}>
-                                    <Column width={50} align="center" fixed>
+                            <div className='border'>
+                                <Table height={750} data={datas}>
+                                    <Column width={80} align="center" fixed>
                                         <HeaderCell>Id</HeaderCell>
                                         <Cell dataKey="id" />
                                     </Column>
-
-                                    <Column width={100} fixed>
-                                        <HeaderCell>First Name</HeaderCell>
-                                        <Cell dataKey="firstName" />
+                                    <Column width={250} fixed>
+                                        <HeaderCell>Захиалагч</HeaderCell>
+                                        <Cell dataKey="title" />
                                     </Column>
-
-                                    <Column width={100}>
-                                        <HeaderCell>Last Name</HeaderCell>
-                                        <Cell dataKey="lastName" />
+                                    <Column width={150} className='text-center'>
+                                        <HeaderCell>Заал авсан өдөр</HeaderCell>
+                                        <Cell dataKey="price" />
                                     </Column>
-
-                                    <Column width={200}>
-                                        <HeaderCell>City</HeaderCell>
-                                        <Cell dataKey="city" />
+                                    <Column width={200} className='text-center'>
+                                        <HeaderCell>Заал авсан цаг</HeaderCell>
+                                        <Cell dataKey="stock" />
                                     </Column>
-                                    <Column width={200} flexGrow={1}>
-                                        <HeaderCell>Email</HeaderCell>
-                                        <Cell dataKey="email" />
+                                    <Column width={150} flexGrow={1} className='text-center'>
+                                        <HeaderCell>Заалны төрөл</HeaderCell>
+                                        <Cell dataKey="category" />
+                                    </Column>
+                                    <Column width={150} flexGrow={1} className='text-center'>
+                                        <HeaderCell>Заалны хэмжээ</HeaderCell>
+                                        <Cell dataKey="rating" />
                                     </Column>
                                 </Table>
                                 <div style={{ padding: 20 }}>
@@ -72,8 +71,8 @@ export default function List() {
                                         boundaryLinks
                                         maxButtons={5}
                                         size="xs"
-                                        layout={['total', '-', 'limit', '|', 'pager', 'skip']}
-                                        total={defaultData.length}
+                                        layout={['total', '-', 'pager', 'skip']}
+                                        total={data.length}
                                         limitOptions={[10, 30, 50]}
                                         limit={limit}
                                         activePage={page}
@@ -89,3 +88,86 @@ export default function List() {
         </div>
     )
 }
+
+// import React, { useEffect, useState } from 'react'
+// import NavbarUser from '../NavbarUser'
+// import AdminSidenav from './AdminSidenav'
+// import { Table, Pagination } from 'rsuite';
+// import Layout from './Layout/Layout';
+
+// export default function List(props) {
+
+//     // console.log(props.db.products);
+
+//     const { Column, HeaderCell, Cell } = Table;
+
+//     const [limit, setLimit] = useState(15);
+//     const [page, setPage] = useState(1);
+//     const [data, setData] = useState([]);
+
+//     const handleChangeLimit = dataKey => {
+//         setPage(1);
+//         setLimit(dataKey);
+//     };
+
+//         const datas = data.filter((v, i) => {
+//             const start = limit * (page - 1);
+//             const end = start + limit;
+//             return (i >= start && i < end);
+//         });
+
+//     return (
+//         <Layout>
+//                             <div className='border'>
+//                                 <Table height={750} data={datas}>
+//                                     <Column width={80} align="center" fixed>
+//                                         <HeaderCell>Id</HeaderCell>
+//                                         <Cell dataKey="id" />
+//                                     </Column>
+//                                     <Column width={250} fixed>
+//                                         <HeaderCell>Захиалагч</HeaderCell>
+//                                         <Cell dataKey="title" />
+//                                     </Column>
+//                                     <Column width={150} className='text-center'>
+//                                         <HeaderCell>Заал авсан өдөр</HeaderCell>
+//                                         <Cell dataKey="price" />
+//                                     </Column>
+//                                     <Column width={200} className='text-center'>
+//                                         <HeaderCell>Заал авсан цаг</HeaderCell>
+//                                         <Cell dataKey="stock" />
+//                                     </Column>
+//                                     <Column width={150} flexGrow={1} className='text-center'>
+//                                         <HeaderCell>Заалны төрөл</HeaderCell>
+//                                         <Cell dataKey="category" />
+//                                     </Column>
+//                                     <Column width={150} flexGrow={1} className='text-center'>
+//                                         <HeaderCell>Заалны хэмжээ</HeaderCell>
+//                                         <Cell dataKey="rating" />
+//                                     </Column>
+//                                 </Table>
+//                                 <div style={{ padding: 20 }}>
+//                                     <Pagination
+//                                         prev
+//                                         next
+//                                         first
+//                                         last
+//                                         ellipsis
+//                                         boundaryLinks
+//                                         maxButtons={5}
+//                                         size="xs"
+//                                         layout={['total', '-', 'pager', 'skip']}
+//                                         total={data.length}
+//                                         limitOptions={[10, 30, 50]}
+//                                         limit={limit}
+//                                         activePage={page}
+//                                         onChangePage={setPage}
+//                                         onChangeLimit={handleChangeLimit}
+//                                     />
+//                                 </div>
+//                             </div>
+//                             </Layout>
+//     )
+// }
+
+
+

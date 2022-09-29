@@ -67,6 +67,89 @@ a {
   color: #841f47 !important;
   font-weight: 600 !important;
 }
+.rs-table-header-row-wrapper {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #1f2937 !important;
+}
+
+// Input Login
+.login form {
+  margin: auto;
+  padding: 3rem 2rem;
+  border-radius: 1rem;
+  background: #2e3977;
+  opacity: 0.9;
+}
+
+/* Inputs and button */
+
+input, .button {
+  width: 100%;
+  border: none;
+  padding: 16px;
+  font-size: 1.1em;
+  border-radius: 5px;
+  -webkit-transition: background-color 80ms ease-out;
+  -moz-transition: background-color 80ms ease-out;
+  -o-transition: background-color 80ms ease-out;
+  -ms-transition: background-color 80ms ease-out;
+  transition: background-color 80ms ease-out;
+}
+
+/**
+ * Inputs
+ */
+
+.login input {
+  margin-bottom: 22px;
+  background: #eee;
+  padding-left: 56px;
+}
+
+.login input[type=text] {
+  background-image: url('/images/user.png');
+  background-repeat: no-repeat;
+  background-size: 24px;
+  background-position: 16px center;
+}
+
+.login input[type=password] {
+  background-image: url('/images/lock.png');
+  background-repeat: no-repeat;
+  background-size: 24px;
+  background-position: 16px center;
+}
+
+input:hover {
+  background-color: rgb(244, 244, 244);
+}
+
+.login input[type=password]:focus, .login input[type=text]:focus {
+  border-left: 5px solid #841f47 !important;
+  background-color: #fff;
+  --tw-ring-color: none !important;
+}
+
+/* Button */
+
+ .button {
+  background-color: #841f47;
+  color: #fff;
+  cursor: pointer;
+  width: 50%;
+}
+
+.button:hover, .button:focus {
+  background-color: #841f47;
+  outline: none;
+  opacity: 0.6;
+}
+
+.button:active  {
+  background-color: #841f47;
+  opacity: .7;
+}
 
 @media only screen and (max-width: 639px) {
   .rs-sidenav-collapse-in {

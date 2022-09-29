@@ -1,9 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import App from './components/App'
+import Login from './components/Login'
 
-export default function Home() {
+export default function Home(props) {
+
   return (
     <div className={''}>
       <Head>
@@ -12,8 +13,14 @@ export default function Home() {
         <link rel="icon" href="/images/mcsstar.png" />
       </Head>
 
-      <main className={''}>
-        <App />
+      <main className={styles.main}>
+        <h1 className={styles.title}>
+          Welcome to <p href="https://nextjs.org" className=''></p>
+        </h1>
+
+        <div className={styles.grid}>
+          <Login data={props.db.products} />
+        </div>
       </main>
 
       {/* <footer className={styles.footer}>
@@ -30,4 +37,17 @@ export default function Home() {
       </footer> */}
     </div>
   )
+}
+
+
+export const getServerSideProps = async (context) => {
+
+  const res = await fetch('https://dummyjson.com/products')
+  const db = await res.json()
+
+  return {
+      props: {
+          db
+      }
+  }
 }

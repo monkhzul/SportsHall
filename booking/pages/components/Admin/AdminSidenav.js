@@ -7,6 +7,15 @@ import GearCircleIcon from '@rsuite/icons/legacy/GearCircle';
 import styles from '../../../styles/Home.module.css';
 import CalendarIcon from '@rsuite/icons/Calendar';
 import Layout from '../Layout/Layout';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    useRouteMatch,
+    useParams,
+} from 'react-router-dom'
+import List from './List';
+import Link from 'next/link';
 
 export default function AdminSideNav() {
     const [activeKey, setActiveKey] = useState('1');
@@ -19,17 +28,17 @@ export default function AdminSideNav() {
             </Sidenav.Header>
             <Sidenav.Body className=''>
                 <Nav activeKey={activeKey} onSelect={setActiveKey}>
-           
-                    <Nav.Item eventKey="1" icon={<DashboardIcon />} href='/components/Admin/List'>
-                        Захиалгын лист
+
+                    <Nav.Item eventKey="1" icon={<DashboardIcon />}>
+                        <Link href={'/components/Admin/List'}>Захиалгын лист</Link>
                     </Nav.Item>
-                    <Nav.Item eventKey="2" icon={<CalendarIcon />} href='/components/Admin/List'>
-                        Заалны цаг захиалах
+                    <Nav.Item eventKey="2" icon={<CalendarIcon />}>
+                        <Link href={'/components/Admin/RequestConfirm'}>Хүлээгдэж буй хүсэлтүүд</Link>
                     </Nav.Item>
-                    <Nav.Item eventKey="3" icon={<GroupIcon />} href='/'>
-                        Test
+                    <Nav.Item eventKey="3" icon={<GroupIcon />}>
+                        <Link href={'/components/Admin/Schedule'}>Хуваарь</Link>
                     </Nav.Item>
-                    <Nav.Item eventKey="4" icon={<GroupIcon />} href='/components/Admin/List'>
+                    <Nav.Item eventKey="4" icon={<GroupIcon />}>
                         Test2
                     </Nav.Item>
 
@@ -53,6 +62,7 @@ export default function AdminSideNav() {
                             <Nav.Item eventKey="4-5-2">Action Params</Nav.Item>
                         </Nav.Menu>
                     </Nav.Menu> */}
+
                 </Nav>
             </Sidenav.Body>
         </Sidenav>

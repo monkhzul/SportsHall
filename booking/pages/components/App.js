@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import React from 'react'
-import Sidenav from '../components/Admin/Sidenav'
-import "rsuite/dist/rsuite.css";
+import AdminSidenav from './Admin/AdminSidenav'
 import NavbarUser from './NavbarUser';
 
-export default function App() {
+export default function App(props) {
+    console.log(props);
     return (
         <div className=''>
             <Head>
@@ -16,12 +16,13 @@ export default function App() {
                     <NavbarUser />
                 </div>
                 <div className='flex flex-col sm:flex-row'>
-                    <Sidenav />
+                    <AdminSidenav />
                     <div className='w-full border'>
                         <div className='body p-3'>
                             <h3>Content</h3>
                         </div>
                     </div>
+                    
                 </div>
             </div>
 
