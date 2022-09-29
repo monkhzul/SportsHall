@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Sidenav, Nav, Toggle } from 'rsuite';
 import DashboardIcon from '@rsuite/icons/legacy/Dashboard';
 import GroupIcon from '@rsuite/icons/legacy/Group';
-import MagicIcon from '@rsuite/icons/legacy/Magic';
-import GearCircleIcon from '@rsuite/icons/legacy/GearCircle';
-import styles from '../../../styles/Home.module.css';
+import style from '../../../styles/Admin.module.css';
 import CalendarIcon from '@rsuite/icons/Calendar';
 import Link from 'next/link';
 
@@ -30,10 +28,10 @@ export default function AdminSideNav() {
                 <Nav activeKey={activeKey} onSelect={setActiveKey}>
 
                     <Nav.Item eventKey="1" icon={<DashboardIcon />}>
-                        <Link href={'/components/Admin/List'}>Захиалгын лист</Link>
+                        <Link href={'/components/Admin/List'} className=''>Захиалгын лист</Link>
                     </Nav.Item>
                     <Nav.Item eventKey="2" icon={<CalendarIcon />}>
-                        <Link href={'/components/Admin/RequestConfirm'}>Хүлээгдэж буй хүсэлтүүд</Link>
+                        <Link href={'/components/Admin/RequestConfirm'} className=''>Хүлээгдэж буй хүсэлтүүд</Link>
                     </Nav.Item>
                     <Nav.Item eventKey="3" icon={<GroupIcon />}>
                         <Link href={'/components/Admin/Schedule'}>Хуваарь</Link>

@@ -59,7 +59,7 @@ export default function List(props) {
                         ellipsis
                         boundaryLinks
                         maxButtons={5}
-                        size="xs"
+                        size="md"
                         layout={['total', '-', 'pager', 'skip']}
                         total={data.length}
                         limitOptions={[10, 30, 50]}

@@ -30,19 +30,19 @@ export default function List(props) {
                         <HeaderCell>Id</HeaderCell>
                         <Cell dataKey="id" />
                     </Column>
-                    <Column width={150} fixed>
+                    <Column width={200} fixed>
                         <HeaderCell>Захиалагч</HeaderCell>
                         <Cell dataKey="title" />
                     </Column>
-                    <Column width={150} className='text-center'>
+                    <Column width={200} className='text-center'>
                         <HeaderCell>Заал авах өдөр</HeaderCell>
                         <Cell dataKey="price" />
                     </Column>
-                    <Column width={180} className='text-center'>
+                    <Column width={200} className='text-center'>
                         <HeaderCell>Заал авах цаг</HeaderCell>
                         <Cell dataKey="stock" />
                     </Column>
-                    <Column width={150} flexGrow={1} className='text-center'>
+                    <Column width={200} flexGrow={1} className='text-center'>
                         <HeaderCell>Заалны төрөл</HeaderCell>
                         <Cell dataKey="category" />
                     </Column>
@@ -61,7 +61,7 @@ export default function List(props) {
                             )}
                         </Cell>
                     </Column>
-                    <Column width={80} fixed="right" className="text-center">
+                    <Column width={100} fixed="right" className="text-center">
                         <HeaderCell>Цуцлах</HeaderCell>
                         <Cell>
                             {rowData => (
@@ -82,7 +82,7 @@ export default function List(props) {
                         ellipsis
                         boundaryLinks
                         maxButtons={5}
-                        size="xs"
+                        size="md"
                         layout={['total', '-', 'pager', 'skip']}
                         total={data.length}
                         limitOptions={[10, 30, 50]}
