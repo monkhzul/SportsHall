@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Table, Pagination } from 'rsuite';
 import Layout from './Layout/Layout';
+import CloseIcon from '@rsuite/icons/Close';
 
 export default function Booking(props) {
     const { Column, HeaderCell, Cell } = Table;
@@ -46,6 +47,17 @@ export default function Booking(props) {
                     <Column width={150} flexGrow={1} className='text-center'>
                         <HeaderCell>Заалны хэмжээ</HeaderCell>
                         <Cell dataKey="rating" />
+                    </Column>
+                    <Column width={150} fixed="right" className="text-center">
+                        <HeaderCell>Устгах</HeaderCell>
+                        <Cell>
+                            {rowData => (
+                                <span>
+                                    <CloseIcon className='cursor-pointer text-2xl bg-red-900 text-gray-50 rounded-sm hover:text-white hover:bg-red-500'
+                                        onClick={() => alert(`id:${rowData.id}`)}></CloseIcon>
+                                </span>
+                            )}
+                        </Cell>
                     </Column>
                 </Table>
                 <div style={{ padding: 20 }}>
