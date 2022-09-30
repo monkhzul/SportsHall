@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Sidenav, Nav, Toggle } from 'rsuite';
 import DashboardIcon from '@rsuite/icons/legacy/Dashboard';
 import GroupIcon from '@rsuite/icons/legacy/Group';
@@ -19,17 +19,17 @@ export default function SideNav() {
         else if (window.location.pathname === '/components/User/History') {
             setActiveKey('3')
         }
-        else if (window.location.pathname === '/components/User/Schedule') {
+        else if (window.location.pathname === '/components/User/Request') {
             setActiveKey('4')
         }
-    },[])
+    }, [])
 
     const NavLink = React.forwardRef((props, ref) => {
         const { href, as, ...rest } = props;
         return (
-          <Link href={href} as={as}>
-            <a ref={ref} {...rest} />
-          </Link>
+            <Link href={href} as={as}>
+                <a ref={ref} {...rest} />
+            </Link>
         );
     });
 
@@ -40,7 +40,7 @@ export default function SideNav() {
             </Sidenav.Header>
             <Sidenav.Body className=''>
                 <Nav activeKey={activeKey} onSelect={setActiveKey}>
-           
+
                     <Nav.Item eventKey="1" icon={<DashboardIcon />} as={NavLink} href='/components/User/Calendar'>
                         7 хоног календар
                     </Nav.Item>
@@ -50,8 +50,8 @@ export default function SideNav() {
                     <Nav.Item eventKey="3" icon={<HistoryIcon />} as={NavLink} href='/components/User/History'>
                         Заал авсан түүх
                     </Nav.Item>
-                    <Nav.Item eventKey="4" icon={<GroupIcon />} as={NavLink} href='/components/User/Schedule'>
-                        Test
+                    <Nav.Item eventKey="4" icon={<GroupIcon />} as={NavLink} href='/components/User/Request'>
+                        Хүлээгдэж буй хүсэлт
                     </Nav.Item>
 
                     {/* <Nav.Menu placement="rightStart" eventKey="3" title="Advanced" icon={<MagicIcon />}>

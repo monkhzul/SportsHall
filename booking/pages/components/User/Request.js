@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import Layout from './Layout/Layout';
+import React, { useEffect, useState } from 'react'
 import { Table, Pagination } from 'rsuite';
+import Layout from './Layout/Layout';
 
 export default function Booking(props) {
     const { Column, HeaderCell, Cell } = Table;

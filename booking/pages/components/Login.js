@@ -1,7 +1,6 @@
 import React from 'react'
 import style from '../../styles/Home.module.css'
 import { useRouter } from 'next/router'
-import App from './App';
 
 export default function Login(data) {
     const router = useRouter();
@@ -10,7 +9,7 @@ export default function Login(data) {
         const password = document.getElementById("password").value;
 
         router.push({
-            pathname: 'components/Admin/List',
+            pathname: '/components/User/Calendar',
             state: {
                 data
             }

@@ -23,6 +23,7 @@ export default function List(props) {
 
     return (
         <Layout>
+            <title>Захиалгын лист</title>
             <div className='border'>
                 <Table height={750} data={datas}>
                     <Column width={80} align="center" fixed>

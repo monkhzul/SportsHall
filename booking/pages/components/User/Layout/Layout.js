@@ -1,6 +1,6 @@
 import React from 'react'
 import NavbarUser from '../../NavbarUser'
-import AdminSideNav from '../AdminSidenav'
+import SideNav from '../Sidenav'
 
 export default function Layout({ children }) {
     return (
@@ -10,7 +10,7 @@ export default function Layout({ children }) {
                     <NavbarUser />
                 </div>
                 <div className='flex flex-col sm:flex-row'>
-                    <AdminSideNav />
+                    <SideNav />
                     <div className='w-full border'>
                         <div className='body p-3'>
                             <div className='p-3'>

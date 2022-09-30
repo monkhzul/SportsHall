@@ -53,6 +53,7 @@ a {
 }
 .rs-calendar-time-dropdown-cell.rs-calendar-time-dropdown-cell-active {
   background-color: #841f47 !important;
+  color: white !important;
 }
 .rs-btn-primary {
   background-color: #841f47 !important;

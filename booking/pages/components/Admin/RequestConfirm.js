@@ -24,6 +24,7 @@ export default function List(props) {
     });
     return (
         <Layout>
+            <title>Хүлээгдэж буй хүсэлтүүд</title>
             <div className='border'>
                 <Table height={750} data={datas}>
                     <Column width={80} align="center" fixed>
