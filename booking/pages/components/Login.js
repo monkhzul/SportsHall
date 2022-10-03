@@ -15,6 +15,7 @@ export default function Login(data) {
             }
         })
     }
+    // db connect : DATABASE_URL="sqlserver://localhost:1434;database=sporthall_order;username=sa;password=test;integratedSecurity=false;trustServerCertificate=true;"
   return (
     <div className='w-full md:w-1/2 xl:w-1/3 login'>
         <form action="" className={`${style.login}`}>

@@ -10,11 +10,12 @@ import book from '../../../styles/Booking.module.css'
 import Layout from './Layout/Layout';
 import { useRouter } from 'next/router'
 
-export default function Booking() {
+export default function Booking(props) {
 
     const router = useRouter();
     const [modalShow, setModalShow] = useState(false);
-    const [textarea, setTextArea] = useState('')
+    const [timeName, setTimeName] = useState(props.time)
+    const [hall, setHall] = useState(props.hall)
 
     const currentDate = moment().set({ hours: 1, minute: 59, seconds: 59 });
     const disabledDate = (date) => {
@@ -30,15 +31,47 @@ export default function Booking() {
     var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     const [startdate, setStartDate] = useState(today);
 
+    const sliceStartdate = startdate.toISOString().slice(0, 10);
+
+    // console.log(sliceStartdate, hall[0].Date.slice(0, 10));
+
+    var halldate = [];
+
+    for (var i = 0; i < hall.length; i++) {
+        halldate.push(hall[i].Date.slice(0, 10));
+    }
+
+    console.log(halldate.includes(sliceStartdate));
+
     var timeArray = [];
 
-    for (var i = 8; i <= 24; i++) {
-        if (i >= 12) {
-            timeArray.push(i + ':00 PM');
+    for (var i = 0; i < timeName.length; i++) {
+        if (timeName[i].time >= 12) {
+            timeArray.push({
+                name: timeName[i].name + ' PM',
+                time: timeName[i].time
+            });
         } else {
-            timeArray.push(i + ':00 AM');
+            timeArray.push({
+                name: timeName[i].name + ' AM',
+                time: timeName[i].time
+            });
         }
     }
+
+    var hallinfo = []
+
+    for (let i = 0; i < hall.length; i++) {
+        hallinfo.push({
+            time: hall[i].Time,
+            A: hall[i].A,
+            B: hall[i].B,
+            date: hall[i].Date,
+            name: hall[i].name
+        })
+    }
+
+    console.log(hallinfo);
 
     const hallType = [
         { value: 'Цагаар', label: 'Цагаар' },
@@ -103,22 +136,39 @@ export default function Booking() {
             </div>
             <div className='body p-3 flex justify-evenly'>
                 <div className='w-[40%]'>
-                    <Table bordered size="md" className=''>
+                    <Table bordered size="md" className='border'>
                         <thead className='bg-gray-200'>
                             <tr>
-                                <th colSpan={2} className='border-8 w-[20%] text-center text-lg font-semibold'>
+                                <th colSpan={3} className='border-8 w-[20%] text-center text-lg font-semibold'>
                                     {/* {startdate.getFullYear() + '-' + (startdate.getMonth()+1) + '-' + startdate.getDate()} */}
                                     {startdate.toDateString()}
+                                </th>
+                            </tr>
+                            <tr>
+                                <th className='border-8 w-[20%] text-center text-lg font-semibold'>
+                                </th>
+                                <th className='border-8 w-[30%] text-center text-lg font-semibold'>
+                                    A тал
+                                </th>
+                                <th className='border-8 w-[30%] text-center text-lg font-semibold'>
+                                    B тал
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             {timeArray.map((time, i) =>
                                 <tr key={i}>
-                                    <td className='w-[30%] text-center'>{time}</td>
-                                    <td className='text-center'>Mark</td>
+                                    <td className='w-[30%] text-center'>{time.name}</td>
+                                    {/* <td className='text-center'>{
+                                       hallinfo.map((data) => 
+                                        // (data.time == time.time && data.A == true) ? 'ordered' : 'empty'
+                                        console.log(data.time, time.time)
+                                       )
+                                    }</td>
+                                    <td className='text-center'>Mark B</td> */}
                                 </tr>
                             )}
+                           
                         </tbody>
                     </Table>
                 </div>
@@ -159,7 +209,7 @@ export default function Booking() {
                                 placeholder='Дуусах цаг...'
                                 className='w-1/2 mx-2'
                                 onChange={(time) => setEndTime(time)}
-                                hideHours={hour => hour < startTime.getHours() + 1 || hour >= 24}
+                                hideHours={hour => hour < startTime.getHours() + 1 || hour >= startTime.getHours() + 4}
                                 hideMinutes={minute => minute !== 0}
                             />
                         </div>
@@ -263,4 +313,20 @@ export default function Booking() {
             </Modal>
         </Layout>
     )
+}
+
+
+export const getServerSideProps = async (context) => {
+
+    const res = await fetch('http://localhost:3000/api/time')
+    const time = await res.json()
+
+    const res1 = await fetch('http://localhost:3000/api/hall')
+    const hall = await res1.json()
+
+    return {
+        props: {
+            time, hall
+        }
+    }
 }

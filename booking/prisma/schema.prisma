@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,4 +5,14 @@ generator client {
 datasource db {
   provider = "sqlserver"
   url      = env("DATABASE_URL")
+}
+
+model Hall {
+  ID   Int     @id(map: "PK_Hall") @default(autoincrement())
+  Name String? @db.NVarChar(50)
+}
+
+model Time {
+  ID   Int  @id(map: "PK_Time") @default(autoincrement())
+  time Int?
 }
