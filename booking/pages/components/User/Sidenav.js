@@ -34,7 +34,7 @@ export default function SideNav() {
     });
 
     return (
-        <Sidenav expanded={expanded} defaultOpenKeys={['3', '4']} className={`h-screen`}>
+        <Sidenav expanded={expanded} defaultOpenKeys={['3', '4']} className={``}>
             <Sidenav.Header>
                 <Sidenav.Toggle expanded={expanded} onToggle={expanded => setExpanded(expanded)} />
             </Sidenav.Header>

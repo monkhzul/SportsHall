@@ -9,7 +9,7 @@ export default function Login(data) {
         const password = document.getElementById("password").value;
 
         router.push({
-            pathname: '/components/User/Calendar',
+            pathname: '/components/User/Booking',
             state: {
                 data
             }

@@ -106,7 +106,7 @@ export default function Booking(props) {
     const HallSize = (selectedOption) => {
         setHallsize(selectedOption.value)
     }
-
+    console.log(hallinfo[0].date.slice(0,10))
     return (
         <Layout>
             <div className='text-center datepicker'>
@@ -114,7 +114,6 @@ export default function Booking(props) {
                     size="lg"
                     value={startdate}
                     oneTap
-                    disabledDate={disabledDate}
                     onChange={setStartDate}
                     cleanable={false}
                     className='h-[5%] my-2 mx-auto'
@@ -148,10 +147,10 @@ export default function Booking(props) {
                                 <th className='border-8 w-[20%] text-center text-lg font-semibold'>
                                 </th>
                                 <th className='border-8 w-[30%] text-center text-lg font-semibold'>
-                                    A тал
+                                    Right
                                 </th>
                                 <th className='border-8 w-[30%] text-center text-lg font-semibold'>
-                                    B тал
+                                    Left
                                 </th>
                             </tr>
                         </thead>
@@ -159,18 +158,53 @@ export default function Booking(props) {
                             {timeArray.map((time, i) =>
                                 <tr key={i}>
                                     <td className='w-[30%] text-center'>{time.name}</td>
-                                    {/* <td className='text-center'>{
-                                       hallinfo.map((data) => 
-                                        // (data.time == time.time && data.A == true) ? 'ordered' : 'empty'
-                                        console.log(data.time, time.time)
-                                       )
+                                    <td className='text-center'>{
+                                        hallinfo.map((data) =>
+                                           data.time == time.time ? data.A == 1 ?
+                                                <div className='bg-green-200'>
+                                                    <p>Захиалагдсан</p>
+                                                </div> : data.A == 2 ? 
+                                                <div className='bg-yellow-200'>
+                                                    <p>Хүлээгдэж байна</p>
+                                                </div> :
+                                                <div className='bg-gray-200'>
+                                                    <p>Сул</p>
+                                                </div> : ''   
+                                        )
                                     }</td>
-                                    <td className='text-center'>Mark B</td> */}
+                                    <td className='text-center'>{
+                                        hallinfo.map((data) =>
+                                        data.time == time.time ? data.B == 1 ?
+                                            <div className='bg-green-200'>
+                                                <p>Захиалагдсан</p>
+                                            </div> : data.B == 2 ? 
+                                            <div className='bg-yellow-200'>
+                                                <p>Хүлээгдэж байна</p>
+                                            </div> :
+                                            <div className='bg-gray-200'>
+                                                <p>Сул</p>
+                                            </div> : ''   
+                                        )
+                                    }</td>
                                 </tr>
                             )}
-                           
+
                         </tbody>
                     </Table>
+                    <div className='w-full flex justify-between text-xs'>
+                        <div className='flex w-1/3'>
+                            <div className='bg-green-200 w-10 mr-2'></div>
+                            <p className='my-auto'>Захиалах боломжгүй</p>
+                        </div>
+                        <div className='flex w-1/3'>
+                            <div className='bg-gray-200 w-10 mr-2'></div>
+                            <p className='my-auto'>Захиалах боломжтой</p>
+                        </div>
+                        <div className='flex w-1/3'>
+                            <div className='bg-yellow-200 w-10 mr-2'></div>
+                            <p className='my-auto'>Хүлээгдэж байгаа</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div className={`${book.booking} w-[40%] bg-slate-100 p-2 text-center flex flex-col justify-start rounded-md`}>
@@ -198,7 +232,7 @@ export default function Booking(props) {
                                 placeholder='Эхлэх цаг...'
                                 className='w-1/2 mx-2'
                                 onChange={(time) => setStartTime(time)}
-                                hideHours={hour => hour < 8 || hour > 24}
+                                hideHours={hour => hour < 8 || hour > 22}
                                 hideMinutes={minute => minute !== 0}
                             />
                             <DatePicker
@@ -223,6 +257,7 @@ export default function Booking(props) {
                                 placeholder='Заал авах төрөл...'
                                 options={hallType}
                                 onChange={HallType}
+                                defaultValue={{ label: "Цагаар", value: "Цагаар" }}
                             />
                             <Select
                                 className='w-1/2 mb-2 mx-2'

@@ -31,19 +31,19 @@ export default function List(props) {
                         <HeaderCell>Id</HeaderCell>
                         <Cell dataKey="id" />
                     </Column>
-                    <Column width={200} fixed className='font-semibold'>
+                    <Column width={160} fixed className='font-semibold'>
                         <HeaderCell>Захиалагч</HeaderCell>
                         <Cell dataKey="title" />
                     </Column>
-                    <Column width={200} className='text-center font-semibold'>
+                    <Column width={150} className='text-center font-semibold'>
                         <HeaderCell>Заал авах өдөр</HeaderCell>
                         <Cell dataKey="price" />
                     </Column>
-                    <Column width={200} className='text-center font-semibold'>
+                    <Column width={180} className='text-center font-semibold'>
                         <HeaderCell>Заал авах цаг</HeaderCell>
                         <Cell dataKey="stock" />
                     </Column>
-                    <Column width={200} flexGrow={1} className='text-center'>
+                    <Column width={180} flexGrow={1} className='text-center'>
                         <HeaderCell>Заалны төрөл</HeaderCell>
                         <Cell dataKey="category" />
                     </Column>

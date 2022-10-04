@@ -14,10 +14,6 @@ export default function Home(props) {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <p href="https://nextjs.org" className=''></p>
-        </h1>
-
         <div className={styles.grid}>
           <Login data={props.db.products} />
         </div>
