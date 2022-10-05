@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import book from '../../../styles/Booking.module.css'
 import Layout from './Layout/Layout';
 import { useRouter } from 'next/router'
+import Head from 'next/head';
 
 export default function Booking(props) {
 
@@ -106,9 +107,12 @@ export default function Booking(props) {
     const HallSize = (selectedOption) => {
         setHallsize(selectedOption.value)
     }
-    console.log(hallinfo[0].date.slice(0,10))
+    console.log(hallinfo[0].date.slice(0, 10))
     return (
         <Layout>
+            <Head>
+                <title>Заалны цаг захиалах</title>
+            </Head>
             <div className='text-center datepicker'>
                 <DatePicker
                     size="lg"
@@ -160,30 +164,30 @@ export default function Booking(props) {
                                     <td className='w-[30%] text-center'>{time.name}</td>
                                     <td className='text-center'>{
                                         hallinfo.map((data) =>
-                                           data.time == time.time ? data.A == 1 ?
+                                            data.time == time.time ? data.A == 1 ?
                                                 <div className='bg-green-200'>
                                                     <p>Захиалагдсан</p>
-                                                </div> : data.A == 2 ? 
-                                                <div className='bg-yellow-200'>
-                                                    <p>Хүлээгдэж байна</p>
-                                                </div> :
-                                                <div className='bg-gray-200'>
-                                                    <p>Сул</p>
-                                                </div> : ''   
+                                                </div> : data.A == 2 ?
+                                                    <div className='bg-yellow-200'>
+                                                        <p>Хүлээгдэж байна</p>
+                                                    </div> :
+                                                    <div className='bg-gray-200'>
+                                                        <p>Сул</p>
+                                                    </div> : ''
                                         )
                                     }</td>
                                     <td className='text-center'>{
                                         hallinfo.map((data) =>
-                                        data.time == time.time ? data.B == 1 ?
-                                            <div className='bg-green-200'>
-                                                <p>Захиалагдсан</p>
-                                            </div> : data.B == 2 ? 
-                                            <div className='bg-yellow-200'>
-                                                <p>Хүлээгдэж байна</p>
-                                            </div> :
-                                            <div className='bg-gray-200'>
-                                                <p>Сул</p>
-                                            </div> : ''   
+                                            data.time == time.time ? data.B == 1 ?
+                                                <div className='bg-green-200'>
+                                                    <p>Захиалагдсан</p>
+                                                </div> : data.B == 2 ?
+                                                    <div className='bg-yellow-200'>
+                                                        <p>Хүлээгдэж байна</p>
+                                                    </div> :
+                                                    <div className='bg-gray-200'>
+                                                        <p>Сул</p>
+                                                    </div> : ''
                                         )
                                     }</td>
                                 </tr>

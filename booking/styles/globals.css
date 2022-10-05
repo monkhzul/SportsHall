@@ -172,6 +172,15 @@ input:hover {
 .rs-input:focus, .rs-input:hover:not(:disabled) {
   border-color: #841f47 !important;
 }
+
+.fc .fc-timegrid-slot-minor {
+  border-top-style: none !important;
+}
+
+.fc .fc-scrollgrid-liquid {
+  height: 80% !important;
+}
+
 @media only screen and (max-width: 639px) {
   .rs-sidenav-collapse-in {
     width: 100% !important;
