@@ -5,12 +5,11 @@ import Layout from './Layout/Layout'
 import FullCalendar from "@fullcalendar/react";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Booking() {
 
-  const date = new Date();
-  const calendarDate = date.toLocaleDateString().slice(0, 4);
+  const [eventColor, setEventColor] = useState('');
 
   const events = [
     {
@@ -45,7 +44,7 @@ export default function Booking() {
     },
     {
       "id": 11,
-      "title": "Planning Meeting with Paige",
+      "title": "Planning Meeting",
       "start": "2022-10-03T10:00:00.00",
       "end": "2022-10-03T11:00:00.00"
     },
@@ -63,14 +62,18 @@ export default function Booking() {
     },
     {
       "id": 16,
-      "title": "Go to the gym",
+      "title": "Захиалагдсан",
       "start": "2022-10-08T12:00:00",
       "end": "2022-10-08T13:00:00"
     }
   ]
 
+  useEffect(() => {
+    events.map((title) => title.title === 'Захиалагдсан' ? setEventColor('#bbf7d0') : setEventColor('#eee'))
+  },[])
+
   const calendarRef = useRef(null);
-  console.log()
+
   return (
     <Layout>
       <Head>
@@ -89,8 +92,8 @@ export default function Booking() {
         slotMaxTime={'21:00:00'}
         slotLabelFormat={{ hour: "2-digit", minute: "2-digit", hour12: false }}
         allDaySlot={false}
-        eventBackgroundColor={'#bbf7d0'}
-        eventBorderColor={'#bbf7d0'}
+        eventBackgroundColor={eventColor}
+        eventBorderColor={'#eee'}
         eventTextColor={'black'}
       />
       </div>

@@ -188,7 +188,6 @@ input:hover {
 .fc .fc-timegrid-axis-cushion, .fc .fc-timegrid-slot-label-cushion {
   color: #eee !important;
   font-size: medium;
-  font-weight: 600;
 }
 .fc-day-today  {
   background: none !important;
@@ -202,6 +201,9 @@ input:hover {
 a.fc-col-header-cell-cushion {
   color: #eee !important;
   font-size: larger;
+}
+.fc-timegrid-event .fc-event-main {
+  text-align: center;
 }
 
 @media only screen and (max-width: 639px) {
