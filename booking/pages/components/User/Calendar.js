@@ -44,62 +44,10 @@ export default function Booking() {
       "end": "2022-10-07T12:00:00.00"
     },
     {
-      "id": 5,
-      "title": "Conference",
-      "start": "2015-04-10T15:00:00.00",
-      "end": "2015-04-12T15:00:00.00",
-      "desc": "Big conference for important people"
-    },
-    {
-      "id": 6,
-      "title": "Meeting",
-      "start": "2015-04-12T01:30:00.00",
-      "end": "2015-04-12T03:30:00.00",
-      "desc": "Pre-meeting meeting, to prepare for the meeting"
-    },
-    {
-      "id": 7,
-      "title": "Lunch",
-      "start": "2015-04-12T03:00:00.00",
-      "end": "2015-04-12T04:00:00.00",
-      "desc": "Power lunch"
-    },
-    {
-      "id": 8,
-      "title": "Meeting",
-      "start": "2015-04-12T05:00:00.00",
-      "end": "2015-04-12T06:00:00.00"
-    },
-    {
-      "id": 9,
-      "title": "Happy Hour",
-      "start": "2015-04-12T08:00:00.00",
-      "end": "2015-04-12T08:30:00.00",
-      "desc": "Most important meal of the day"
-    },
-    {
-      "id": 10,
-      "title": "Dinner",
-      "start": "2015-04-12T11:00:00.00",
-      "end": "2015-04-12T12:00:00.00"
-    },
-    {
       "id": 11,
       "title": "Planning Meeting with Paige",
       "start": "2022-10-03T10:00:00.00",
-      "end": "2022-10-03T15:00:00.00"
-    },
-    {
-      "id": 12,
-      "title": "Late Night Event",
-      "start": "2015-04-17T10:30:00.00",
-      "end": "2015-04-17T17:00:00.00"
-    },
-    {
-      "id": 13,
-      "title": "Multi-day Event",
-      "start": "2015-04-20T10:30:00.00",
-      "end": "2015-04-21T17:00:00.00"
+      "end": "2022-10-03T11:00:00.00"
     },
     {
       "id": 14,
@@ -120,7 +68,6 @@ export default function Booking() {
       "end": "2022-10-08T13:00:00"
     }
   ]
-  // const localizer = momentLocalizer(moment)
 
   const calendarRef = useRef(null);
   console.log()
@@ -140,9 +87,11 @@ export default function Booking() {
         events={events}
         slotMinTime={'08:00:00'}
         slotMaxTime={'21:00:00'}
-        slotLabelFormat={{ hour: "2-digit", minute: "2-digit" }}
+        slotLabelFormat={{ hour: "2-digit", minute: "2-digit", hour12: false }}
         allDaySlot={false}
-        
+        eventBackgroundColor={'#bbf7d0'}
+        eventBorderColor={'#bbf7d0'}
+        eventTextColor={'black'}
       />
       </div>
       

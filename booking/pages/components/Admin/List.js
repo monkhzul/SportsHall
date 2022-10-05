@@ -86,3 +86,17 @@ export const getServerSideProps = async (context) => {
         }
     }
 }
+
+const display = sortedDesc
+.slice(pagesVisited, pagesVisited + perPage)
+.map((data, i) => {
+    return (
+        <tr key={i}>
+            <td>{i + 1}</td>
+            <td>{data.tradeshopid}</td>
+            <td>{data.Name}</td>
+            <td>{(data.Amount).toLocaleString()} ₮</td>
+            <td>{data.createdate}</td>
+        </tr>
+    );
+});
