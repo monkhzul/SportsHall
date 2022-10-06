@@ -151,10 +151,10 @@ export default function Booking(props) {
                                 <th className='border-8 w-[20%] text-center text-lg font-semibold'>
                                 </th>
                                 <th className='border-8 w-[30%] text-center text-lg font-semibold'>
-                                    Right
+                                    Left
                                 </th>
                                 <th className='border-8 w-[30%] text-center text-lg font-semibold'>
-                                    Left
+                                    Right
                                 </th>
                             </tr>
                         </thead>

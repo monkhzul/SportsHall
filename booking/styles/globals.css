@@ -176,6 +176,9 @@ input:hover {
 .fc .fc-timegrid-slot-minor {
   border-top-style: none !important;
 }
+.fc-timegrid-event-harness {
+  width: 50%;
+}
 .fc .fc-scrollgrid-liquid {
   height: 80% !important;
 }
@@ -195,8 +198,8 @@ input:hover {
 .fc .fc-scrollgrid-section-header > *, .fc .fc-scrollgrid-section-footer > * {
   background: #1f2937 !important;
   padding: 1rem 0;
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
 }
 a.fc-col-header-cell-cushion {
   color: #eee !important;

@@ -14,9 +14,9 @@ export default function Booking() {
   const events = [
     {
       "id": 0,
-      "title": "All Day Event very long title",
-      "start": "2022-10-06T01:00:00.00",
-      "end": "2022-10-06T03:00:00.00"
+      "title": "Event title",
+      "start": "2022-10-06T08:00:00.00",
+      "end": "2022-10-06T09:00:00.00"
     },
     {
       "id": 1,
@@ -44,9 +44,17 @@ export default function Booking() {
     },
     {
       "id": 11,
-      "title": "Planning Meeting",
+      "title": "Захиалсан",
       "start": "2022-10-03T10:00:00.00",
-      "end": "2022-10-03T11:00:00.00"
+      "end": "2022-10-03T11:00:00.00",
+      "url": "http://localhost:3000/components/User/Booking"
+    },
+    {
+      "id": 11.1,
+      "title": "Sul",
+      "start": "2022-10-03T10:00:00.00",
+      "end": "2022-10-03T11:00:00.00",
+      "url": "http://localhost:3000/components/User/Booking"
     },
     {
       "id": 14,
@@ -62,14 +70,16 @@ export default function Booking() {
     },
     {
       "id": 16,
-      "title": "Захиалагдсан",
+      "title": "Захиалсан",
       "start": "2022-10-08T12:00:00",
-      "end": "2022-10-08T13:00:00"
+      "end": "2022-10-08T15:00:00"
     }
   ]
 
+  // title, startdate, enddate, starttime, endtime, right, left, 
+
   useEffect(() => {
-    events.map((title) => title.title === 'Захиалагдсан' ? setEventColor('#bbf7d0') : setEventColor('#eee'))
+    events.map((title) => title.title === 'Захиалсан' ? setEventColor('#bbf7d0') : setEventColor('#eee'))
   },[])
 
   const calendarRef = useRef(null);
@@ -83,22 +93,20 @@ export default function Booking() {
       </Head>
 
       <div className='body p-3'>
-      <FullCalendar 
-        innerRef = {calendarRef}
-        plugins = {[timeGridPlugin, interactionPlugin]}
-        selectable
-        events={events}
-        slotMinTime={'08:00:00'}
-        slotMaxTime={'21:00:00'}
-        slotLabelFormat={{ hour: "2-digit", minute: "2-digit", hour12: false }}
-        allDaySlot={false}
-        eventBackgroundColor={eventColor}
-        eventBorderColor={'#eee'}
-        eventTextColor={'black'}
-      />
+        <FullCalendar 
+          innerRef = {calendarRef}
+          plugins = {[timeGridPlugin, interactionPlugin]}
+          events={events}
+          slotMinTime={'08:00:00'}
+          slotMaxTime={'21:00:00'}
+          slotLabelFormat={{ hour: "2-digit", minute: "2-digit", hour12: false }}
+          allDaySlot={false}
+          eventBackgroundColor={eventColor}
+          eventBorderColor={'#eee'}
+          eventTextColor={'black'}
+        />
       </div>
       
     </Layout>
-
   )
 }
