@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DatePicker } from 'rsuite'
 import moment from 'moment';
 import addDays from "date-fns/addDays";
@@ -34,12 +34,12 @@ export default function Booking(props) {
 
     const sliceStartdate = startdate.toISOString().slice(0, 10);
 
-    // console.log(sliceStartdate, hall[0].Date.slice(0, 10));
+    console.log(startTime.toLocaleTimeString().slice(0,1));
 
     var halldate = [];
 
     for (var i = 0; i < hall.length; i++) {
-        halldate.push(hall[i].Date.slice(0, 10));
+        halldate.push(hall[i].date.slice(0, 10));
     }
 
     console.log(halldate.includes(sliceStartdate));
@@ -60,19 +60,48 @@ export default function Booking(props) {
         }
     }
 
+    const timetest = []
+
+    for (let i = 0; i < timeArray.length; i++) {
+        timetest.push(timeArray[i].time)
+    }
+
+    const halltimetest = []
+    const halldatetest = []
+
+    for (let i = 0; i < hall.length; i++) {
+        halltimetest.push(hall[i].time)
+        halldatetest.push(hall[i].date.slice(0,10))
+    }
+    console.log(startTime.getHours())
+
     var hallinfo = []
 
     for (let i = 0; i < hall.length; i++) {
         hallinfo.push({
-            time: hall[i].Time,
-            A: hall[i].A,
-            B: hall[i].B,
-            date: hall[i].Date,
-            name: hall[i].name
+            date: hall[i].date.slice(0, 10),
+            leftstatus: hall[i].leftStatus,
+            rightstatus: hall[i].rightStatus,
+            time: hall[i].time,
+            userid: hall[i].userId
         })
     }
 
-    console.log(hallinfo);
+    // var hallinfo = [];
+
+    //     for(var j in timeArray) {
+    //         for (var i in hall) {    
+    //             hallinfo.push({
+    //                         date: hall[i].date.slice(0, 10),
+    //                         leftstatus: hall[i].leftStatus,
+    //                         rightstatus: hall[i].rightStatus,
+    //                         time: hall[i].time,
+    //                         userid: hall[i].userId
+    //                     })
+    //         }
+    //     }
+
+    // console.log(hallinfo)
 
     const hallType = [
         { value: 'Цагаар', label: 'Цагаар' },
@@ -84,14 +113,21 @@ export default function Booking(props) {
         { value: 'Бүтэн', label: 'Бүтэн' }
     ]
 
+
     function SentRequest() {
         if (startTime == '' || endTime == '' || halltype == '' || hallsize == '') {
             toast('Шаардлагатай талбаруудыг бөглөнө үү!')
         }
         else {
-            setModalShow(true)
+            hallinfo.map((data) => 
+                data.date === sliceStartdate && (data.leftstatus || data.rightstatus === null && data.time !== startTime.getHours()) ? console.log('bolomjtoi') :
+                console.log('bolomjgui')
+            )
+            // setModalShow(true)
         }
     }
+    
+    console.log(hallinfo)
 
     function Request() {
         toast("Хүсэлт амжилттай илгээгдлээ. Админ хүсэлтийг зөвшөөрсний дараа таны хүсэлт баталгаажихыг анхаарна уу!!!")
@@ -107,7 +143,7 @@ export default function Booking(props) {
     const HallSize = (selectedOption) => {
         setHallsize(selectedOption.value)
     }
-    console.log(hallinfo[0].date.slice(0, 10))
+    // console.log(hallinfo[0].date.slice(0, 10))
     return (
         <Layout>
             <Head>
@@ -160,38 +196,76 @@ export default function Booking(props) {
                         </thead>
                         <tbody>
                             {timeArray.map((time, i) =>
+                                // <tr key={i}>
+                                //     <td className='w-[30%] text-center'>{time.name}</td>
+                                //     <td className='text-center'>{
+                                //         hallinfo.map((data) =>
+                                //             data.time == time.time ? data.A == 1 ?
+                                //                 <div className='bg-green-200'>
+                                //                     <p>Захиалагдсан</p>
+                                //                 </div> : data.A == 2 ?
+                                //                     <div className='bg-yellow-200'>
+                                //                         <p>Хүлээгдэж байна</p>
+                                //                     </div> :
+                                //                     <div className='bg-gray-200'>
+                                //                         <p>Сул</p>
+                                //                     </div> : 'Сул'
+                                //         )
+                                //     }</td>
+                                //     <td className='text-center'>{
+                                //         hallinfo.map((data) =>
+                                //             data.time == time.time ? data.B == 1 ?
+                                //                 <div className='bg-green-200'>
+                                //                     <p>Захиалагдсан</p>
+                                //                 </div> : data.B == 2 ?
+                                //                     <div className='bg-yellow-200'>
+                                //                         <p>Хүлээгдэж байна</p>
+                                //                     </div> :
+                                //                     <div className='bg-gray-200'>
+                                //                         <p>Сул</p>
+                                //                     </div> : 'Сул'
+                                //         )
+                                //     }</td>
+                                // </tr>
+
                                 <tr key={i}>
-                                    <td className='w-[30%] text-center'>{time.name}</td>
-                                    <td className='text-center'>{
-                                        hallinfo.map((data) =>
-                                            data.time == time.time ? data.A == 1 ?
-                                                <div className='bg-green-200'>
-                                                    <p>Захиалагдсан</p>
-                                                </div> : data.A == 2 ?
-                                                    <div className='bg-yellow-200'>
-                                                        <p>Хүлээгдэж байна</p>
-                                                    </div> :
-                                                    <div className='bg-gray-200'>
-                                                        <p>Сул</p>
-                                                    </div> : ''
-                                        )
-                                    }</td>
-                                    <td className='text-center'>{
-                                        hallinfo.map((data) =>
-                                            data.time == time.time ? data.B == 1 ?
-                                                <div className='bg-green-200'>
-                                                    <p>Захиалагдсан</p>
-                                                </div> : data.B == 2 ?
-                                                    <div className='bg-yellow-200'>
-                                                        <p>Хүлээгдэж байна</p>
-                                                    </div> :
-                                                    <div className='bg-gray-200'>
-                                                        <p>Сул</p>
-                                                    </div> : ''
-                                        )
-                                    }</td>
+                                    <td className='text-center'>
+                                        {time.name}
+                                    </td>
+                                    <td className='text-center'>
+                                        {
+                                            halltimetest.includes(time.time) ?
+                                                hallinfo.map((data) =>
+                                                    data.time == time.time ? data.leftstatus != 0 ?
+                                                        data.leftstatus == 1 ? <p className='bg-green-200'>Захиалсан</p> 
+                                                        : data.leftstatus == 2 ? <p className='bg-yellow-200'>Хүлээгдэж байна</p> : ''
+                                                        : <p className='bg-gray-200'>Сул</p> : ''
+                                                ) : <p className='bg-gray-200'>Сул</p>
+                                        }
+                                    </td>
+                                    <td className={`text-center bg-green-400`}>
+                                        {
+                                            halltimetest.includes(time.time) ?
+                                                hallinfo.map((data) =>
+                                                    data.time == time.time ? data.rightstatus != 0 ?
+                                                        data.rightstatus == 1 ? <p className='bg-green-200 order'>Захиалсан</p> 
+                                                        : data.rightstatus == 2 ? <p className='bg-yellow-200 wait'>Хүлээгдэж байна</p> : ''
+                                                        : <p className='bg-gray-200 empty'>Сул</p> : ''
+                                                ) : <p className='bg-gray-200'>Сул</p>
+                                        }
+                                    </td>
                                 </tr>
                             )}
+
+
+                            {/* {hallinfo.map((data, i) => 
+                                 <tr> 
+                                    <td className='w-[30%] text-center'>{data.name}</td>
+                                    <td className='text-center'>{data.leftstatus}</td>
+                                    <td className='text-center'>{data.rightstatus}</td>
+                                </tr>
+                            )} */}
+
 
                         </tbody>
                     </Table>
@@ -293,7 +367,7 @@ export default function Booking(props) {
                                 <p>Заал авах өдөр</p>
                             </div>
                             <div className='w-1/2 mx-2 py-1 font-semibold text-base'>
-                                <p>{startdate.toLocaleString().slice(0, 9)}</p>
+                                <p>{startdate.toLocaleString().slice(0, 10)}</p>
                             </div>
                         </div>
                         <div className='mx-2'>
@@ -338,7 +412,7 @@ export default function Booking(props) {
                         </div>
                         <div className='flex my-2'>
                             <h5 className='w-1/3 text-center'>Oгноо: </h5>
-                            <p className='w-1/2 text-xl flex items-center font-bold'>{startdate.toLocaleString().slice(0, 9)}</p>
+                            <p className='w-1/2 text-xl flex items-center font-bold'>{startdate.toLocaleString().slice(0, 10)}</p>
                         </div>
                     </div>
                     <div className='bg-gray-800 text-gray-100 p-2 w-1/3 rounded-md text-center mx-auto my-3'

@@ -7,9 +7,10 @@ import "rsuite/dist/rsuite.css";
 import "@fullcalendar/common/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
+import {SSRProvider} from '@react-aria/ssr'; 
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return <SSRProvider> <Component {...pageProps} /> </SSRProvider>
 }
 
 export default MyApp

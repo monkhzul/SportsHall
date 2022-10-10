@@ -208,6 +208,12 @@ a.fc-col-header-cell-cushion {
 .fc-timegrid-event .fc-event-main {
   text-align: center;
 }
+.table>:not(caption)>*>* {
+  background-color: none !important;
+}
+.order {
+  height: 100%;
+}
 
 @media only screen and (max-width: 639px) {
   .rs-sidenav-collapse-in {
