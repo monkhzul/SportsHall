@@ -24,17 +24,13 @@ export default function Booking(props) {
     };
 
     const date = new Date();
-    const [startTime, setStartTime] = useState(date)
-    const [endTime, setEndTime] = useState(date)
+    const [startTime, setStartTime] = useState(date.getHours())
+    const [endTime, setEndTime] = useState(date.getHours())
     const [halltype, setHalltype] = useState('')
     const [hallsize, setHallsize] = useState('')
 
     var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     const [startdate, setStartDate] = useState(today);
-
-    const sliceStartdate = startdate.toISOString().slice(0, 10);
-
-    console.log(startTime.toLocaleTimeString().slice(0,1));
 
     var halldate = [];
 
@@ -42,7 +38,8 @@ export default function Booking(props) {
         halldate.push(hall[i].date.slice(0, 10));
     }
 
-    console.log(halldate.includes(sliceStartdate));
+    console.log(halldate)
+    // console.log(halldate.includes(sliceStartdate));
 
     var timeArray = [];
 
@@ -66,68 +63,107 @@ export default function Booking(props) {
         timetest.push(timeArray[i].time)
     }
 
-    const halltimetest = []
-    const halldatetest = []
-
-    for (let i = 0; i < hall.length; i++) {
-        halltimetest.push(hall[i].time)
-        halldatetest.push(hall[i].date.slice(0,10))
-    }
-    console.log(startTime.getHours())
-
     var hallinfo = []
 
     for (let i = 0; i < hall.length; i++) {
-        hallinfo.push({
-            date: hall[i].date.slice(0, 10),
-            leftstatus: hall[i].leftStatus,
-            rightstatus: hall[i].rightStatus,
-            time: hall[i].time,
-            userid: hall[i].userId
+        if (hall[i].date.slice(0,10) == moment(startdate).format('YYYY-MM-DD')) {
+            hallinfo.push({
+                id: hall[i].id,
+                date: hall[i].date.slice(0, 10),
+                leftstatus: hall[i].leftStatus,
+                rightstatus: hall[i].rightStatus,
+                time: hall[i].time,
+                userid: hall[i].userId
+            })
+        }
+    }
+
+    const halltimetest = []
+    const halldatetest = []
+
+    for (let i = 0; i < hallinfo.length; i++) {
+        halltimetest.push(hallinfo[i].time)
+        halldatetest.push(hallinfo[i].date.slice(0, 10))
+    }
+
+    // Select first and last time
+    const selectHours = []
+    const selectHoursLast = []
+
+    for (var i in timeArray) {
+        selectHours.push({
+            value: timeArray[i].time,
+            label: timeArray[i].name
         })
     }
 
-    // var hallinfo = [];
-
-    //     for(var j in timeArray) {
-    //         for (var i in hall) {    
-    //             hallinfo.push({
-    //                         date: hall[i].date.slice(0, 10),
-    //                         leftstatus: hall[i].leftStatus,
-    //                         rightstatus: hall[i].rightStatus,
-    //                         time: hall[i].time,
-    //                         userid: hall[i].userId
-    //                     })
-    //         }
-    //     }
-
-    // console.log(hallinfo)
+    for (var i in timeArray) {
+        if (timeArray[i].time > startTime && timeArray[i].time <= startTime + 3) {
+            selectHoursLast.push({
+                value: timeArray[i].time,
+                label: timeArray[i].name
+            })
+        }
+    }
 
     const hallType = [
         { value: 'Цагаар', label: 'Цагаар' },
-        { value: 'Өдрөөр', label: 'Өдрөөр' }
+        // { value: 'Өдрөөр', label: 'Өдрөөр' }
     ]
 
     const hallSize = [
-        { value: 'Хагас', label: 'Хагас' },
-        { value: 'Бүтэн', label: 'Бүтэн' }
+        { value: 'Бүтэн', label: 'Бүтэн' },
+        { value: 'Хагас', label: 'Хагас' }
     ]
 
+    const HallType = (selectedOption) => {
+        setHalltype(selectedOption.value)
+    }
+    const HallSize = (selectedOption) => {
+        setHallsize(selectedOption.value)
+    }
+    const selectFirstHour = (selectedOption) => {
+        setStartTime(selectedOption.value)
+    }
+    const selectLastHour = (selectedOption) => {
+        setEndTime(selectedOption.value)
+    }
 
     function SentRequest() {
         if (startTime == '' || endTime == '' || halltype == '' || hallsize == '') {
             toast('Шаардлагатай талбаруудыг бөглөнө үү!')
         }
         else {
-            hallinfo.map((data) => 
-                data.date === sliceStartdate && (data.leftstatus || data.rightstatus === null && data.time !== startTime.getHours()) ? console.log('bolomjtoi') :
-                console.log('bolomjgui')
-            )
-            // setModalShow(true)
+            const arr = []
+            for (var i in hallinfo) {
+                if (hallinfo[i].date === moment(startdate).format('YYYY-MM-DD')) {
+                    arr.push({
+                        id: hallinfo[i].id,
+                        date: hallinfo[i].date.slice(0, 10),
+                        leftstatus: hallinfo[i].leftStatus,
+                        rightstatus: hallinfo[i].rightStatus,
+                        time: hallinfo[i].time,
+                        userid: hallinfo[i].userId
+                    })
+                }
+                // console.log(hallinfo[i].date ,moment(startdate).format('YYYY-MM-DD') ,hallinfo[i].time ,startTime)
+            }
+            var arr1 = []
+            for(var i in arr) {
+                if (arr[i].time == startTime) {
+                    arr1.push({
+                        id: hallinfo[i].id,
+                        date: hallinfo[i].date.slice(0, 10),
+                        leftstatus: hallinfo[i].leftStatus,
+                        rightstatus: hallinfo[i].rightStatus,
+                        time: hallinfo[i].time,
+                        userid: hallinfo[i].userId
+                    })
+                }
+            }
+            console.log(arr1)
         }
     }
-    
-    console.log(hallinfo)
 
     function Request() {
         toast("Хүсэлт амжилттай илгээгдлээ. Админ хүсэлтийг зөвшөөрсний дараа таны хүсэлт баталгаажихыг анхаарна уу!!!")
@@ -137,13 +173,6 @@ export default function Booking(props) {
         })
     }
 
-    const HallType = (selectedOption) => {
-        setHalltype(selectedOption.value)
-    }
-    const HallSize = (selectedOption) => {
-        setHallsize(selectedOption.value)
-    }
-    // console.log(hallinfo[0].date.slice(0, 10))
     return (
         <Layout>
             <Head>
@@ -173,8 +202,8 @@ export default function Booking(props) {
                     ]}
                 />
             </div>
-            <div className='body p-3 flex justify-evenly'>
-                <div className='w-[40%]'>
+            <div className='flex flex-col lg:flex-row body p-3 justify-evenly'>
+                <div className='w-[100%] md:w-[80%] lg:w-[40%] md:mx-auto lg:mx-0 mb-5'>
                     <Table bordered size="md" className='border'>
                         <thead className='bg-gray-200'>
                             <tr>
@@ -234,13 +263,13 @@ export default function Booking(props) {
                                     </td>
                                     <td className='text-center'>
                                         {
-                                            halltimetest.includes(time.time) ?
-                                                hallinfo.map((data) =>
-                                                    data.time == time.time ? data.leftstatus != 0 ?
-                                                        data.leftstatus == 1 ? <p className='bg-green-200'>Захиалсан</p> 
-                                                        : data.leftstatus == 2 ? <p className='bg-yellow-200'>Хүлээгдэж байна</p> : ''
-                                                        : <p className='bg-gray-200'>Сул</p> : ''
-                                                ) : <p className='bg-gray-200'>Сул</p>
+                                           halltimetest.includes(time.time) ?
+                                           hallinfo.map((data) =>
+                                               data.time == time.time ? data.leftstatus != 0 ?
+                                                   data.leftstatus == 1 ? <p className='bg-green-200'>Захиалсан</p>
+                                                       : data.leftstatus == 2 ? <p className='bg-yellow-200'>Хүлээгдэж байна</p> : <p className='bg-gray-200'>Сул</p>
+                                                   : <p className='bg-gray-200'>Сул</p> : ''
+                                           ) : <p className='bg-gray-200'>Сул</p>
                                         }
                                     </td>
                                     <td className={`text-center bg-green-400`}>
@@ -248,8 +277,8 @@ export default function Booking(props) {
                                             halltimetest.includes(time.time) ?
                                                 hallinfo.map((data) =>
                                                     data.time == time.time ? data.rightstatus != 0 ?
-                                                        data.rightstatus == 1 ? <p className='bg-green-200 order'>Захиалсан</p> 
-                                                        : data.rightstatus == 2 ? <p className='bg-yellow-200 wait'>Хүлээгдэж байна</p> : ''
+                                                        data.rightstatus == 1 ? <p className='bg-green-200 order'>Захиалсан</p>
+                                                            : data.rightstatus == 2 ? <p className='bg-yellow-200 wait'>Хүлээгдэж байна</p> : ''
                                                         : <p className='bg-gray-200 empty'>Сул</p> : ''
                                                 ) : <p className='bg-gray-200'>Сул</p>
                                         }
@@ -285,7 +314,7 @@ export default function Booking(props) {
                     </div>
                 </div>
 
-                <div className={`${book.booking} w-[40%] bg-slate-100 p-2 text-center flex flex-col justify-start rounded-md`}>
+                <div className={`${book.booking} w-[100%] md:w-[80%] lg:w-[40%] md:mx-auto lg:mx-0 bg-slate-100 p-2 text-center flex flex-col justify-start rounded-md`}>
                     <h4 className='w-full my-4'>Цаг захиалах</h4>
                     <div className='w-full'>
                         <div className='my-2 flex'>
@@ -293,16 +322,21 @@ export default function Booking(props) {
                             <div className='w-1/2 mx-2 flex text-gray-400'>Дуусах цаг</div>
                         </div>
                         <div className='flex w-full'>
-                            {/* <Select
-                                        className='w-1/2 mx-2'
-                                        placeholder='Эхлэх цаг...'
-                                    /> */}
-                            {/* <Select
-                                        className='w-1/2 mx-2'
-                                        placeholder='Дуусах цаг...'
-                                    /> */}
+                            <Select
+                                className='w-1/2 mx-2'
+                                placeholder='Эхлэх цаг...'
+                                options={selectHours}
+                                onChange={selectFirstHour}
+                            />
+                            <Select
+                                className='w-1/2 mx-2'
+                                id='firstHour'
+                                placeholder='Дуусах цаг...'
+                                options={selectHoursLast}
+                                onChange={selectLastHour}
+                            />
 
-                            <DatePicker
+                            {/* <DatePicker
                                 id='startTime'
                                 format="HH:00"
                                 ranges={[]}
@@ -312,6 +346,7 @@ export default function Booking(props) {
                                 onChange={(time) => setStartTime(time)}
                                 hideHours={hour => hour < 8 || hour > 22}
                                 hideMinutes={minute => minute !== 0}
+                                oneTap
                             />
                             <DatePicker
                                 id='endTime'
@@ -323,7 +358,7 @@ export default function Booking(props) {
                                 onChange={(time) => setEndTime(time)}
                                 hideHours={hour => hour < startTime.getHours() + 1 || hour >= startTime.getHours() + 4}
                                 hideMinutes={minute => minute !== 0}
-                            />
+                            /> */}
                         </div>
                         <div className='mt-4 flex'>
                             <div className='w-1/2 mx-2 flex text-gray-400'>Төрөл</div>
@@ -335,7 +370,7 @@ export default function Booking(props) {
                                 placeholder='Заал авах төрөл...'
                                 options={hallType}
                                 onChange={HallType}
-                                defaultValue={{ label: "Цагаар", value: "Цагаар" }}
+                            // defaultValue={{ label: "Цагаар", value: "Цагаар" }}
                             />
                             <Select
                                 className='w-1/2 mb-2 mx-2'
@@ -396,7 +431,7 @@ export default function Booking(props) {
                     <div className='my-3'>
                         <div className='flex my-2'>
                             <h5 className='w-1/3 text-center'>Захиалсан цаг: </h5>
-                            <p className='w-1/2 text-xl flex items-center font-bold'>{`${startTime.getHours()}:00 - ${endTime.getHours()}:00`}</p>
+                            <p className='w-1/2 text-xl flex items-center font-bold'>{`${startTime}:00 - ${endTime}:00`}</p>
                         </div>
                         <div className='flex my-2'>
                             <h5 className='w-1/3 text-center'>Заалны төрөл: </h5>
