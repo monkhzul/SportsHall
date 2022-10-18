@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Table, Pagination } from 'rsuite';
 import Layout from './Layout/Layout';
+import { PrismaClient } from '@prisma/client';
 
 export default function List(props) {
-
     const { Column, HeaderCell, Cell } = Table;
 
     const [limit, setLimit] = useState(15);
@@ -75,28 +75,15 @@ export default function List(props) {
     )
 }
 
+const prisma = new PrismaClient({ log: ['query', 'info', 'warn'] });
+
 export const getServerSideProps = async (context) => {
 
-    const res = await fetch('https://dummyjson.com/products')
-    const db = await res.json()
+    const hall = await prisma.time2.findMany();
 
     return {
         props: {
-            db
+            hall: JSON.parse(JSON.stringify(hall))
         }
     }
 }
-
-// const display = sortedDesc
-// .slice(pagesVisited, pagesVisited + perPage)
-// .map((data, i) => {
-//     return (
-//         <tr key={i}>
-//             <td>{i + 1}</td>
-//             <td>{data.tradeshopid}</td>
-//             <td>{data.Name}</td>
-//             <td>{(data.Amount).toLocaleString()} ₮</td>
-//             <td>{data.createdate}</td>
-//         </tr>
-//     );
-// });

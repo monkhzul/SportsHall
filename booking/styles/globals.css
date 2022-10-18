@@ -176,9 +176,7 @@ input:hover {
 .fc .fc-timegrid-slot-minor {
   border-top-style: none !important;
 }
-.fc-timegrid-event-harness {
-  width: 50%;
-}
+
 .fc .fc-scrollgrid-liquid {
   height: 80% !important;
 }

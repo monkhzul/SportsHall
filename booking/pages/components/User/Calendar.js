@@ -17,7 +17,11 @@ export default function Calendar(props) {
 
   for (let i = 0; i < hall.length; i++) {
     events.push({
-       title: hall[i].leftStatus == 1 ? 'Захиалсан' : hall[i].leftStatus == 2 ? 'Хүлээгдэж буй' : 'Сул' ,
+       title: hall[i].leftStatus == 1 && hall[i].rightStatus == 1
+       ? 'Захиалсан' 
+       : hall[i].leftStatus == 2 
+       ? 'Хүлээгдэж буй' 
+       : 'Сул' ,
        start: `${hall[i].date.slice(0,10)}T${hall[i].time < 10 ? `0${hall[i].time}` : hall[i].time}:00:00`,
        end: `${hall[i].date.slice(0,10)}T${hall[i].time < 10 ? `0${hall[i].time}` : hall[i].time}:00:00`
     })
@@ -115,7 +119,6 @@ export default function Calendar(props) {
           slotMaxTime={'21:00:00'}
           slotLabelFormat={{ hour: "2-digit", minute: "2-digit", hour12: false }}
           allDaySlot={false}
-          eventBackgroundColor={eventColor}
           eventBorderColor={'#eee'}
           eventTextColor={'black'}
         />

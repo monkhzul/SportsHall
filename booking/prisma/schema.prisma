@@ -7,12 +7,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Hall {
-  ID   Int     @id(map: "PK_Hall") @default(autoincrement())
-  Name String? @db.NVarChar(50)
+model Time {
+  ID   Int     @id(map: "PK_Time") @default(autoincrement())
+  time Int?
+  name String? @db.NVarChar(50)
 }
 
-model Time {
-  ID   Int  @id(map: "PK_Time") @default(autoincrement())
-  time Int?
+model Time2 {
+  id          Int       @id(map: "PK_Time2") @default(autoincrement())
+  time        Int?
+  leftStatus  Int?
+  rightStatus Int?
+  date        DateTime? @db.Date
+}
+
+model UserReq {
+  id       Int       @id(map: "PK_UserReq") @default(autoincrement())
+  time     Int?
+  type     String?   @db.NVarChar(50)
+  date     DateTime? @db.Date
+  userId   Int?
+  userName String?   @db.NVarChar(50)
+  status   Int?
 }

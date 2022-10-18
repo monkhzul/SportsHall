@@ -24,7 +24,7 @@ import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient();
 
-export default async function getServerSideProps(req, res) {
+export default async function handler(req, res) {
   const data = await prisma.$queryRaw`SELECT * FROM Time`
   res.status(200).json(data)
 }
