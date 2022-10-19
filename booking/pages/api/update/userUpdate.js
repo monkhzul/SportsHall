@@ -3,11 +3,10 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient();
 
 export default async function insert(req, res) {
-  const date = req.body.date;
-  const time = req.body.time;
+  const id = req.body.id;
 
-  const data = await prisma.$queryRaw`SELECT *
-  FROM [sportHallReal].[dbo].[Time2]	
-  where date = ${date} and time = ${time}`
+  const data = await prisma.$queryRaw`UPDATE [dbo].[UserReq]
+  SET [status] = 1
+    WHERE id = ${id}`
   res.status(200).json(data)
 }

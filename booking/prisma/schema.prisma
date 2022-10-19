@@ -13,14 +13,6 @@ model Time {
   name String? @db.NVarChar(50)
 }
 
-model Time2 {
-  id          Int       @id(map: "PK_Time2") @default(autoincrement())
-  time        Int?
-  leftStatus  Int?
-  rightStatus Int?
-  date        DateTime? @db.Date
-}
-
 model UserReq {
   id       Int       @id(map: "PK_UserReq") @default(autoincrement())
   time     Int?
@@ -29,4 +21,12 @@ model UserReq {
   userId   Int?
   userName String?   @db.NVarChar(50)
   status   Int?
+}
+
+model Hall {
+  id          Int       @id(map: "PK_Time2") @default(autoincrement())
+  time        Int?
+  leftStatus  Int?
+  rightStatus Int?
+  date        DateTime? @db.Date
 }

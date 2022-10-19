@@ -6,6 +6,7 @@ import Layout from './Layout/Layout';
 import { PrismaClient } from '@prisma/client';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
+import { useRouter } from 'next/router';
 
 export default function List(props) {
 
@@ -14,6 +15,8 @@ export default function List(props) {
     const [limit, setLimit] = useState(15);
     const [page, setPage] = useState(1);
     const [data, setData] = useState(props.hall);
+    const [time, setTime] = useState(props.time);
+    const router = useRouter();
 
     const handleChangeLimit = dataKey => {
         setPage(1);
@@ -35,44 +38,99 @@ export default function List(props) {
        }
     }
 
-    const datas = waitingRequest.filter((v, i) => {
+    const sortedDesc = waitingRequest.sort(
+        (objA, objB) =>
+            new Date(objA.date) - new Date(objB.date)
+    );
+
+    const datas = sortedDesc.filter((v, i) => {
         const start = limit * (page - 1);
         const end = start + limit;
         return (i >= start && i < end);
     });
 
-    const updateConfirm = (id) => {
+    
+
+    const [updateData, setupdateData] = useState([]);
+
+    const updateConfirm = (id, times, date, type) => {
+
+        axios.post('http://localhost:3000/api/updateBefore', {
+            time: times,
+            date: date
+        })
+        .then((res) => {
+            if (type === 'Бүтэн') {
+                if (res.data[0].leftStatus == 2 && res.data[0].rightStatus == 2) {
+                    axios.post('/api/update/hallUpdate', {
+                        date: date,
+                        time: times,
+                        leftStatus: 1,
+                        rightStatus: 1
+                    })
+                }
+            } else
+            if (type === 'Хагас') {
+                if (res.data[0].leftStatus == 2 && res.data[0].rightStatus == 0) {
+                    axios.post('/api/update/hallUpdate', {
+                        date: date,
+                        time: times,
+                        leftStatus: 1,
+                        rightStatus: 0
+                    })
+                }
+                if (res.data[0].leftStatus == 2 && res.data[0].rightStatus == 2) {
+                    axios.post('/api/update/hallUpdate', {
+                        date: date,
+                        time: times,
+                        leftStatus: 1,
+                        rightStatus: 2
+                    })
+                }
+                if (res.data[0].leftStatus == 1 && res.data[0].rightStatus == 2) {
+                    axios.post('/api/update/hallUpdate', {
+                        date: date,
+                        time: times,
+                        leftStatus: 1,
+                        rightStatus: 1
+                    })
+                }
+            }
+        })
+       
         for (let i = 0; i < waitingRequest.length; i++) {
             if (waitingRequest[i].id == id) {
                 axios.post('/api/update/userUpdate', {
-                    id: id,
-                    date: waitingRequest[i].date,
-                    time: waitingRequest[i].time
+                    id: id
                 })
             }
         }
+
         toast("Amjilttai batalgaajuullaa.")
+        router.push('/components/Admin/List')
     }
 
     return (
         <Layout>
             <title>Хүлээгдэж буй хүсэлтүүд</title>
-            <ToastContainer />
+            <ToastContainer 
+                position='top-center'
+            />
             <div className='border'>
                 <Table height={750} data={datas}>
-                    <Column width={80} align="center" fixed>
+                    <Column width={100} align="center" fixed>
                         <HeaderCell>Id</HeaderCell>
                         <Cell dataKey="id" />
                     </Column>
-                    <Column width={160} fixed className='font-semibold'>
+                    <Column width={200} fixed className='font-semibold'>
                         <HeaderCell>Захиалагч</HeaderCell>
                         <Cell dataKey="userName" />
                     </Column>
-                    <Column width={150} className='text-center font-semibold'>
+                    <Column width={250} className='text-center font-semibold'>
                         <HeaderCell>Заал авах өдөр</HeaderCell>
                         <Cell dataKey="date" />
                     </Column>
-                    <Column width={180} className='text-center font-semibold'>
+                    <Column width={200} className='text-center font-semibold'>
                         <HeaderCell>Заал авах цаг</HeaderCell>
                         <Cell dataKey="time" />
                     </Column>
@@ -81,7 +139,7 @@ export default function List(props) {
                         <Cell dataKey="Цагаар" />
                     </Column> */}
                     <Column width={150} flexGrow={1} className='text-center'>
-                        <HeaderCell>Заалны хэмжээ</HeaderCell>
+                        <HeaderCell>Бүтэн/Хагас</HeaderCell>
                         <Cell dataKey="type" />
                     </Column>
                     <Column width={100} fixed="right" className="text-center">
@@ -94,7 +152,7 @@ export default function List(props) {
                                 // return (
                                 <span>
                                     <CheckIcon className='cursor-pointer bg-green-800 text-gray-50 rounded-sm text-2xl hover:text-white hover:bg-green-500'
-                                        onClick={() => updateConfirm(rowData.id)}></CheckIcon>
+                                        onClick={() => updateConfirm(rowData.id, rowData.time, rowData.date, rowData.type)}></CheckIcon>
                                 </span>
                                 // )
                             )}
@@ -123,7 +181,7 @@ export default function List(props) {
                         maxButtons={5}
                         size="md"
                         layout={['total', '-', 'pager', 'skip']}
-                        total={data.length}
+                        total={waitingRequest.length}
                         limitOptions={[10, 30, 50]}
                         limit={limit}
                         activePage={page}
@@ -141,10 +199,13 @@ const prisma = new PrismaClient({ log: ['query', 'info', 'warn'] });
 export const getServerSideProps = async (context) => {
 
     const hall = await prisma.userReq.findMany();
+    const res = await fetch('http://localhost:3000/api/hall')
+    const time = await res.json()
 
     return {
         props: {
-            hall: JSON.parse(JSON.stringify(hall))
+            hall: JSON.parse(JSON.stringify(hall)),
+            time: time
         }
     }
 }

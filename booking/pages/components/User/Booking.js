@@ -18,7 +18,16 @@ export default function Booking(props) {
     const [modalShow, setModalShow] = useState(false);
     const [timeName, setTimeName] = useState(props.time)
     const [hall, setHall] = useState(props.hall)
-
+    
+    if (typeof window !== 'undefined') {
+        var user = sessionStorage.getItem("user")
+        var username = JSON.parse(user)
+    }
+    const [userinfo, setUserinfo] = useState(username)
+    
+    useEffect(() => {
+        console.log(userinfo.firstname)
+    },[])
 
     const currentDate = moment().set({ hours: 1, minute: 59, seconds: 59 });
     const disabledDate = (date) => {
@@ -132,7 +141,7 @@ export default function Booking(props) {
     // const [count, setCount] = useState(0);
 
     function SentRequest() {
-        if (startTime == '' || endTime == '' || halltype == '' || hallsize == '') {
+        if (startTime == '' || endTime == '' || hallsize == '') {
             toast('Шаардлагатай талбаруудыг бөглөнө үү!')
         }
         else {
@@ -153,7 +162,7 @@ export default function Booking(props) {
                         setcheckData(data)
 
                         if (endTime > startTime + 3 || endTime < startTime || endTime == startTime) {
-                            toast("Duusah tsagaa zuv songono uu!")
+                            toast("Дуусах цагаа зөв сонгоно уу!")
                         }
                         else {
 
@@ -161,36 +170,51 @@ export default function Booking(props) {
                                 setModalShow(true)
                             }
                             else {
-
+                                let count = 0;
                                 for (let i = 0; i < data.length; i++) {
                                     if (hallsize === 'Бүтэн') {
-                                        if (data[i].leftStatus == 1 && data[i].rightStatus == 1) {
-                                            toast(`Zahialah bolomjgui. ${data[i].time} tsag zahialagdsan bn`)
+                                        if (data[i].leftStatus == 1 && data[i].rightStatus == 1 || 
+                                            data[i].leftStatus == 2 && data[i].rightStatus == 2 ||
+                                            data[i].leftStatus == 1 && data[i].rightStatus == 0 ||
+                                            data[i].leftStatus == 2 && data[i].rightStatus == 0) {
+                                                count++
+                                            // toast(`Zahialah bolomjgui. ${data[i].time} tsag zahialagdsan bn`)
                                         }
-                                        else if (data[i].leftStatus == 1 && data[i].rightStatus == 0) {
-                                            toast(`Butneer zahialah bolomjgui. ${data[i].time} tsag talaar zahialagdsan bn`)
-                                        }
-                                        else if (data[i].leftStatus == 2 && data[i].rightStatus == 2) {
-                                            toast(`Zahialah bolomjgui. ${data[i].time} tsag huleegdej bn`)
-                                        }
-                                        else if (data[i].leftStatus == 2 && data[i].rightStatus == 0) {
-                                            toast(`Butneer zahialah bolomjgui. ${data[i].time} tsag talaar zahialagdsan bn`)
-                                        }
+                                        // else if (data[i].leftStatus == 1 && data[i].rightStatus == 0) {
+                                        //     // toast(`Butneer zahialah bolomjgui. ${data[i].time} tsag talaar zahialagdsan bn`)
+                                        // }
+                                        // else if (data[i].leftStatus == 2 && data[i].rightStatus == 2) {
+                                        //     // toast(`Zahialah bolomjgui. ${data[i].time} tsag huleegdej bn`)
+                                        // }
+                                        // else if (data[i].leftStatus == 2 && data[i].rightStatus == 0) {
+                                        //     // toast(`Butneer zahialah bolomjgui. ${data[i].time} tsag talaar zahialagdsan bn`)
+                                        // }
                                     } else
                                         if (hallsize === 'Хагас') {
-                                            if (data[i].leftStatus == 1 && data[i].rightStatus == 1) {
-                                                toast(`Zahialah bolomjgui. ${data[i].time} tsag zahialagdsan bn`)
+                                
+                                            if (data[i].leftStatus == 1 && data[i].rightStatus == 1 ||
+                                                data[i].leftStatus == 2 && data[i].rightStatus == 2) {
+                                                // toast(`Zahialah bolomjgui. ${data[i].time} tsag zahialagdsan bn`)
+                                                count++
                                             }
-                                            else if (data[i].leftStatus == 1 && data[i].rightStatus == 0) {
-                                                setModalShow(true)
-                                            }
-                                            else if (data[i].leftStatus == 2 && data[i].rightStatus == 2) {
-                                                toast(`Zahialah bolomjgui. ${data[i].time} tsag huleegdej bn`)
-                                            }
-                                            else if (data[i].leftStatus == 2 && data[i].rightStatus == 0) {
-                                                setModalShow(true)
-                                            }
+
+                                            // else if (data[i].leftStatus == 1 && data[i].rightStatus == 0) {
+                                            //     // setModalShow(true)
+                                            // }
+                                            // else if (data[i].leftStatus == 2 && data[i].rightStatus == 2) {
+                                            //     // toast(`Zahialah bolomjgui. ${data[i].time} tsag huleegdej bn`)
+                                            // }
+                                            // else if (data[i].leftStatus == 2 && data[i].rightStatus == 0) {
+                                            //     // setModalShow(true)
+                                            // }
+                                            
                                         }
+                                }
+                                if (count == 0 ) {
+                                    setModalShow(true)
+                                }
+                                else {
+                                    toast("Захиалах боломжгүй цаг байна !!!")
                                 }
                             }
                         }
@@ -199,9 +223,6 @@ export default function Booking(props) {
 
         }
     }
-    useEffect(() => {
-        console.log()
-    },[])
 
     function Request() {
 
@@ -219,7 +240,7 @@ export default function Booking(props) {
                     type: 'Бүтэн',
                     date: moment(startdate).format("YYYY-MM-DD"),
                     userid: 100,
-                    username: 'Zulaa',
+                    username: '',
                     status: 2
                 })
             }
@@ -238,16 +259,15 @@ export default function Booking(props) {
                     type: 'Хагас',
                     date: moment(startdate).format("YYYY-MM-DD"),
                     userid: 100,
-                    username: 'Zulaa',
+                    username: '',
                     status: 2
                 })
             }
         }
 
-
-
         toast("Хүсэлт амжилттай илгээгдлээ. Админ хүсэлтийг зөвшөөрсний дараа таны хүсэлт баталгаажихыг анхаарна уу!!!")
         setModalShow(false)
+        router.push('/components/User/Request')
     }
 
     return (
@@ -374,19 +394,19 @@ export default function Booking(props) {
 
                         </div>
                         <div className='mt-4 flex'>
-                            <div className='w-1/2 mx-2 flex text-gray-400'>Төрөл</div>
-                            <div className='w-1/2 mx-2 flex text-gray-400'>Хэмжээ</div>
+                            {/* <div className='w-1/2 mx-2 flex text-gray-400'>Төрөл</div> */}
+                            <div className='mx-auto flex text-gray-400'>Хэмжээ</div>
                         </div>
-                        <div className='my-2 flex'>
-                            <Select
+                        <div className='my-2 flex mx-auto'>
+                            {/* <Select
                                 className='w-1/2 mb-2 mx-2'
                                 placeholder='Заал авах төрөл...'
                                 options={hallType}
                                 onChange={HallType}
                             // defaultValue={{ label: "Цагаар", value: "Цагаар" }}
-                            />
+                            /> */}
                             <Select
-                                className='w-1/2 mb-2 mx-2'
+                                className='mb-2 mx-auto w-1/2'
                                 placeholder='Хамрах хүрээ...'
                                 options={hallSize}
                                 onChange={HallSize}
@@ -407,7 +427,7 @@ export default function Booking(props) {
                                 <p>Захиалагч</p>
                             </div>
                             <div className='w-1/2 mx-2 py-1 font-semibold text-base'>
-                                <p>Хэрэглэгчийн нэр</p>
+                                <p>{userinfo.firstname}</p>
                             </div>
                         </div>
                         <div className='flex my-2'>
@@ -428,7 +448,9 @@ export default function Booking(props) {
                 </div>
             </div>
 
-            <ToastContainer closeOnClick />
+            <ToastContainer
+            position='top-center'
+            closeOnClick />
             <Modal
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
@@ -446,17 +468,17 @@ export default function Booking(props) {
                             <h5 className='w-1/3 text-center'>Захиалсан цаг: </h5>
                             <p className='w-1/2 text-xl flex items-center font-bold'>{`${startTime}:00 - ${endTime}:00`}</p>
                         </div>
-                        <div className='flex my-2'>
+                        {/* <div className='flex my-2'>
                             <h5 className='w-1/3 text-center'>Заалны төрөл: </h5>
                             <p className='w-1/2 text-xl flex items-center font-bold'>{halltype}</p>
-                        </div>
+                        </div> */}
                         <div className='flex my-2'>
                             <h5 className='w-1/3 text-center'>Заалны хэмжээ: </h5>
                             <p className='w-1/2 text-xl flex items-center font-bold'>{hallsize}</p>
                         </div>
                         <div className='flex my-2'>
                             <h5 className='w-1/3 text-center'>Захиалагч: </h5>
-                            <p className='w-1/2 text-xl flex items-center font-bold'>{'Username'}</p>
+                            <p className='w-1/2 text-xl flex items-center font-bold'>{userinfo.firstname}</p>
                         </div>
                         <div className='flex my-2'>
                             <h5 className='w-1/3 text-center'>Oгноо: </h5>
@@ -481,13 +503,7 @@ const prisma = new PrismaClient({ log: ['query', 'info', 'warn'] });
 export const getServerSideProps = async (context) => {
 
     const time = await prisma.time.findMany();
-    const hall = await prisma.time2.findMany();
-
-    // const res = await fetch('http://localhost:3000/api/time')
-    // const time = await res.json()
-
-    // const res1 = await fetch('http://localhost:3000/api/hall')
-    // const hall = await res1.json()
+    const hall = await prisma.hall.findMany();
 
     return {
         props: {

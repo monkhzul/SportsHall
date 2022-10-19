@@ -43,10 +43,7 @@ export default function AdminSideNav() {
                         Хүлээгдэж буй хүсэлтүүд
                     </Nav.Item>
                     <Nav.Item eventKey="3" icon={<GroupIcon />} as={NavLink} href={'/components/Admin/Schedule'}>
-                        Хуваарь
-                    </Nav.Item>
-                    <Nav.Item eventKey="4" icon={<GroupIcon />}>
-                        Test2
+                        7 хоног календар
                     </Nav.Item>
 
                     {/* <Nav.Menu placement="rightStart" eventKey="3" title="Advanced" icon={<MagicIcon />}>

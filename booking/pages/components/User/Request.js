@@ -2,20 +2,46 @@ import React, { useEffect, useState } from 'react'
 import { Table, Pagination } from 'rsuite';
 import Layout from './Layout/Layout';
 import CloseIcon from '@rsuite/icons/Close';
+import { PrismaClient } from '@prisma/client';
 
 export default function Booking(props) {
     const { Column, HeaderCell, Cell } = Table;
 
+    if (typeof window !== 'undefined') {
+        var user = window.sessionStorage.getItem("user")
+        var username = JSON.parse(user)
+    }
+
     const [limit, setLimit] = useState(15);
     const [page, setPage] = useState(1);
-    const [data, setData] = useState(props.db.products);
+    const [data, setData] = useState(props.hall);
 
     const handleChangeLimit = dataKey => {
         setPage(1);
         setLimit(dataKey);
     };
 
-    const datas = data.filter((v, i) => {
+    const List = [];
+    for(var i in data) {
+       if (data[i].userName === username.firstname && data[i].status == 2) {
+            List.push({
+                id: data[i].id,
+                time: data[i].time,
+                type: data[i].type,
+                date: data[i].date.slice(0,10),
+                userId: data[i].userId,
+                userName: data[i].userName,
+                status: data[i].status,
+            })
+       }
+    }
+
+    const sortedDesc = List.sort(
+        (objA, objB) =>
+            new Date(objB.date) - new Date(objA.date)
+    );
+
+    const datas = sortedDesc.filter((v, i) => {
         const start = limit * (page - 1);
         const end = start + limit;
         return (i >= start && i < end);
@@ -30,23 +56,23 @@ export default function Booking(props) {
                     </Column>
                     <Column width={250} fixed className='font-semibold'>
                         <HeaderCell>Захиалагч</HeaderCell>
-                        <Cell dataKey="title" />
+                        <Cell dataKey="userName" />
                     </Column>
                     <Column width={150} className='text-center font-semibold'>
                         <HeaderCell>Заал авсан өдөр</HeaderCell>
-                        <Cell dataKey="price" />
+                        <Cell dataKey="date" />
                     </Column>
                     <Column width={200} className='text-center font-semibold'>
                         <HeaderCell>Заал авсан цаг</HeaderCell>
-                        <Cell dataKey="stock" />
+                        <Cell dataKey="time" />
                     </Column>
-                    <Column width={150} flexGrow={1} className='text-center'>
+                    {/* <Column width={150} flexGrow={1} className='text-center'>
                         <HeaderCell>Заалны төрөл</HeaderCell>
                         <Cell dataKey="category" />
-                    </Column>
+                    </Column> */}
                     <Column width={150} flexGrow={1} className='text-center'>
                         <HeaderCell>Заалны хэмжээ</HeaderCell>
-                        <Cell dataKey="rating" />
+                        <Cell dataKey="type" />
                     </Column>
                     <Column width={150} fixed="right" className="text-center">
                         <HeaderCell>Устгах</HeaderCell>
@@ -71,7 +97,7 @@ export default function Booking(props) {
                         maxButtons={5}
                         size="md"
                         layout={['total', '-', 'pager', 'skip']}
-                        total={data.length}
+                        total={List.length}
                         limitOptions={[10, 30, 50]}
                         limit={limit}
                         activePage={page}
@@ -84,14 +110,15 @@ export default function Booking(props) {
     )
 }
 
+const prisma = new PrismaClient({ log: ['query', 'info', 'warn'] });
+
 export const getServerSideProps = async (context) => {
 
-    const res = await fetch('https://dummyjson.com/products')
-    const db = await res.json()
+    const hall = await prisma.userReq.findMany();
 
     return {
         props: {
-            db
+            hall: JSON.parse(JSON.stringify(hall))
         }
     }
 }

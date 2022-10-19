@@ -5,6 +5,12 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
 export default function NavbarUser() {
+    if (typeof window !== 'undefined') {
+        var user = sessionStorage.getItem("user")
+        var username = JSON.parse(user)
+    }
+
+  
     return (
         <Navbar bg="dark" variant="dark" className='w-full'>
             <Container fluid>
@@ -17,7 +23,7 @@ export default function NavbarUser() {
                     />
                 </Navbar.Brand>
                 <Navbar.Collapse className='flex justify-end mx-16 text-xl'>
-                    <NavDropdown title={`UserName`} id="collasible-nav-dropdown">
+                    <NavDropdown title={`${''}`} id="collasible-nav-dropdown">
                         <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                         <NavDropdown.Item href="#action/3.2">
                             Another action

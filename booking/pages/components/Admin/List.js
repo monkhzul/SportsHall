@@ -8,14 +8,34 @@ export default function List(props) {
 
     const [limit, setLimit] = useState(15);
     const [page, setPage] = useState(1);
-    const [data, setData] = useState(props.db.products);
+    const [data, setData] = useState(props.hall);
 
     const handleChangeLimit = dataKey => {
         setPage(1);
         setLimit(dataKey);
     };
 
-    const datas = data.filter((v, i) => {
+    const List = [];
+    for(var i in data) {
+       if (data[i].status === 1) {
+            List.push({
+                id: data[i].id,
+                time: data[i].time,
+                type: data[i].type,
+                date: data[i].date.slice(0,10),
+                userId: data[i].userId,
+                userName: data[i].userName,
+                status: data[i].status,
+            })
+       }
+    }
+
+    const sortedDesc = List.sort(
+        (objA, objB) =>
+            new Date(objB.date) - new Date(objA.date)
+    );
+
+    const datas = sortedDesc.filter((v, i) => {
         const start = limit * (page - 1);
         const end = start + limit;
         return (i >= start && i < end);
@@ -26,29 +46,29 @@ export default function List(props) {
             <title>Захиалгын лист</title>
             <div className='border'>
                 <Table height={750} data={datas}>
-                    <Column width={80} align="center" fixed>
+                    <Column width={100} align="center" fixed>
                         <HeaderCell>Id</HeaderCell>
-                        <Cell dataKey="id" />
+                        <Cell dataKey="" />
                     </Column>
-                    <Column width={250} fixed className='font-semibold'>
+                    <Column width={200} fixed className='font-semibold'>
                         <HeaderCell>Захиалагч</HeaderCell>
-                        <Cell dataKey="title" />
+                        <Cell dataKey="userName" />
                     </Column>
-                    <Column width={150} className='text-center font-semibold'>
+                    <Column width={180} flexGrow={1} className='text-center font-semibold'>
                         <HeaderCell>Заал авсан өдөр</HeaderCell>
-                        <Cell dataKey="price" />
+                        <Cell dataKey="date" />
                     </Column>
                     <Column width={200} className='text-center font-semibold'>
                         <HeaderCell>Заал авсан цаг</HeaderCell>
-                        <Cell dataKey="stock" />
+                        <Cell dataKey="time" />
                     </Column>
-                    <Column width={150} flexGrow={1} className='text-center'>
+                    {/* <Column width={150} flexGrow={1} className='text-center'>
                         <HeaderCell>Заалны төрөл</HeaderCell>
                         <Cell dataKey="category" />
-                    </Column>
+                    </Column> */}
                     <Column width={150} flexGrow={1} className='text-center'>
-                        <HeaderCell>Заалны хэмжээ</HeaderCell>
-                        <Cell dataKey="rating" />
+                        <HeaderCell>Бүтэн/Хагас</HeaderCell>
+                        <Cell dataKey="type" />
                     </Column>
                 </Table>
                 <div style={{ padding: 20 }}>
@@ -62,7 +82,7 @@ export default function List(props) {
                         maxButtons={5}
                         size="md"
                         layout={['total', '-', 'pager', 'skip']}
-                        total={data.length}
+                        total={List.length}
                         limitOptions={[10, 30, 50]}
                         limit={limit}
                         activePage={page}
@@ -75,11 +95,12 @@ export default function List(props) {
     )
 }
 
+
 const prisma = new PrismaClient({ log: ['query', 'info', 'warn'] });
 
 export const getServerSideProps = async (context) => {
 
-    const hall = await prisma.time2.findMany();
+    const hall = await prisma.userReq.findMany();
 
     return {
         props: {

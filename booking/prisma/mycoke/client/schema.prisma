@@ -1,0 +1,457 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./mycoke/client"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("MYCOKE_DB_URL")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model androidid_salerepid {
+  androidid String? @db.VarChar(50)
+  salerepid String? @db.VarChar(50)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model cars {
+  id               Int       @default(autoincrement())
+  car_model        String?   @db.NVarChar(50)
+  car_number       String?   @db.NVarChar(10)
+  date_commisioned DateTime? @db.Date
+  user_id          Int?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model competitor_price {
+  TradeshopID  Int?
+  ProductID    Int?
+  Price        Int?
+  rDate        DateTime? @db.Date
+  erpCode      Int?
+  FactoryPrice Int?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model competitor_price0115 {
+  TradeshopID  Int?
+  ProductID    Int?
+  Price        Int?
+  rDate        DateTime? @db.Date
+  erpCode      Int?
+  FactoryPrice Int?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model competitor_price1220 {
+  TradeshopID Int?
+  ProductID   Int?
+  Price       Int?
+  rDate       DateTime? @db.Date
+  erpCode     Int?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model competitor_products {
+  BrandID     Int?
+  ProductID   Int?
+  Name        String?   @db.NVarChar(250)
+  CreatedDate DateTime? @db.DateTime
+  BrandName   String?   @db.NVarChar(50)
+  Company     String?   @db.NVarChar(50)
+  Sector      String?   @db.NVarChar(50)
+  PackageType String?   @db.NVarChar(50)
+  Comp        Int?
+  Capacity    String?   @db.VarChar(50)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model competitor_products2 {
+  BrandID     Int?
+  ProductID   Int?
+  Name        String?   @db.NVarChar(250)
+  CreatedDate DateTime? @db.DateTime
+  BrandName   String?   @db.NVarChar(50)
+  Company     String?   @db.NVarChar(50)
+  Sector      String?   @db.NVarChar(50)
+  PackageType String?   @db.NVarChar(50)
+  Comp        Int?
+  Capacity    String?   @db.VarChar(50)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model competitor_research_tradeshops {
+  TradeshopID Int?
+  Name        String?   @db.NVarChar(250)
+  CreatedDate DateTime? @db.Date
+  UpdatedDate DateTime? @db.Date
+  ErpCode     String?   @db.VarChar(50)
+  SalerepCode Int?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model domestic_trade {
+  DocumentID  Int?
+  DocumentNo  String?   @db.NVarChar(50)
+  ERPCODE     Int?
+  CreatedDate DateTime? @db.DateTime
+  Paid        Int?
+  Counter     Int?
+  isCanceled  Int?
+  Amount      Int?
+  invoiceid   String?   @db.VarChar(50)
+  UpdateDate  DateTime? @db.DateTime
+  orderType   Int?
+  isConfirmed Int?
+  Description String?   @db.NVarChar(Max)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model employees {
+  ID         Int?
+  erpcode    Int?
+  lastname   String? @db.NVarChar(50)
+  firstname  String? @db.NVarChar(50)
+  department String? @db.NVarChar(50)
+  position   String? @db.NVarChar(250)
+  bornday    String? @db.VarChar(50)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model food_menu {
+  ID          Int?
+  menu_date   DateTime? @db.Date
+  Description String?   @default("N'test'", map: "DF_food_menu_Description") @db.NVarChar(250)
+  food_one    String?   @db.NVarChar(50)
+  food_two    String?   @db.NVarChar(50)
+  salat       String?   @db.NVarChar(50)
+  side_dish   String?   @db.NVarChar(50)
+  tea         String?   @db.NVarChar(50)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model food_menu_users {
+  ID           Int  @default(autoincrement())
+  erp_code     Int?
+  food_menu_id Int?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model hr_info {
+  id          Int       @default(autoincrement())
+  title       String?   @db.NVarChar(250)
+  description String?   @db.NVarChar(250)
+  imagepath   String?   @db.NVarChar(50)
+  createddate DateTime? @db.DateTime
+  typeid      Int?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model lottery {
+  lotteryID   Int?
+  Name        String?   @db.NVarChar(250)
+  erpcode     Int?
+  Counter     Int?
+  Lucky       Int?
+  Taken       Int?
+  erpcode1    Int?
+  lotdate     DateTime? @db.Date
+  updatedDate DateTime? @db.DateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model lottery_user {
+  erpcode Int?
+  lottime DateTime? @db.DateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model new_employee {
+  id          Int       @default(autoincrement())
+  name        String?   @db.NVarChar(60)
+  position    String?   @db.NVarChar(50)
+  school      String?   @db.NVarChar(100)
+  profession  String?   @db.NVarChar(100)
+  hobby       String?   @db.NVarChar(250)
+  comment     String?   @db.NVarChar(250)
+  word        String?   @db.NVarChar(250)
+  phone       String?   @db.NVarChar(10)
+  isActive    Int?
+  createdDate DateTime? @db.Date
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model positions {
+  id          Int     @default(autoincrement())
+  Name        String? @db.NVarChar(250)
+  Description String? @db.NVarChar(50)
+  parent_id   Int?
+  department  String? @db.NVarChar(50)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model qpay_token {
+  refresh_token String?   @db.VarChar(Max)
+  updateddate   DateTime? @db.DateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model quiz_options {
+  question_id Int?
+  option_id   Int?
+  description String? @db.NVarChar(250)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model quiz_questions {
+  id         Int?
+  question   String?   @db.NVarChar(250)
+  answer_id  Int?
+  point      Int?
+  start_date DateTime? @db.DateTime
+  end_date   DateTime? @db.DateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model quiz_rank {
+  erpcode Int?
+  point   Int?
+  rank    Int?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model quiz_rewards {
+  id          Int?
+  erpcode     Int?
+  reward_name String? @db.NVarChar(250)
+  description String? @db.NVarChar(50)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model supply_workwear {
+  id   Int?
+  name String? @db.NVarChar(50)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model Temp_FileNames22 {
+  filename String? @db.VarChar(250)
+
+  @@ignore
+}
+
+model tutorials {
+  id          Int      @id(map: "PK__tutorial__3213E83F65DD0F94") @default(autoincrement())
+  title       String?  @db.NVarChar(255)
+  description String?  @db.NVarChar(255)
+  published   Boolean?
+  createdAt   DateTime @db.DateTimeOffset
+  updatedAt   DateTime @db.DateTimeOffset
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model user_group {
+  id         Int?
+  group_name String? @db.NVarChar(50)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model user_permission {
+  id          Int?
+  group_id    Int?
+  description String? @db.NVarChar(50)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model users {
+  user_id     Int     @default(autoincrement())
+  erp_code    String? @db.VarChar(20)
+  lastname    String? @db.NVarChar(50)
+  firstname   String? @db.NVarChar(50)
+  position_id Int?
+  user_type   Int?
+  group_id    Int?
+  parent_id   Int?
+  password    String? @db.NVarChar(20)
+  phone       String? @db.VarChar(20)
+  htcode      String? @db.NVarChar(20)
+  email       String? @db.VarChar(50)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model users0420 {
+  user_id     Int     @default(autoincrement())
+  erp_code    String? @db.VarChar(20)
+  lastname    String? @db.NVarChar(50)
+  firstname   String? @db.NVarChar(50)
+  position_id Int?
+  user_type   Int?
+  group_id    Int?
+  parent_id   Int?
+  password    String? @db.NVarChar(20)
+  phone       String? @db.VarChar(20)
+  htcode      String? @db.NVarChar(20)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model violation_types {
+  id   Int?
+  name String? @db.NVarChar(50)
+  type Int?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model violations {
+  id                     Int       @default(autoincrement())
+  type_id                Int?
+  description            String?   @db.NVarChar(250)
+  registered_date        DateTime? @db.DateTime
+  user_id                Int?
+  registred_user_id      Int?
+  correction             Int?
+  correction_description String?   @db.NVarChar(250)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model warehouse_prepared_shipment {
+  id          Int       @default(autoincrement())
+  supcode     String?   @db.VarChar(10)
+  lastname    String?   @db.NVarChar(50)
+  firstname   String?   @db.NVarChar(50)
+  phone       String?   @db.VarChar(8)
+  description String?   @db.NVarChar(250)
+  createdDate DateTime? @db.DateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model work_request {
+  ID                Int       @default(autoincrement())
+  User_ID           Int?
+  State             Int?
+  Title             String?   @db.NVarChar(255)
+  Create_Date       DateTime? @db.DateTime
+  Update_Date       DateTime? @db.DateTime
+  Developer_ID      String?   @db.VarChar(50)
+  Parent_Request_ID Int?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model work_request_comment {
+  Request_ID Int?
+  User_ID    Int?
+  Comment    String? @db.NVarChar(Max)
+  User_type  Int?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model work_request_detail {
+  Request_ID Int?
+  Start_date DateTime? @db.DateTime
+  End_Date   DateTime? @db.DateTime
+  Path1      String?   @db.NVarChar(255)
+  Path2      String?   @db.NVarChar(255)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model work_request_his {
+  ID                Int?
+  User_ID           Int?
+  State             Int?
+  Title             String?   @db.NVarChar(255)
+  Create_Date       DateTime? @db.DateTime
+  Update_Date       DateTime? @db.DateTime
+  Developer_ID      Int?
+  Parent_Request_ID Int?
+  Change_UserID     Int?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model work_requestTest {
+  ID                Int?
+  User_ID           Int?
+  State             Int?
+  Title             String?   @db.NVarChar(255)
+  Create_Date       DateTime? @db.DateTime
+  Update_Date       DateTime? @db.DateTime
+  Developer_ID      Int?
+  Parent_Request_ID Int?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model work_state {
+  ID   Int?
+  Name String? @db.NVarChar(255)
+
+  @@ignore
+}

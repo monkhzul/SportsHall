@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Login from './components/Login'
+import { mycokedb } from '../common/mycoke'
 
 export default function Home(props) {
 
@@ -15,7 +16,7 @@ export default function Home(props) {
 
       <main className={styles.main}>
         <div className={styles.grid}>
-          <Login data={props.db.products} />
+          <Login  data = {props.user}/>
         </div>
       </main>
 
@@ -35,15 +36,13 @@ export default function Home(props) {
   )
 }
 
-
 export const getServerSideProps = async (context) => {
 
-  const res = await fetch('https://dummyjson.com/products')
-  const db = await res.json()
+  const user = await mycokedb.$queryRaw`select * from users`;
 
   return {
       props: {
-          db
+          user: user
       }
   }
 }
