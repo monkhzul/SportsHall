@@ -9,7 +9,6 @@ export default function NavbarUser() {
         var user = sessionStorage.getItem("user")
         var username = JSON.parse(user)
     }
-
   
     return (
         <Navbar bg="dark" variant="dark" className='w-full'>

@@ -106,8 +106,8 @@ export default function List(props) {
             }
         }
 
-        toast("Amjilttai batalgaajuullaa.")
-        router.push('/components/Admin/List')
+        toast("Амжилттай баталгаажууллаа !!!")
+        router.reload(router.asPath)
     }
 
     return (

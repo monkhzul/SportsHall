@@ -8,8 +8,19 @@ import "@fullcalendar/common/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
 import {SSRProvider} from '@react-aria/ssr'; 
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+  useEffect(() => {
+    const storage = globalThis?.sessionStorage;
+    if (!storage) return;
+
+    storage.setItem('prevPath', storage.getItem('currentPath'));
+    storage.setItem('currentPath', globalThis.location.pathname);
+
+  },[router.asPath])
   return <SSRProvider> <Component {...pageProps} /> </SSRProvider>
 }
 

@@ -32,7 +32,7 @@ export default function Login(users) {
             if (user[0].erp_code === username && user[0].password === password) {
                 toast("Амжилттай")
                 router.push('/components/User/Booking')
-                sessionStorage.setItem("user", JSON.stringify(user[0]))
+                globalThis?.sessionStorage.setItem('user', JSON.stringify(user[0]))
             }
             else {
                 toast("Оруулахгүйэээ")
