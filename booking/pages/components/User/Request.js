@@ -23,7 +23,7 @@ export default function Booking(props) {
 
     const List = [];
     for(var i in data) {
-       if (data[i].userName === username.firstname && data[i].status == 2) {
+       if (data[i].userName === '' && data[i].status == 2) {
             List.push({
                 id: data[i].id,
                 time: data[i].time,
