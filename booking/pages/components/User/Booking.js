@@ -20,13 +20,13 @@ export default function Booking(props) {
     const [hall, setHall] = useState(props.hall)
     const [userinfo, setUserinfo] = useState([])
     
-    // var user = globalThis?.sessionStorage
-    // var username = JSON.parse(user.user)
+    var username=[];
+    var user = global?.sessionStorage
+    username = JSON.parse(user.user)
 
     useEffect(() => {
-        // console.log(username)
+        console.log(username)
     },[])
-    
 
     const currentDate = moment().set({ hours: 1, minute: 59, seconds: 59 });
     const disabledDate = (date) => {
@@ -426,7 +426,7 @@ export default function Booking(props) {
                                 <p>Захиалагч</p>
                             </div>
                             <div className='w-1/2 mx-2 py-1 font-semibold text-base'>
-                                <p>{''}</p>
+                                <p>{username.firstname}</p>
                             </div>
                         </div>
                         <div className='flex my-2'>
@@ -477,7 +477,7 @@ export default function Booking(props) {
                         </div>
                         <div className='flex my-2'>
                             <h5 className='w-1/3 text-center'>Захиалагч: </h5>
-                            <p className='w-1/2 text-xl flex items-center font-bold'>{''}</p>
+                            <p className='w-1/2 text-xl flex items-center font-bold'>{username.firstname}</p>
                         </div>
                         <div className='flex my-2'>
                             <h5 className='w-1/3 text-center'>Oгноо: </h5>

@@ -107,7 +107,7 @@ export default function List(props) {
         }
 
         toast("Амжилттай баталгаажууллаа !!!")
-        router.reload(router.asPath)
+        router.reload()
     }
 
     return (
@@ -117,16 +117,16 @@ export default function List(props) {
                 position='top-center'
             />
             <div className='border'>
-                <Table height={750} data={datas}>
+                <Table height={480} data={datas}>
                     <Column width={100} align="center" fixed>
                         <HeaderCell>Id</HeaderCell>
                         <Cell dataKey="id" />
                     </Column>
-                    <Column width={200} fixed className='font-semibold'>
+                    <Column width={160} fixed className='font-semibold'>
                         <HeaderCell>Захиалагч</HeaderCell>
                         <Cell dataKey="userName" />
                     </Column>
-                    <Column width={250} className='text-center font-semibold'>
+                    <Column width={200} className='text-center font-semibold'>
                         <HeaderCell>Заал авах өдөр</HeaderCell>
                         <Cell dataKey="date" />
                     </Column>

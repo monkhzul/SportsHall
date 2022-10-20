@@ -5,10 +5,10 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
 export default function NavbarUser() {
-    if (typeof window !== 'undefined') {
-        var user = sessionStorage.getItem("user")
-        var username = JSON.parse(user)
-    }
+    // if (typeof window !== 'undefined') {
+    //     var user = sessionStorage.getItem("user")
+    //     var username = JSON.parse(user)
+    // }
   
     return (
         <Navbar bg="dark" variant="dark" className='w-full'>

@@ -7,12 +7,12 @@ export default function Login(users) {
 
     const router = useRouter();
     const [data, setData] = useState(users.data);
+    const user = [];
 
     async function Login() {
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
 
-        const user = [];
 
         for(var i in data) {
             if (data[i].erp_code === username && data[i].password === password) {
@@ -30,7 +30,7 @@ export default function Login(users) {
         }
         else {
             if (user[0].erp_code === username && user[0].password === password) {
-                toast("Амжилттай")
+                toast("Амжилттай нэвтэрлээ.")
                 router.push('/components/User/Booking')
                 globalThis?.sessionStorage.setItem('user', JSON.stringify(user[0]))
             }
