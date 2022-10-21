@@ -3,12 +3,12 @@ import { DatePicker } from 'rsuite'
 import moment from 'moment';
 import addDays from "date-fns/addDays";
 import Table from 'react-bootstrap/Table';
-import Select from 'react-select';
+import Select, { components } from 'react-select';
 import Modal from 'react-bootstrap/Modal';
 import { ToastContainer, toast } from "react-toastify";
 import book from '../../../styles/Booking.module.css'
 import Layout from './Layout/Layout';
-import { useRouter } from 'next/router'
+import { Router, useRouter } from 'next/router'
 import Head from 'next/head';
 import { PrismaClient } from '@prisma/client';
 import axios from 'axios'
@@ -20,12 +20,11 @@ export default function Booking(props) {
     const [hall, setHall] = useState(props.hall)
     const [userinfo, setUserinfo] = useState([])
     
-    var username=[];
-    var user = global?.sessionStorage
-    username = JSON.parse(user.user)
+    const storage = globalThis?.sessionStorage;
+    const user = JSON.parse(storage.getItem('user'));
 
     useEffect(() => {
-        console.log(username)
+        console.log(user.firstname)
     },[])
 
     const currentDate = moment().set({ hours: 1, minute: 59, seconds: 59 });
@@ -82,7 +81,7 @@ export default function Booking(props) {
                 time: hall[i].time,
                 userid: hall[i].userId
             })
-        }
+        } 
     }
 
     const halltimetest = []
@@ -213,7 +212,7 @@ export default function Booking(props) {
                                     setModalShow(true)
                                 }
                                 else {
-                                    toast("Захиалах боломжгүй цаг байна !!!")
+                                    toast("Захиалах боломжгүй цаг байнаааа !!!")
                                 }
                             }
                         }
@@ -239,7 +238,7 @@ export default function Booking(props) {
                     type: 'Бүтэн',
                     date: moment(startdate).format("YYYY-MM-DD"),
                     userid: 100,
-                    username: '',
+                    username: user.firstname,
                     status: 2
                 })
             }
@@ -258,15 +257,18 @@ export default function Booking(props) {
                     type: 'Хагас',
                     date: moment(startdate).format("YYYY-MM-DD"),
                     userid: 100,
-                    username: '',
+                    username: user.firstname,
                     status: 2
                 })
             }
         }
 
-        toast("Хүсэлт амжилттай илгээгдлээ. Админ хүсэлтийг зөвшөөрсний дараа таны хүсэлт баталгаажихыг анхаарна уу!!!")
+        toast("Хүсэлт амжилттай илгээгдлээ. Админ хүсэлтийг зөвшөөрсний дараа таны хүсэлт баталгаажина шүүү!!!")
         setModalShow(false)
-        router.push('/components/User/Request')
+
+        setTimeout(() => {
+            router.push('/components/User/Request')
+        }, 2000);
     }
 
     return (
@@ -426,7 +428,7 @@ export default function Booking(props) {
                                 <p>Захиалагч</p>
                             </div>
                             <div className='w-1/2 mx-2 py-1 font-semibold text-base'>
-                                <p>{username.firstname}</p>
+                                <p>{user.firstname}</p>
                             </div>
                         </div>
                         <div className='flex my-2'>
@@ -477,14 +479,14 @@ export default function Booking(props) {
                         </div>
                         <div className='flex my-2'>
                             <h5 className='w-1/3 text-center'>Захиалагч: </h5>
-                            <p className='w-1/2 text-xl flex items-center font-bold'>{username.firstname}</p>
+                            <p className='w-1/2 text-xl flex items-center font-bold'>{user.firstname}</p>
                         </div>
                         <div className='flex my-2'>
                             <h5 className='w-1/3 text-center'>Oгноо: </h5>
                             <p className='w-1/2 text-xl flex items-center font-bold'>{startdate.toLocaleString().slice(0, 10)}</p>
                         </div>
                     </div>
-                    <div className='bg-gray-800 text-gray-100 p-2 w-1/3 rounded-md text-center mx-auto my-3'
+                    <div className='bg-gray-800 text-gray-100 p-2 w-1/3 rounded-md text-center mx-auto my-3 cursor-pointer'
                         onClick={Request}>
                         Үргэлжлүүлэх
                     </div>

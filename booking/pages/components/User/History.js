@@ -2,14 +2,13 @@ import React, { useState } from 'react'
 import Layout from './Layout/Layout';
 import { Table, Pagination } from 'rsuite';
 import { PrismaClient } from '@prisma/client';
+import { useRouter } from 'next/router';
 
 export default function Booking(props) {
     const { Column, HeaderCell, Cell } = Table;
 
-    if (typeof window !== 'undefined') {
-        var user = window.sessionStorage.getItem("user")
-        var username = JSON.parse(user)
-    }
+    const storage = globalThis?.sessionStorage;
+    const user = JSON.parse(storage.getItem('user'));
 
     const [limit, setLimit] = useState(15);
     const [page, setPage] = useState(1);
@@ -22,7 +21,7 @@ export default function Booking(props) {
 
     const List = [];
     for(var i in data) {
-       if (data[i].userName === username.firstname && data[i].status == 1) {
+       if (data[i].userName === user.firstname && data[i].status == 1) {
             List.push({
                 id: data[i].id,
                 time: data[i].time,
@@ -48,7 +47,7 @@ export default function Booking(props) {
     return (
         <Layout>
             <div className='border'>
-                <Table height={750} data={datas}>
+                <Table height={500} data={datas}>
                     <Column width={80} align="center" fixed>
                         <HeaderCell>Id</HeaderCell>
                         <Cell dataKey="id" />
@@ -57,11 +56,11 @@ export default function Booking(props) {
                         <HeaderCell>Захиалагч</HeaderCell>
                         <Cell dataKey="userName" />
                     </Column>
-                    <Column width={150} className='text-center font-semibold'>
+                    <Column width={200} className='text-center font-semibold'>
                         <HeaderCell>Заал авсан өдөр</HeaderCell>
                         <Cell dataKey="date" />
                     </Column>
-                    <Column width={200} className='text-center font-semibold'>
+                    <Column width={200} flexGrow={1} className='text-center font-semibold'>
                         <HeaderCell>Заал авсан цаг</HeaderCell>
                         <Cell dataKey="time" />
                     </Column>
@@ -69,7 +68,7 @@ export default function Booking(props) {
                         <HeaderCell>Заалны төрөл</HeaderCell>
                         <Cell dataKey="category" />
                     </Column> */}
-                    <Column width={150} flexGrow={1} className='text-center'>
+                    <Column width={200} flexGrow={1} className='text-center'>
                         <HeaderCell>Бүтэн/Хагас</HeaderCell>
                         <Cell dataKey="type" />
                     </Column>

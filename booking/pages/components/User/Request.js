@@ -3,15 +3,16 @@ import { Table, Pagination } from 'rsuite';
 import Layout from './Layout/Layout';
 import CloseIcon from '@rsuite/icons/Close';
 import { PrismaClient } from '@prisma/client';
+import { useRouter } from 'next/router';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
 
 export default function Booking(props) {
     const { Column, HeaderCell, Cell } = Table;
 
-    if (typeof window !== 'undefined') {
-        var user = window.sessionStorage.getItem("user")
-        var username = JSON.parse(user)
-    }
-
+    const storage = globalThis?.sessionStorage;
+    const user = JSON.parse(storage.getItem('user'));
+    
     const [limit, setLimit] = useState(15);
     const [page, setPage] = useState(1);
     const [data, setData] = useState(props.hall);
@@ -23,7 +24,7 @@ export default function Booking(props) {
 
     const List = [];
     for(var i in data) {
-       if (data[i].userName === '' && data[i].status == 2) {
+       if (data[i].userName === user.firstname && data[i].status == 2) {
             List.push({
                 id: data[i].id,
                 time: data[i].time,
@@ -46,9 +47,35 @@ export default function Booking(props) {
         const end = start + limit;
         return (i >= start && i < end);
     });
+
+    function deleteRequest(id, times, date) {
+        axios.post('/api/updateBefore', {
+            time: times,
+            date: date
+        })
+        .then((res) => {
+            axios.post('/api/delete/deleteHall', {
+                id: res.data[0].id
+            })
+        })
+
+        for (let i = 0; i < List.length; i++) {
+            if (List[i].id == id) {
+                axios.post('/api/delete/deleteUser', {
+                    id: id
+                })
+            }
+        }
+
+        toast("Хүсэлт цуцлагдлаа !!!")
+    }
+
     return (
         <Layout>
             <div className='border'>
+                <ToastContainer 
+                    position='top-center'
+                />
                 <Table height={750} data={datas}>
                     <Column width={80} align="center" fixed>
                         <HeaderCell>Id</HeaderCell>
@@ -80,7 +107,7 @@ export default function Booking(props) {
                             {rowData => (
                                 <span>
                                     <CloseIcon className='cursor-pointer text-2xl bg-red-900 text-gray-50 rounded-sm hover:text-white hover:bg-red-500'
-                                        onClick={() => alert(`id:${rowData.id}`)}></CloseIcon>
+                                        onClick={() => deleteRequest(rowData.id, rowData.time, rowData.date, rowData.type)}></CloseIcon>
                                 </span>
                             )}
                         </Cell>

@@ -212,7 +212,20 @@ a.fc-col-header-cell-cushion {
 .order {
   height: 100%;
 }
-
+.Toastify__toast-body > div:last-child {
+  font-size: 15px;
+  font-weight: bolder;
+}
+.Toastify__toast {
+  box-shadow: 0 1px 10px 0 rgb(0 0 0), 0 2px 15px 0 rgb(0 0 0) !important;
+}
+.Toastify__toast-container--top-center {
+  top: 7em !important;
+}
+.Toastify__toast-theme--light {
+  height: 120px !important;
+  background-color: rgb(241 245 249) !important;
+}
 @media only screen and (max-width: 639px) {
   .rs-sidenav-collapse-in {
     width: 100% !important;

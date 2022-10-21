@@ -107,7 +107,33 @@ export default function List(props) {
         }
 
         toast("Амжилттай баталгаажууллаа !!!")
-        router.reload()
+
+        setTimeout(() => {
+            router.push('/components/Admin/List')
+        }, 2500);
+    }
+
+
+    function deleteRequest(id, times, date) {
+        axios.post('/api/updateBefore', {
+            time: times,
+            date: date
+        })
+        .then((res) => {
+            axios.post('/api/delete/deleteHall', {
+                id: res.data[0].id
+            })
+        })
+
+        for (let i = 0; i < waitingRequest.length; i++) {
+            if (waitingRequest[i].id == id) {
+                axios.post('/api/delete/deleteUser', {
+                    id: id
+                })
+            }
+        }
+
+        toast("Хүсэлт цуцлагдлаа !!!")
     }
 
     return (
@@ -164,7 +190,7 @@ export default function List(props) {
                             {rowData => (
                                 <span>
                                     <CloseIcon className='cursor-pointer text-2xl bg-red-900 text-gray-50 rounded-sm hover:text-white hover:bg-red-500'
-                                        onClick={() => alert(`id:${rowData.id}`)}></CloseIcon>
+                                        onClick={() => deleteRequest(rowData.id, rowData.time, rowData.date, rowData.type)}></CloseIcon>
                                 </span>
                             )}
                         </Cell>
