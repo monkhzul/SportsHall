@@ -110,7 +110,7 @@ export default function List(props) {
 
         setTimeout(() => {
             router.push('/components/Admin/List')
-        }, 2500);
+        }, 2200);
     }
 
 
@@ -129,9 +129,15 @@ export default function List(props) {
                 })
             } else 
             if (type === 'Хагас') {
-                axios.post('/api/update/deleteUpdate', {
-                    id: data[0].id
-                })
+                if (data[0].leftStatus != 0 && data[0].rightStatus != 0) {
+                    axios.post('/api/update/deleteUpdate', {
+                        id: data[0].id
+                    })
+                } else {
+                    axios.post('/api/delete/deleteHall', {
+                        id: data[0].id
+                    })
+                }
             }
         })
 
@@ -144,6 +150,10 @@ export default function List(props) {
         }
 
         toast("Хүсэлт цуцлагдлаа !!!")
+
+        setTimeout(() => {
+            router.reload()
+        }, 1500);
     }
 
     return (
@@ -153,10 +163,10 @@ export default function List(props) {
                 position='top-center'
             />
             <div className='border'>
-                <Table height={480} data={datas}>
+                <Table height={480} data={datas} locale={{emptyMessage: "Хүсэлт байхгүй байна"}}>
                     <Column width={100} align="center" fixed>
                         <HeaderCell>Id</HeaderCell>
-                        <Cell dataKey="id" />
+                        <Cell dataKey="userid" />
                     </Column>
                     <Column width={160} fixed className='font-semibold'>
                         <HeaderCell>Захиалагч</HeaderCell>

@@ -45,10 +45,10 @@ export default function List(props) {
         <Layout>
             <title>Захиалгын лист</title>
             <div className='border'>
-                <Table height={750} data={datas}>
+                <Table height={600} data={datas}>
                     <Column width={100} align="center" fixed>
                         <HeaderCell>Id</HeaderCell>
-                        <Cell dataKey="" />
+                        <Cell dataKey="userId" />
                     </Column>
                     <Column width={200} fixed className='font-semibold'>
                         <HeaderCell>Захиалагч</HeaderCell>

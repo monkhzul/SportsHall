@@ -1,13 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image'
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { useRouter } from 'next/router';
 
 export default function NavbarUser() {
-    const storage = globalThis?.sessionStorage;
-    const user = JSON.parse(storage.getItem('user'));
+   
+    const [username, setUsername] = useState('');
+
+    useEffect(() => {
+        setUsername(sessionStorage.getItem('user'))
+    }, [])
 
     return (
         <Navbar bg="dark" variant="dark" className='w-full'>
@@ -21,7 +24,7 @@ export default function NavbarUser() {
                     />
                 </Navbar.Brand>
                 <Navbar.Collapse className='flex justify-end mx-16 text-xl'>
-                    <NavDropdown title={`${user.firstname}`} id="collasible-nav-dropdown">
+                    <NavDropdown title={username} id="collasible-nav-dropdown">
                         {/* <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                         <NavDropdown.Item href="#action/3.2">
                             Another action

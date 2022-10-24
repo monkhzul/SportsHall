@@ -6,13 +6,18 @@ import { PrismaClient } from '@prisma/client';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
+import moment from 'moment';
 
 export default function Booking(props) {
     const { Column, HeaderCell, Cell } = Table;
 
-    const storage = globalThis?.sessionStorage;
-    const user = JSON.parse(storage.getItem('user'));
+    const [username, setUsername] = useState('');
+
+    useEffect(() => {
+        setUsername(sessionStorage.getItem('user'))
+    }, [])
     
+    const router = useRouter();
     const [limit, setLimit] = useState(15);
     const [page, setPage] = useState(1);
     const [data, setData] = useState(props.hall);
@@ -24,7 +29,7 @@ export default function Booking(props) {
 
     const List = [];
     for(var i in data) {
-       if (data[i].userName === user.firstname && data[i].status == 2) {
+       if (data[i].userName === username && data[i].status == 2) {
             List.push({
                 id: data[i].id,
                 time: data[i].time,
@@ -48,15 +53,32 @@ export default function Booking(props) {
         return (i >= start && i < end);
     });
 
-    function deleteRequest(id, times, date) {
-        axios.post('/api/updateBefore', {
+    async function deleteRequest(id, times, date, type) {
+
+        await axios.post('/api/updateBefore', {
             time: times,
             date: date
         })
         .then((res) => {
-            axios.post('/api/delete/deleteHall', {
-                id: res.data[0].id
-            })
+            const data = res.data;
+
+            if (type === 'Бүтэн') {      
+                axios.post('/api/delete/deleteHall', {
+                    id: data[0].id
+                })
+            } 
+
+            if (type === 'Хагас') {
+                    if (data[0].leftStatus != 0 && data[0].rightStatus != 0) {
+                        axios.post('/api/update/deleteUpdate', {
+                            id: data[0].id
+                        })
+                    } else {
+                        axios.post('/api/delete/deleteHall', {
+                            id: data[0].id
+                        })
+                    }
+            }
         })
 
         for (let i = 0; i < List.length; i++) {
@@ -68,6 +90,9 @@ export default function Booking(props) {
         }
 
         toast("Хүсэлт цуцлагдлаа !!!")
+        setTimeout(() => {
+            router.reload()
+        }, 1500);
     }
 
     return (
@@ -76,7 +101,7 @@ export default function Booking(props) {
                 <ToastContainer 
                     position='top-center'
                 />
-                <Table height={750} data={datas}>
+                <Table height={750} data={datas} locale={{emptyMessage: "Хүсэлт байхгүй байна"}}>
                     <Column width={80} align="center" fixed>
                         <HeaderCell>Id</HeaderCell>
                         <Cell dataKey="id" />

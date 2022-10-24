@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Layout from './Layout/Layout';
 import { Table, Pagination } from 'rsuite';
 import { PrismaClient } from '@prisma/client';
@@ -7,8 +7,11 @@ import { useRouter } from 'next/router';
 export default function Booking(props) {
     const { Column, HeaderCell, Cell } = Table;
 
-    const storage = globalThis?.sessionStorage;
-    const user = JSON.parse(storage.getItem('user'));
+    const [username, setUsername] = useState('');
+
+    useEffect(() => {
+        setUsername(sessionStorage.getItem('user'))
+    }, [])
 
     const [limit, setLimit] = useState(15);
     const [page, setPage] = useState(1);
@@ -21,7 +24,7 @@ export default function Booking(props) {
 
     const List = [];
     for(var i in data) {
-       if (data[i].userName === user.firstname && data[i].status == 1) {
+       if (data[i].userName === username && data[i].status == 1) {
             List.push({
                 id: data[i].id,
                 time: data[i].time,
@@ -47,7 +50,7 @@ export default function Booking(props) {
     return (
         <Layout>
             <div className='border'>
-                <Table height={500} data={datas}>
+                <Table height={500} data={datas} locale={{emptyMessage: "Захиалга байхгүй байна."}}>
                     <Column width={80} align="center" fixed>
                         <HeaderCell>Id</HeaderCell>
                         <Cell dataKey="id" />

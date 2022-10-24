@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Login from './components/Login'
 import { mycokedb } from '../common/mycoke'
@@ -16,7 +15,7 @@ export default function Home(props) {
 
       <main className={styles.main}>
         <div className={styles.grid}>
-          <Login  data = {props.user}/>
+            <Login  data = {props.user}/>
         </div>
       </main>
 

@@ -8,24 +8,29 @@ import Modal from 'react-bootstrap/Modal';
 import { ToastContainer, toast } from "react-toastify";
 import book from '../../../styles/Booking.module.css'
 import Layout from './Layout/Layout';
-import { Router, useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import Head from 'next/head';
 import { PrismaClient } from '@prisma/client';
 import axios from 'axios'
 
+
 export default function Booking(props) {
     const router = useRouter();
     const [modalShow, setModalShow] = useState(false);
-    const [timeName, setTimeName] = useState(props.time)
-    const [hall, setHall] = useState(props.hall)
-    const [userinfo, setUserinfo] = useState([])
-    
-    const storage = globalThis?.sessionStorage;
-    const user = JSON.parse(storage.getItem('user'));
+    const [timeName, setTimeName] = useState(props.time);
+    const [hall, setHall] = useState(props.hall);
+    const [username, setUsername] = useState('');
+    const [erp, setErp] = useState('');
 
     useEffect(() => {
-        console.log(user.firstname)
-    },[])
+        setUsername(sessionStorage.getItem('user'))
+        setErp(sessionStorage.getItem('userId'))
+    }, [])
+
+    // if (typeof window !== 'undefined') {
+    //     var username = window.sessionStorage.getItem('user')
+    // }
+
 
     const currentDate = moment().set({ hours: 1, minute: 59, seconds: 59 });
     const disabledDate = (date) => {
@@ -139,77 +144,81 @@ export default function Booking(props) {
     // const [count, setCount] = useState(0);
 
     function SentRequest() {
-        if (startTime == '' || endTime == '' || hallsize == '') {
-            toast('Шаардлагатай талбаруудыг бөглөнө үү!')
-        }
-        else {
-            fetch('/api/check', {
-                method: "POST",
-                headers: {
-                    'Content-Type': "application/json"
-                },
-                body: JSON.stringify({
-                    date: moment(startdate).format('YYYY-MM-DD'),
-                    time: startTime,
-                    endtime: endTime
+        if (moment(today).format("YYYY-MM-DD") <= moment(startdate).format("YYYY-MM-DD")) {
+            if (startTime == '' || endTime == '' || hallsize == '') {
+                toast('Шаардлагатай талбаруудыг бөглөнө үү!')
+            }
+            else {
+                fetch('/api/check', {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': "application/json"
+                    },
+                    body: JSON.stringify({
+                        date: moment(startdate).format('YYYY-MM-DD'),
+                        time: startTime,
+                        endtime: endTime
+                    })
                 })
-            })
-                .then((res) => {
-                    const data = res.json()
-                    data.then((data) => {
-                        setcheckData(data)
-
-                        if (endTime > startTime + 3 || endTime < startTime || endTime == startTime) {
-                            toast("Дуусах цагаа зөв сонгоно уу!")
-                        }
-                        else {
-
-                            if (data.length == 0) {
-                                setModalShow(true)
+                    .then((res) => {
+                        const data = res.json()
+                        data.then((data) => {
+                            setcheckData(data)
+    
+                            if (endTime > startTime + 3 || endTime < startTime || endTime == startTime) {
+                                toast("Дуусах цагаа зөв сонгоно уу!")
                             }
                             else {
-                                let count = 0;
-                                for (let i = 0; i < data.length; i++) {
-                                    if (hallsize === 'Бүтэн') {
-                                        if (data[i].leftStatus == 1 && data[i].rightStatus == 1 || 
-                                            data[i].leftStatus == 2 && data[i].rightStatus == 2 ||
-                                            data[i].leftStatus == 1 && data[i].rightStatus == 0 ||
-                                            data[i].leftStatus == 2 && data[i].rightStatus == 0) {
-                                                count++
-                                            // toast(`Zahialah bolomjgui. ${data[i].time} tsag zahialagdsan bn`)
-                                        }
-                                    } else
-                                        if (hallsize === 'Хагас') {
-                                
-                                            if (data[i].leftStatus == 1 && data[i].rightStatus == 1 ||
-                                                data[i].leftStatus == 2 && data[i].rightStatus == 2) {
-                                                // toast(`Zahialah bolomjgui. ${data[i].time} tsag zahialagdsan bn`)
-                                                count++
-                                            }
-
-                                            // else if (data[i].leftStatus == 1 && data[i].rightStatus == 0) {
-                                            //     // setModalShow(true)
-                                            // }
-                                            // else if (data[i].leftStatus == 2 && data[i].rightStatus == 2) {
-                                            //     // toast(`Zahialah bolomjgui. ${data[i].time} tsag huleegdej bn`)
-                                            // }
-                                            // else if (data[i].leftStatus == 2 && data[i].rightStatus == 0) {
-                                            //     // setModalShow(true)
-                                            // }
-                                            
-                                        }
-                                }
-                                if (count == 0 ) {
+    
+                                if (data.length == 0) {
                                     setModalShow(true)
                                 }
                                 else {
-                                    toast("Захиалах боломжгүй цаг байнаааа !!!")
+                                    let count = 0;
+                                    for (let i = 0; i < data.length; i++) {
+                                        if (hallsize === 'Бүтэн') {
+                                            if (data[i].leftStatus == 1 && data[i].rightStatus == 1 || 
+                                                data[i].leftStatus == 2 && data[i].rightStatus == 2 ||
+                                                data[i].leftStatus == 1 && data[i].rightStatus == 0 ||
+                                                data[i].leftStatus == 2 && data[i].rightStatus == 0) {
+                                                    count++
+                                                // toast(`Zahialah bolomjgui. ${data[i].time} tsag zahialagdsan bn`)
+                                            }
+                                        } else
+                                            if (hallsize === 'Хагас') {
+                                    
+                                                if (data[i].leftStatus == 1 && data[i].rightStatus == 1 ||
+                                                    data[i].leftStatus == 2 && data[i].rightStatus == 2) {
+                                                    // toast(`Zahialah bolomjgui. ${data[i].time} tsag zahialagdsan bn`)
+                                                    count++
+                                                }
+    
+                                                // else if (data[i].leftStatus == 1 && data[i].rightStatus == 0) {
+                                                //     // setModalShow(true)
+                                                // }
+                                                // else if (data[i].leftStatus == 2 && data[i].rightStatus == 2) {
+                                                //     // toast(`Zahialah bolomjgui. ${data[i].time} tsag huleegdej bn`)
+                                                // }
+                                                // else if (data[i].leftStatus == 2 && data[i].rightStatus == 0) {
+                                                //     // setModalShow(true)
+                                                // }
+                                                
+                                            }
+                                    }
+                                    if (count == 0 ) {
+                                        setModalShow(true)
+                                    }
+                                    else {
+                                        toast("Захиалах боломжгүй цаг байнаааа !!!")
+                                    }
                                 }
                             }
-                        }
+                        })
                     })
-                })
-
+    
+            }
+        } else {
+            toast(`${moment(startdate).format("YYYY-MM-DD")} өдөр өнгөрцөн байна шүү дээээ`)
         }
     }
 
@@ -228,13 +237,12 @@ export default function Booking(props) {
                     time: i,
                     type: 'Бүтэн',
                     date: moment(startdate).format("YYYY-MM-DD"),
-                    userid: 100,
-                    username: user.firstname,
+                    userid: erp,
+                    username: username,
                     status: 2
                 })
             }
-        } else 
-        if (hallsize === 'Хагас') {
+        } else if (hallsize === 'Хагас') {
 
             await axios.post('/api/select/selectInsert', {
                 time: startTime,
@@ -247,7 +255,7 @@ export default function Booking(props) {
                 var time = []
 
                 for(var i in data) {
-                    if (data[i].date.slice(0,10) == moment(startdate).format("YYYY-MM-DD")) {
+                    if (data[i].date.slice(0,10) === moment(startdate).format("YYYY-MM-DD")) {
                         time.push(data[i].time)
                     }
                 }
@@ -255,9 +263,20 @@ export default function Booking(props) {
                 for (let i = startTime; i < endTime; i++) {
 
                     if (time.includes(i)) {
-                        axios.post('/api/update/inserUpdate', {
-                            id: data[0].id
+                        axios.post('/api/updateBefore', {
+                            time: i,
+                            date: moment(startdate).format('YYYY-MM-DD')
                         })
+                        .then((res) => {
+                            const data1 = res.data;
+
+                            if (data1[0].leftStatus != 0) {
+                                axios.post('/api/update/inserUpdate', {
+                                    id: data1[0].id
+                                })
+                            }
+                        })
+                       
                     } else {
                         axios.post('/api/insert/insert', {
                             time: i,
@@ -271,8 +290,8 @@ export default function Booking(props) {
                         time: i,
                         type: 'Хагас',
                         date: moment(startdate).format("YYYY-MM-DD"),
-                        userid: 100,
-                        username: user.firstname,
+                        userid: erp,
+                        username: username,
                         status: 2
                     })
                 }
@@ -284,7 +303,7 @@ export default function Booking(props) {
 
         setTimeout(() => {
             router.push('/components/User/Request')
-        }, 2000);
+        }, 2200);
     }
 
     return (
@@ -367,8 +386,6 @@ export default function Booking(props) {
                                     </td>
                                 </tr>
                             )}
-
-
                         </tbody>
                     </Table>
                     <div className='w-full flex justify-between text-xs'>
@@ -444,7 +461,7 @@ export default function Booking(props) {
                                 <p>Захиалагч</p>
                             </div>
                             <div className='w-1/2 mx-2 py-1 font-semibold text-base'>
-                                <p>{user.firstname}</p>
+                                <p>{username}</p>
                             </div>
                         </div>
                         <div className='flex my-2'>
@@ -495,7 +512,7 @@ export default function Booking(props) {
                         </div>
                         <div className='flex my-2'>
                             <h5 className='w-1/3 text-center'>Захиалагч: </h5>
-                            <p className='w-1/2 text-xl flex items-center font-bold'>{user.firstname}</p>
+                            <p className='w-1/2 text-xl flex items-center font-bold'>{username}</p>
                         </div>
                         <div className='flex my-2'>
                             <h5 className='w-1/3 text-center'>Oгноо: </h5>
@@ -508,7 +525,7 @@ export default function Booking(props) {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button onClick={() => setModalShow(false)} className='bg-gray-800 text-gray-100 p-2 rounded-md'>Close</button>
+                    <button onClick={() => setModalShow(false)} className='bg-gray-800 text-gray-100 p-2 rounded-md'>Буцах</button>
                 </Modal.Footer>
             </Modal>
         </Layout>

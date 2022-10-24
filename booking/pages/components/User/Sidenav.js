@@ -11,13 +11,6 @@ export default function SideNav() {
     const [activeKey, setActiveKey] = useState('1');
     const [expanded, setExpanded] = useState(true);
 
-    const router = useRouter();
-    const user = router.query;
-
-    useEffect(() => {
-        console.log(user)
-    },[])
-
     useEffect(() => {
         if (window.location.pathname === '/components/User/Booking') {
             setActiveKey('2')

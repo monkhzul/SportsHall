@@ -24,7 +24,7 @@ export default function Calendar(props) {
        : hall[i].leftStatus == 1 && hall[i].rightStatus == 0 
        ? '1 тал захиалсан'
        : hall[i].leftStatus == 2 && hall[i].rightStatus == 0 
-       ? '1 тал хүлээгдэж буй' : '',
+       ? '1 тал хүлээгдэж байна' : '',
        start: `${hall[i].date.slice(0,10)}T${hall[i].time < 10 ? `0${hall[i].time}` : hall[i].time}:00:00`,
        end: `${hall[i].date.slice(0,10)}T${hall[i].time < 10 ? `0${hall[i].time}` : hall[i].time}:00:00`
     })
