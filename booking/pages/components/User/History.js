@@ -55,7 +55,7 @@ export default function Booking(props) {
                         <HeaderCell>Id</HeaderCell>
                         <Cell dataKey="id" />
                     </Column>
-                    <Column width={250} fixed className='font-semibold'>
+                    <Column width={150} fixed className='font-semibold'>
                         <HeaderCell>Захиалагч</HeaderCell>
                         <Cell dataKey="userName" />
                     </Column>

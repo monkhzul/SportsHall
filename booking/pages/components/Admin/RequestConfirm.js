@@ -163,20 +163,20 @@ export default function List(props) {
                 position='top-center'
             />
             <div className='border'>
-                <Table height={480} data={datas} locale={{emptyMessage: "Хүсэлт байхгүй байна"}}>
-                    <Column width={100} align="center" fixed>
+                <Table height={700} data={datas} locale={{emptyMessage: "Хүсэлт байхгүй байна"}}>
+                    <Column width={120} align="center" fixed>
                         <HeaderCell>Id</HeaderCell>
-                        <Cell dataKey="userid" />
+                        <Cell dataKey="userId" />
                     </Column>
-                    <Column width={160} fixed className='font-semibold'>
+                    <Column width={150} fixed className='font-semibold'>
                         <HeaderCell>Захиалагч</HeaderCell>
                         <Cell dataKey="userName" />
                     </Column>
-                    <Column width={200} className='text-center font-semibold'>
+                    <Column width={150} className='text-center font-semibold'>
                         <HeaderCell>Заал авах өдөр</HeaderCell>
                         <Cell dataKey="date" />
                     </Column>
-                    <Column width={200} className='text-center font-semibold'>
+                    <Column width={200} flexGrow={1} className='text-center font-semibold'>
                         <HeaderCell>Заал авах цаг</HeaderCell>
                         <Cell dataKey="time" />
                     </Column>

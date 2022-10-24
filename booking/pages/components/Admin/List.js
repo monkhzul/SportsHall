@@ -45,20 +45,20 @@ export default function List(props) {
         <Layout>
             <title>Захиалгын лист</title>
             <div className='border'>
-                <Table height={600} data={datas}>
-                    <Column width={100} align="center" fixed>
-                        <HeaderCell>Id</HeaderCell>
+                <Table height={750} data={datas}>
+                    <Column width={120} align="center" fixed >
+                        <HeaderCell>ID</HeaderCell>
                         <Cell dataKey="userId" />
                     </Column>
-                    <Column width={200} fixed className='font-semibold'>
+                    <Column width={150} fixed className='font-semibold'>
                         <HeaderCell>Захиалагч</HeaderCell>
                         <Cell dataKey="userName" />
                     </Column>
-                    <Column width={180} flexGrow={1} className='text-center font-semibold'>
+                    <Column width={150} className='text-center font-semibold'>
                         <HeaderCell>Заал авсан өдөр</HeaderCell>
                         <Cell dataKey="date" />
                     </Column>
-                    <Column width={200} className='text-center font-semibold'>
+                    <Column width={120} flexGrow={1} className='text-center font-semibold'>
                         <HeaderCell>Заал авсан цаг</HeaderCell>
                         <Cell dataKey="time" />
                     </Column>

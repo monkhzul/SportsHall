@@ -226,8 +226,21 @@ a.fc-col-header-cell-cushion {
   height: 120px !important;
   background-color: rgb(241 245 249) !important;
 }
+.rs-table.rs-table-hover {
+  width: 80% !important;
+  margin: auto;
+}
+.fc {
+  height: 870px !important;
+}
 @media only screen and (max-width: 639px) {
   .rs-sidenav-collapse-in {
     width: 100% !important;
   }
 }
+@media only screen and (max-width: 1596px) {
+  .rs-table.rs-table-hover {
+    width: 100% !important;
+  }
+}
+
