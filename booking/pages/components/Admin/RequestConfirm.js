@@ -114,15 +114,25 @@ export default function List(props) {
     }
 
 
-    function deleteRequest(id, times, date) {
+    function deleteRequest(id, times, date, type) {
+
         axios.post('/api/updateBefore', {
             time: times,
             date: date
         })
         .then((res) => {
-            axios.post('/api/delete/deleteHall', {
-                id: res.data[0].id
-            })
+            const data = res.data;
+
+            if (type === 'Бүтэн') {      
+                axios.post('/api/delete/deleteHall', {
+                    id: data[0].id
+                })
+            } else 
+            if (type === 'Хагас') {
+                axios.post('/api/update/deleteUpdate', {
+                    id: data[0].id
+                })
+            }
         })
 
         for (let i = 0; i < waitingRequest.length; i++) {

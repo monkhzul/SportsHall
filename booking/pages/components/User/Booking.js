@@ -178,15 +178,6 @@ export default function Booking(props) {
                                                 count++
                                             // toast(`Zahialah bolomjgui. ${data[i].time} tsag zahialagdsan bn`)
                                         }
-                                        // else if (data[i].leftStatus == 1 && data[i].rightStatus == 0) {
-                                        //     // toast(`Butneer zahialah bolomjgui. ${data[i].time} tsag talaar zahialagdsan bn`)
-                                        // }
-                                        // else if (data[i].leftStatus == 2 && data[i].rightStatus == 2) {
-                                        //     // toast(`Zahialah bolomjgui. ${data[i].time} tsag huleegdej bn`)
-                                        // }
-                                        // else if (data[i].leftStatus == 2 && data[i].rightStatus == 0) {
-                                        //     // toast(`Butneer zahialah bolomjgui. ${data[i].time} tsag talaar zahialagdsan bn`)
-                                        // }
                                     } else
                                         if (hallsize === 'Хагас') {
                                 
@@ -222,7 +213,7 @@ export default function Booking(props) {
         }
     }
 
-    function Request() {
+    async function Request() {
 
         if (hallsize === 'Бүтэн') {
             for (let i = startTime; i < endTime; i++) {
@@ -244,23 +235,48 @@ export default function Booking(props) {
             }
         } else 
         if (hallsize === 'Хагас') {
-            for (let i = startTime; i < endTime; i++) {
-                axios.post('/api/insert/insert', {
-                    time: i,
-                    leftStatus: 2,
-                    rightStatus: 0,
-                    date: moment(startdate).format("YYYY-MM-DD")
-                })
 
-                axios.post('/api/insert/insertUser', {
-                    time: i,
-                    type: 'Хагас',
-                    date: moment(startdate).format("YYYY-MM-DD"),
-                    userid: 100,
-                    username: user.firstname,
-                    status: 2
-                })
-            }
+            await axios.post('/api/select/selectInsert', {
+                time: startTime,
+                time2: endTime,
+                date: moment(startdate).format("YYYY-MM-DD")
+            })
+            .then((res) => {
+                const data = res.data;
+
+                var time = []
+
+                for(var i in data) {
+                    if (data[i].date.slice(0,10) == moment(startdate).format("YYYY-MM-DD")) {
+                        time.push(data[i].time)
+                    }
+                }
+
+                for (let i = startTime; i < endTime; i++) {
+
+                    if (time.includes(i)) {
+                        axios.post('/api/update/inserUpdate', {
+                            id: data[0].id
+                        })
+                    } else {
+                        axios.post('/api/insert/insert', {
+                            time: i,
+                            leftStatus: 2,
+                            rightStatus: 0,
+                            date: moment(startdate).format("YYYY-MM-DD")
+                        })
+                    }
+                    
+                    axios.post('/api/insert/insertUser', {
+                        time: i,
+                        type: 'Хагас',
+                        date: moment(startdate).format("YYYY-MM-DD"),
+                        userid: 100,
+                        username: user.firstname,
+                        status: 2
+                    })
+                }
+            })
         }
 
         toast("Хүсэлт амжилттай илгээгдлээ. Админ хүсэлтийг зөвшөөрсний дараа таны хүсэлт баталгаажина шүүү!!!")
