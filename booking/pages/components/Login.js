@@ -58,14 +58,14 @@ export default function Login(users) {
     }
 
     return (
-        <div className='w-full md:w-1/2 xl:w-[40%] login'>
+        <div className='w-full md:w-[35%] login'>
             <ToastContainer
                 position='top-center'
             />
 
             <form action="" className={`${style.login}`}>
                 <div className='my-5 flex justify-center'>
-                    <Image src={'/images/logoCola.png'} width={500} height={40} className={`${style.colalogo}`} />
+                    <Image src={'/images/logoCola.png'} width={300} height={40} className={`${style.colalogo}`} />
                 </div>
                 <h1 className='text-gray-100 font-semibold mx-auto text-center mb-8 text-xl'>Нэвтрэх хэсэг</h1>
                 <input type="number" name="" id="username" placeholder='Username' onChange={(e) => setUsername(e.target.value)}/>
