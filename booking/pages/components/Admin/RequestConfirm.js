@@ -34,13 +34,14 @@ export default function List(props) {
                 userId: data[i].userId,
                 userName: data[i].userName,
                 status: data[i].status,
+                sysDate: data[i].sysDate
             })
        }
     }
 
     const sortedDesc = waitingRequest.sort(
         (objA, objB) =>
-            new Date(objA.date) - new Date(objB.date)
+            new Date(objB.sysDate) - new Date(objA.sysDate)
     );
 
     const datas = sortedDesc.filter((v, i) => {
@@ -48,8 +49,6 @@ export default function List(props) {
         const end = start + limit;
         return (i >= start && i < end);
     });
-
-    
 
     const [updateData, setupdateData] = useState([]);
 

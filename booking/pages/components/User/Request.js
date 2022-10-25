@@ -38,13 +38,14 @@ export default function Booking(props) {
                 userId: data[i].userId,
                 userName: data[i].userName,
                 status: data[i].status,
+                sysDate: data[i].sysDate
             })
        }
     }
 
     const sortedDesc = List.sort(
         (objA, objB) =>
-            new Date(objB.date) - new Date(objA.date)
+            new Date(objB.sysDate) - new Date(objA.sysDate)
     );
 
     const datas = sortedDesc.filter((v, i) => {

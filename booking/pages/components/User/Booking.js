@@ -17,6 +17,7 @@ import axios from 'axios'
 export default function Booking(props) {
     const router = useRouter();
     const [modalShow, setModalShow] = useState(false);
+    const [modalShow2, setModalShow2] = useState(false);
     const [timeName, setTimeName] = useState(props.time);
     const [hall, setHall] = useState(props.hall);
     const [username, setUsername] = useState('');
@@ -27,10 +28,6 @@ export default function Booking(props) {
         setErp(sessionStorage.getItem('userId'))
     }, [])
 
-    // if (typeof window !== 'undefined') {
-    //     var username = window.sessionStorage.getItem('user')
-    // }
-
 
     const currentDate = moment().set({ hours: 1, minute: 59, seconds: 59 });
     const disabledDate = (date) => {
@@ -39,6 +36,7 @@ export default function Booking(props) {
 
     const date = new Date();
     const [startTime, setStartTime] = useState(date.getHours())
+    const [startTime2, setStartTime2] = useState(date.getHours())
     const [endTime, setEndTime] = useState(date.getHours())
     const [halltype, setHalltype] = useState('')
     const [hallsize, setHallsize] = useState('')
@@ -86,7 +84,7 @@ export default function Booking(props) {
                 time: hall[i].time,
                 userid: hall[i].userId
             })
-        } 
+        }
     }
 
     const halltimetest = []
@@ -164,12 +162,12 @@ export default function Booking(props) {
                         const data = res.json()
                         data.then((data) => {
                             setcheckData(data)
-    
+
                             if (endTime > startTime + 3 || endTime < startTime || endTime == startTime) {
                                 toast("Дуусах цагаа зөв сонгоно уу!")
                             }
                             else {
-    
+
                                 if (data.length == 0) {
                                     setModalShow(true)
                                 }
@@ -177,22 +175,22 @@ export default function Booking(props) {
                                     let count = 0;
                                     for (let i = 0; i < data.length; i++) {
                                         if (hallsize === 'Бүтэн') {
-                                            if (data[i].leftStatus == 1 && data[i].rightStatus == 1 || 
+                                            if (data[i].leftStatus == 1 && data[i].rightStatus == 1 ||
                                                 data[i].leftStatus == 2 && data[i].rightStatus == 2 ||
                                                 data[i].leftStatus == 1 && data[i].rightStatus == 0 ||
                                                 data[i].leftStatus == 2 && data[i].rightStatus == 0) {
-                                                    count++
+                                                count++
                                                 // toast(`Zahialah bolomjgui. ${data[i].time} tsag zahialagdsan bn`)
                                             }
                                         } else
                                             if (hallsize === 'Хагас') {
-                                    
+
                                                 if (data[i].leftStatus == 1 && data[i].rightStatus == 1 ||
                                                     data[i].leftStatus == 2 && data[i].rightStatus == 2) {
                                                     // toast(`Zahialah bolomjgui. ${data[i].time} tsag zahialagdsan bn`)
                                                     count++
                                                 }
-    
+
                                                 // else if (data[i].leftStatus == 1 && data[i].rightStatus == 0) {
                                                 //     // setModalShow(true)
                                                 // }
@@ -202,10 +200,10 @@ export default function Booking(props) {
                                                 // else if (data[i].leftStatus == 2 && data[i].rightStatus == 0) {
                                                 //     // setModalShow(true)
                                                 // }
-                                                
+
                                             }
                                     }
-                                    if (count == 0 ) {
+                                    if (count == 0) {
                                         setModalShow(true)
                                     }
                                     else {
@@ -215,7 +213,7 @@ export default function Booking(props) {
                             }
                         })
                     })
-    
+
             }
         } else {
             toast(`${moment(startdate).format("YYYY-MM-DD")} өдөр өнгөрцөн байна шүү дээээ`)
@@ -239,7 +237,8 @@ export default function Booking(props) {
                     date: moment(startdate).format("YYYY-MM-DD"),
                     userid: erp,
                     username: username,
-                    status: 2
+                    status: 2,
+                    sysDate: new Date()
                 })
             }
         } else if (hallsize === 'Хагас') {
@@ -249,53 +248,54 @@ export default function Booking(props) {
                 time2: endTime,
                 date: moment(startdate).format("YYYY-MM-DD")
             })
-            .then((res) => {
-                const data = res.data;
+                .then((res) => {
+                    const data = res.data;
 
-                var time = []
+                    var time = []
 
-                for(var i in data) {
-                    if (data[i].date.slice(0,10) === moment(startdate).format("YYYY-MM-DD")) {
-                        time.push(data[i].time)
+                    for (var i in data) {
+                        if (data[i].date.slice(0, 10) === moment(startdate).format("YYYY-MM-DD")) {
+                            time.push(data[i].time)
+                        }
                     }
-                }
 
-                for (let i = startTime; i < endTime; i++) {
+                    for (let i = startTime; i < endTime; i++) {
 
-                    if (time.includes(i)) {
-                        axios.post('/api/updateBefore', {
-                            time: i,
-                            date: moment(startdate).format('YYYY-MM-DD')
-                        })
-                        .then((res) => {
-                            const data1 = res.data;
+                        if (time.includes(i)) {
+                            axios.post('/api/updateBefore', {
+                                time: i,
+                                date: moment(startdate).format('YYYY-MM-DD')
+                            })
+                                .then((res) => {
+                                    const data1 = res.data;
 
-                            if (data1[0].leftStatus != 0) {
-                                axios.post('/api/update/inserUpdate', {
-                                    id: data1[0].id
+                                    if (data1[0].leftStatus != 0) {
+                                        axios.post('/api/update/inserUpdate', {
+                                            id: data1[0].id
+                                        })
+                                    }
                                 })
-                            }
-                        })
-                       
-                    } else {
-                        axios.post('/api/insert/insert', {
+
+                        } else {
+                            axios.post('/api/insert/insert', {
+                                time: i,
+                                leftStatus: 2,
+                                rightStatus: 0,
+                                date: moment(startdate).format("YYYY-MM-DD")
+                            })
+                        }
+
+                        axios.post('/api/insert/insertUser', {
                             time: i,
-                            leftStatus: 2,
-                            rightStatus: 0,
-                            date: moment(startdate).format("YYYY-MM-DD")
+                            type: 'Хагас',
+                            date: moment(startdate).format("YYYY-MM-DD"),
+                            userid: erp,
+                            username: username,
+                            status: 2,
+                            sysDate: new Date()
                         })
                     }
-                    
-                    axios.post('/api/insert/insertUser', {
-                        time: i,
-                        type: 'Хагас',
-                        date: moment(startdate).format("YYYY-MM-DD"),
-                        userid: erp,
-                        username: username,
-                        status: 2
-                    })
-                }
-            })
+                })
         }
 
         toast("Хүсэлт амжилттай илгээгдлээ. Админ хүсэлтийг зөвшөөрсний дараа таны хүсэлт баталгаажина шүүү!!!")
@@ -304,6 +304,242 @@ export default function Booking(props) {
         setTimeout(() => {
             router.push('/components/User/Request')
         }, 2200);
+    }
+
+    async function RequestOne() {
+        if (moment(today).format("YYYY-MM-DD") <= moment(startdate).format("YYYY-MM-DD")) {
+
+            fetch('/api/check', {
+                method: "POST",
+                headers: {
+                    'Content-Type': "application/json"
+                },
+                body: JSON.stringify({
+                    date: moment(startdate).format('YYYY-MM-DD'),
+                    time: startTime2,
+                    endtime: startTime2 + 1
+                })
+            })
+                .then((res) => {
+                    const data = res.json()
+                    data.then((data) => {
+                        setcheckData(data)
+
+                        if (data.length == 0) {
+                            //dfgh
+                            if (hallsize != '') {
+                                if (hallsize === 'Бүтэн') {
+                                    for (let i = startTime2; i < startTime2 + 1; i++) {
+                                        axios.post('/api/insert/insert', {
+                                            time: i,
+                                            leftStatus: 2,
+                                            rightStatus: 2,
+                                            date: moment(startdate).format("YYYY-MM-DD")
+                                        })
+
+                                        axios.post('/api/insert/insertUser', {
+                                            time: i,
+                                            type: 'Бүтэн',
+                                            date: moment(startdate).format("YYYY-MM-DD"),
+                                            userid: erp,
+                                            username: username,
+                                            status: 2,
+                                            sysDate: new Date()
+                                        })
+                                    }
+                                } else if (hallsize === 'Хагас') {
+
+                                    axios.post('/api/select/selectInsert', {
+                                        time: startTime2,
+                                        time2: startTime2 + 1,
+                                        date: moment(startdate).format("YYYY-MM-DD")
+                                    })
+                                        .then((res) => {
+                                            const data = res.data;
+
+                                            var time = []
+
+                                            for (var i in data) {
+                                                if (data[i].date.slice(0, 10) === moment(startdate).format("YYYY-MM-DD")) {
+                                                    time.push(data[i].time)
+                                                }
+                                            }
+
+                                            for (let i = startTime2; i < startTime2 + 1; i++) {
+
+                                                if (time.includes(i)) {
+                                                    axios.post('/api/updateBefore', {
+                                                        time: i,
+                                                        date: moment(startdate).format('YYYY-MM-DD')
+                                                    })
+                                                        .then((res) => {
+                                                            const data1 = res.data;
+
+                                                            if (data1[0].leftStatus != 0) {
+                                                                axios.post('/api/update/inserUpdate', {
+                                                                    id: data1[0].id
+                                                                })
+                                                            }
+                                                        })
+
+                                                } else {
+                                                    axios.post('/api/insert/insert', {
+                                                        time: i,
+                                                        leftStatus: 2,
+                                                        rightStatus: 0,
+                                                        date: moment(startdate).format("YYYY-MM-DD")
+                                                    })
+                                                }
+
+                                                axios.post('/api/insert/insertUser', {
+                                                    time: i,
+                                                    type: 'Хагас',
+                                                    date: moment(startdate).format("YYYY-MM-DD"),
+                                                    userid: erp,
+                                                    username: username,
+                                                    status: 2,
+                                                    sysDate: new Date()
+                                                })
+                                            }
+                                        })
+                                }
+
+                                toast("Хүсэлт амжилттай илгээгдлээ. Админ хүсэлтийг зөвшөөрсний дараа таны хүсэлт баталгаажина шүүү!!!")
+                                setModalShow2(false)
+
+                                setTimeout(() => {
+                                    router.push('/components/User/Request')
+                                }, 2200);
+                            } else {
+                                toast("Заалны хэмжээг сонгоно уу!")
+                            }
+                        }
+                        else {
+                            let count = 0;
+                            for (let i = 0; i < data.length; i++) {
+                                if (hallsize === 'Бүтэн') {
+                                    if (data[i].leftStatus == 1 && data[i].rightStatus == 1 ||
+                                        data[i].leftStatus == 2 && data[i].rightStatus == 2 ||
+                                        data[i].leftStatus == 1 && data[i].rightStatus == 0 ||
+                                        data[i].leftStatus == 2 && data[i].rightStatus == 0) {
+                                        count++
+                                    }
+                                } else
+                                    if (hallsize === 'Хагас') {
+
+                                        if (data[i].leftStatus == 1 && data[i].rightStatus == 1 ||
+                                            data[i].leftStatus == 2 && data[i].rightStatus == 2) {
+                                            count++
+                                        }
+
+                                    }
+                            }
+                            if (count == 0) {
+                                //dfgh
+                                if (hallsize != '') {
+                                    if (hallsize === 'Бүтэн') {
+                                        for (let i = startTime2; i < startTime2 + 1; i++) {
+                                            axios.post('/api/insert/insert', {
+                                                time: i,
+                                                leftStatus: 2,
+                                                rightStatus: 2,
+                                                date: moment(startdate).format("YYYY-MM-DD")
+                                            })
+
+                                            axios.post('/api/insert/insertUser', {
+                                                time: i,
+                                                type: 'Бүтэн',
+                                                date: moment(startdate).format("YYYY-MM-DD"),
+                                                userid: erp,
+                                                username: username,
+                                                status: 2,
+                                                sysDate: new Date()
+                                            })
+                                        }
+                                    } else if (hallsize === 'Хагас') {
+
+                                        axios.post('/api/select/selectInsert', {
+                                            time: startTime2,
+                                            time2: startTime2 + 1,
+                                            date: moment(startdate).format("YYYY-MM-DD")
+                                        })
+                                            .then((res) => {
+                                                const data = res.data;
+
+                                                var time = []
+
+                                                for (var i in data) {
+                                                    if (data[i].date.slice(0, 10) === moment(startdate).format("YYYY-MM-DD")) {
+                                                        time.push(data[i].time)
+                                                    }
+                                                }
+
+                                                for (let i = startTime2; i < startTime2 + 1; i++) {
+
+                                                    if (time.includes(i)) {
+                                                        axios.post('/api/updateBefore', {
+                                                            time: i,
+                                                            date: moment(startdate).format('YYYY-MM-DD')
+                                                        })
+                                                            .then((res) => {
+                                                                const data1 = res.data;
+
+                                                                if (data1[0].leftStatus != 0) {
+                                                                    axios.post('/api/update/inserUpdate', {
+                                                                        id: data1[0].id
+                                                                    })
+                                                                }
+                                                            })
+
+                                                    } else {
+                                                        axios.post('/api/insert/insert', {
+                                                            time: i,
+                                                            leftStatus: 2,
+                                                            rightStatus: 0,
+                                                            date: moment(startdate).format("YYYY-MM-DD")
+                                                        })
+                                                    }
+
+                                                    axios.post('/api/insert/insertUser', {
+                                                        time: i,
+                                                        type: 'Хагас',
+                                                        date: moment(startdate).format("YYYY-MM-DD"),
+                                                        userid: erp,
+                                                        username: username,
+                                                        status: 2,
+                                                        sysDate: new Date()
+                                                    })
+                                                }
+                                            })
+                                    }
+
+                                    toast("Хүсэлт амжилттай илгээгдлээ. Админ хүсэлтийг зөвшөөрсний дараа таны хүсэлт баталгаажина шүүү!!!")
+                                    setModalShow2(false)
+
+                                    setTimeout(() => {
+                                        router.push('/components/User/Request')
+                                    }, 2200);
+                                } else {
+                                    toast("Заалны хэмжээг сонгоно уу!")
+                                }
+                            }
+                            else {
+                                toast("Бүтнээр захиалах боломжгүй байна !!!")
+                            }
+                        }
+
+                    })
+                })
+
+        } else {
+            toast(`${moment(startdate).format("YYYY-MM-DD")} өдөр өнгөрцөн байна шүү дээээ`)
+        }
+
+    }
+
+    const Requester = (time) => {
+        setStartTime2(time)
+        setModalShow2(true)
     }
 
     return (
@@ -369,8 +605,8 @@ export default function Booking(props) {
                                                     data.time == time.time ? data.leftstatus != 0 ?
                                                         data.leftstatus == 1 ? <p className='bg-green-200'>Захиалсан</p>
                                                             : data.leftstatus == 2 ? <p className='bg-yellow-200'>Хүлээгдэж байна</p> : <p className='bg-gray-200'>Сул</p>
-                                                        : <p className='bg-gray-200'>Сул</p> : ''
-                                                ) : <p className='bg-gray-200'>Сул</p>
+                                                        : <div className='bg-gray-200 cursor-pointer hover:bg-gray-500 hover:text-white' onClick={() => Requester(time.time)} >Сул</div> : ''
+                                                ) : <p className='bg-gray-200 cursor-pointer hover:bg-gray-500 hover:text-white' onClick={() => Requester(time.time)}>Сул</p>
                                         }
                                     </td>
                                     <td className={`text-center bg-green-400`}>
@@ -380,8 +616,8 @@ export default function Booking(props) {
                                                     data.time == time.time ? data.rightstatus != 0 ?
                                                         data.rightstatus == 1 ? <p className='bg-green-200 order'>Захиалсан</p>
                                                             : data.rightstatus == 2 ? <p className='bg-yellow-200 wait'>Хүлээгдэж байна</p> : ''
-                                                        : <p className='bg-gray-200 empty'>Сул</p> : ''
-                                                ) : <p className='bg-gray-200'>Сул</p>
+                                                        : <p className='bg-gray-200 empty cursor-pointer hover:bg-gray-500 hover:text-white' onClick={() => Requester(time.time)}>Сул</p> : ''
+                                                ) : <p className='bg-gray-200 cursor-pointer hover:bg-gray-500 hover:text-white' onClick={() => Requester(time.time)}>Сул</p>
                                         }
                                     </td>
                                 </tr>
@@ -483,8 +719,8 @@ export default function Booking(props) {
             </div>
 
             <ToastContainer
-            position='top-center'
-            closeOnClick />
+                position='top-center'
+                closeOnClick />
             <Modal
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
@@ -526,6 +762,58 @@ export default function Booking(props) {
                 </Modal.Body>
                 <Modal.Footer>
                     <button onClick={() => setModalShow(false)} className='bg-gray-800 text-gray-100 p-2 rounded-md'>Буцах</button>
+                </Modal.Footer>
+            </Modal>
+            <Modal
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                show={modalShow2} onHide={() => setModalShow2(false)}
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter" className='flex justify-center w-full'>
+                        Хүсэлтийн дэлгэрэнгүй
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body className='p-5 flex flex-col justify-center'>
+                    <div className='flex flex-col'>
+                        <p className='w-1/2 mx-auto'>Заалны хэмжээ</p>
+                        <Select
+                            className='mb-2 mx-auto w-1/2'
+                            placeholder='Хамрах хүрээ...'
+                            options={hallSize}
+                            onChange={HallSize}
+                        />
+                    </div>
+                    <div className='my-3'>
+                        <div className='flex my-2'>
+                            <h5 className='w-1/3 text-center'>Захиалсан цаг: </h5>
+                            <p className='w-1/2 text-xl flex items-center font-bold'>{`${startTime2}:00 - ${startTime2 + 1}:00`}</p>
+                        </div>
+                        {/* <div className='flex my-2'>
+                            <h5 className='w-1/3 text-center'>Заалны төрөл: </h5>
+                            <p className='w-1/2 text-xl flex items-center font-bold'>{halltype}</p>
+                        </div> */}
+                        <div className='flex my-2'>
+                            <h5 className='w-1/3 text-center'>Заалны хэмжээ: </h5>
+                            <p className='w-1/2 text-xl flex items-center font-bold'>{hallsize}</p>
+                        </div>
+                        <div className='flex my-2'>
+                            <h5 className='w-1/3 text-center'>Захиалагч: </h5>
+                            <p className='w-1/2 text-xl flex items-center font-bold'>{username}</p>
+                        </div>
+                        <div className='flex my-2'>
+                            <h5 className='w-1/3 text-center'>Oгноо: </h5>
+                            <p className='w-1/2 text-xl flex items-center font-bold'>{startdate.toLocaleString().slice(0, 10)}</p>
+                        </div>
+                    </div>
+                    <div className='bg-gray-800 text-gray-100 p-2 w-1/3 rounded-md text-center mx-auto my-3 cursor-pointer'
+                        onClick={RequestOne}>
+                        Үргэлжлүүлэх
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button onClick={() => setModalShow2(false)} className='bg-gray-800 text-gray-100 p-2 rounded-md'>Буцах</button>
                 </Modal.Footer>
             </Modal>
         </Layout>

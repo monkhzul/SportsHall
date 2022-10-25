@@ -17,10 +17,11 @@ model UserReq {
   id       Int       @id(map: "PK_UserReq") @default(autoincrement())
   time     Int?
   type     String?   @db.NVarChar(50)
-  date     DateTime? @db.Date
+  date     DateTime? @db.DateTime
   userId   Int?
   userName String?   @db.NVarChar(50)
   status   Int?
+  sysDate  DateTime? @db.DateTime
 }
 
 model Hall {
