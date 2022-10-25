@@ -164,11 +164,11 @@ export default function List(props) {
             />
             <div className='border'>
                 <Table height={700} data={datas} locale={{emptyMessage: "Хүсэлт байхгүй байна"}}>
-                    <Column width={120} align="center" fixed>
+                    <Column width={120} align="center">
                         <HeaderCell>Id</HeaderCell>
                         <Cell dataKey="userId" />
                     </Column>
-                    <Column width={150} fixed className='font-semibold'>
+                    <Column width={150} className='font-semibold'>
                         <HeaderCell>Захиалагч</HeaderCell>
                         <Cell dataKey="userName" />
                     </Column>
@@ -188,7 +188,7 @@ export default function List(props) {
                         <HeaderCell>Бүтэн/Хагас</HeaderCell>
                         <Cell dataKey="type" />
                     </Column>
-                    <Column width={100} fixed="right" className="text-center">
+                    <Column width={100} className="text-center">
                         <HeaderCell>Зөвшөөрөх</HeaderCell>
                         <Cell>
                             {rowData => (
@@ -204,7 +204,7 @@ export default function List(props) {
                             )}
                         </Cell>
                     </Column>
-                    <Column width={150} fixed="right" className="text-center">
+                    <Column width={100} className="text-center">
                         <HeaderCell>Цуцлах</HeaderCell>
                         <Cell>
                             {rowData => (

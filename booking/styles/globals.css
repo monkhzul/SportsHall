@@ -112,7 +112,7 @@ input, .button {
   padding-left: 56px;
 }
 
-.login input[type=text] {
+.login input[type=number] {
   background-image: url('/images/user.png');
   background-repeat: no-repeat;
   background-size: 24px;
@@ -130,7 +130,7 @@ input:hover {
   background-color: rgb(244, 244, 244);
 }
 
-.login input[type=password]:focus, .login input[type=text]:focus {
+.login input[type=number]:focus, .login input[type=password]:focus {
   border-left: 5px solid #841f47 !important;
   background-color: #fff;
   --tw-ring-color: none !important;

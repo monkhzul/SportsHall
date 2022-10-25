@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "serve": "next build && serve build"
   },
   "dependencies": {
     "@babel/preset-react": "7.14.5",
@@ -45,7 +46,8 @@
     "react-router-dom": "^6.4.1",
     "react-select": "^5.4.0",
     "react-toastify": "^9.0.8",
-    "rsuite": "^5.19.0"
+    "rsuite": "^5.19.0",
+    "serve": "^14.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.12",
