@@ -38,16 +38,18 @@ export default function Login(users) {
                         toast("Амжилттай нэвтэрлээ. Түр хүлээж байгаарай!")
                         sessionStorage.setItem("user", user[0].firstname)
                         sessionStorage.setItem("userId", user[0].erp_code)
-                        router.push({
-                            pathname: '/components/Admin/RequestConfirm'
-                        })
+                        
+                            router.push({
+                                pathname: '/components/Admin/RequestConfirm'
+                            })
                     } else {
                         toast("Амжилттай нэвтэрлээ. Түр хүлээж байгаарай!")
                         sessionStorage.setItem("user", user[0].firstname)
                         sessionStorage.setItem("userId", user[0].erp_code)
-                        router.push({
-                            pathname: '/components/User/Booking'
-                        })
+                        
+                            router.push({
+                                pathname: '/components/User/Booking'
+                            })
                     }
                 }
                 else {
@@ -61,6 +63,7 @@ export default function Login(users) {
         <div className='w-full md:w-[35%] login'>
             <ToastContainer
                 position='top-center'
+                autoClose='500'
             />
 
             <form action="" className={`${style.login}`}>

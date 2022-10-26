@@ -720,6 +720,7 @@ export default function Booking(props) {
 
             <ToastContainer
                 position='top-center'
+                autoClose="1000"
                 closeOnClick />
             <Modal
                 size="lg"

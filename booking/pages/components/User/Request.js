@@ -101,6 +101,7 @@ export default function Booking(props) {
             <div className='border'>
                 <ToastContainer 
                     position='top-center'
+                    autoClose="1000"
                 />
                 <Table height={750} data={datas} locale={{emptyMessage: "Хүсэлт байхгүй байна"}}>
                     <Column width={80} align="center" fixed>
