@@ -24,7 +24,6 @@ app.use(compression({
     },
 }))
 
-
 apps.prepare().then(() => {
   createServer(async (req, res) => {
     try {
