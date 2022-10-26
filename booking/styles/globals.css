@@ -237,6 +237,12 @@ a.fc-col-header-cell-cushion {
   .rs-sidenav-collapse-in {
     width: 100% !important;
   }
+  a.fc-col-header-cell-cushion {
+    font-size: x-small !important;
+  }
+  .fc-v-event .fc-event-title {
+    font-size: xx-small !important;
+  }
 }
 @media only screen and (max-width: 1596px) {
   .rs-table.rs-table-hover {

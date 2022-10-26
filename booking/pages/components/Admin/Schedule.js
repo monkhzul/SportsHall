@@ -21,7 +21,7 @@ export default function Calendar(props) {
        ? 'Захиалсан' 
        : hall[i].leftStatus == 2 && hall[i].rightStatus == 2
        ? 'Хүлээгдэж буй' 
-       : hall[i].leftStatus == 1 && (hall[i].rightStatus == 0 || hall[i].rightStatus != 0) 
+       : hall[i].leftStatus == 1 && (hall[i].rightStatus == 0 || hall[i].rightStatus == 2) 
        ? '1 тал захиалсан'
        : hall[i].leftStatus == 2 && hall[i].rightStatus == 0 
        ? '1 тал хүлээгдэж буй' : '',
