@@ -22,6 +22,7 @@ export default function Booking(props) {
     const [hall, setHall] = useState(props.hall);
     const [username, setUsername] = useState('');
     const [erp, setErp] = useState('');
+    const [explanation, setExplanation] = useState('');
 
     useEffect(() => {
         setUsername(sessionStorage.getItem('user'))
@@ -238,7 +239,8 @@ export default function Booking(props) {
                     userid: erp,
                     username: username,
                     status: 2,
-                    sysDate: new Date()
+                    sysDate: new Date(),
+                    explanation: explanation
                 })
             }
         } else if (hallsize === 'Хагас') {
@@ -292,7 +294,8 @@ export default function Booking(props) {
                             userid: erp,
                             username: username,
                             status: 2,
-                            sysDate: new Date()
+                            sysDate: new Date(),
+                            explanation: explanation
                         })
                     }
                 })
@@ -344,7 +347,8 @@ export default function Booking(props) {
                                             userid: erp,
                                             username: username,
                                             status: 2,
-                                            sysDate: new Date()
+                                            sysDate: new Date(),
+                                            explanation: explanation
                                         })
                                     }
                                 } else if (hallsize === 'Хагас') {
@@ -398,7 +402,8 @@ export default function Booking(props) {
                                                     userid: erp,
                                                     username: username,
                                                     status: 2,
-                                                    sysDate: new Date()
+                                                    sysDate: new Date(),
+                                                    explanation: explanation
                                                 })
                                             }
                                         })
@@ -453,7 +458,8 @@ export default function Booking(props) {
                                                 userid: erp,
                                                 username: username,
                                                 status: 2,
-                                                sysDate: new Date()
+                                                sysDate: new Date(),
+                                                explanation: explanation
                                             })
                                         }
                                     } else if (hallsize === 'Хагас') {
@@ -507,7 +513,8 @@ export default function Booking(props) {
                                                         userid: erp,
                                                         username: username,
                                                         status: 2,
-                                                        sysDate: new Date()
+                                                        sysDate: new Date(),
+                                                        explanation: explanation
                                                     })
                                                 }
                                             })
@@ -689,6 +696,7 @@ export default function Booking(props) {
                                 className='border w-full p-2'
                                 type='text'
                                 placeholder={'Taйлбар...'}
+                                onChange={(e) => setExplanation(e.target.value)}
                             >
                             </textarea>
                         </div>
