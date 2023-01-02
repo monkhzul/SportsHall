@@ -14,6 +14,6 @@ export default async function insert(req, res) {
 
   const data = await prisma.$queryRaw`INSERT INTO [dbo].[UserReq]
   ([time],[type],[date],[userId],[userName],[status],[sysDate],[explanation])
-  VALUES (${time}, ${type}, ${date}, ${userid}, ${username}, ${status},${sysDate},${explanation})`
+  VALUES (${time}, ${type}, ${date}, ${userid}, ${username}, ${status},getdate(),${explanation})`
   res.status(200).json(data)
 }

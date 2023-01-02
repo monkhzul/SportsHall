@@ -1,7 +1,5 @@
-import Head from 'next/head'
-// import { Calendar, momentLocalizer } from 'react-big-calendar'
-import moment from 'moment'
-import Layout from './Layout/Layout'
+import Head from 'next/head';
+import Layout from './Layout/Layout';
 import FullCalendar from "@fullcalendar/react";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -34,19 +32,16 @@ export default function Calendar(props) {
     events.map((title) => title.title === 'Захиалсан' ? setEventColor('#bbf7d0') : setEventColor('#eee'))
   },[])
 
-  const calendarRef = useRef(null);
+  const calendarRef = useRef();
 
   return (
     <Layout>
       <Head>
         <title>Calendar</title>
-        <link href='fullcalendar/main.css' rel='stylesheet' />
-        <script src='fullcalendar/main.js'></script>
       </Head>
 
       <div className='body p-3'>
         <FullCalendar 
-          innerRef = {calendarRef}
           plugins = {[timeGridPlugin, interactionPlugin]}
           events={events}
           slotMinTime={'08:00:00'}

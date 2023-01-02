@@ -70,7 +70,7 @@ export default function Login(users) {
                 <div className='my-5 flex justify-center'>
                     <Image src={'/images/logoCola.png'} width={300} height={40} className={`${style.colalogo}`} />
                 </div>
-                <h1 className='text-gray-100 font-semibold mx-auto text-center mb-8 text-xl'>Нэвтрэх хэсэг</h1>
+                <h1 className='text-gray-400 font-semibold mx-auto text-center mb-8 text-xl'>Нэвтрэх хэсэг</h1>
                 <input type="number" name="" id="username" placeholder='Username' onChange={(e) => setUsername(e.target.value)}/>
                 <input type="password" name="" id="password" placeholder='Password' onChange={(e) => setPassowrd(e.target.value)}/>
                 <div className='w-full text-center flex justify-center'>

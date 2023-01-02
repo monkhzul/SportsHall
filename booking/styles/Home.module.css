@@ -43,8 +43,9 @@
   margin: auto;
   padding: 3rem 2rem;
   border-radius: 1rem;
-  background: #2e3977;
+  background: #fdfdfd;
   opacity: 0.9;
+  border: 2px solid #eeecec;
 }
 .colalogo {
   opacity: 0.85;

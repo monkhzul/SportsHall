@@ -6,6 +6,7 @@ import style from '../../../styles/Admin.module.css';
 import CalendarIcon from '@rsuite/icons/Calendar';
 import Link from 'next/link';
 
+
 export default function AdminSideNav() {
     const [activeKey, setActiveKey] = useState('1');
     const [expanded, setExpanded] = useState(true);
@@ -16,6 +17,9 @@ export default function AdminSideNav() {
         }
         else if (window.location.pathname === '/components/Admin/Schedule') {
             setActiveKey('3')
+        }
+        else if (window.location.pathname === '/components/Admin/Booking') {
+            setActiveKey('4')
         }
     },[])
 
@@ -31,7 +35,7 @@ export default function AdminSideNav() {
     return (
         <Sidenav expanded={expanded} className={`h-screen sidenav`}>
             <Sidenav.Header>
-                <Sidenav.Toggle expanded={expanded} onToggle={expanded => setExpanded(expanded)} />
+                <Sidenav.Toggle onToggle={expanded => setExpanded(expanded)} />
             </Sidenav.Header>
             <Sidenav.Body className=''>
                 <Nav activeKey={activeKey} onSelect={setActiveKey}>
@@ -44,6 +48,9 @@ export default function AdminSideNav() {
                     </Nav.Item>
                     <Nav.Item eventKey="3" icon={<GroupIcon />} as={NavLink} href={'/components/Admin/Schedule'}>
                         7 хоног календар
+                    </Nav.Item>
+                    <Nav.Item eventKey="4" icon={<CalendarIcon />} as={NavLink} href={'/components/Admin/Booking'}>
+                        Заал захиалга
                     </Nav.Item>
 
                     {/* <Nav.Menu placement="rightStart" eventKey="3" title="Advanced" icon={<MagicIcon />}>
