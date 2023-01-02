@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { Table, Pagination } from 'rsuite';
 import Layout from './Layout/Layout';
 import { PrismaClient } from '@prisma/client';
+import DateRangePicker from "rsuite/DateRangePicker";
+import startOfWeek from 'date-fns/startOfWeek';
+import endOfWeek from 'date-fns/endOfWeek';
+import addDays from 'date-fns/addDays';
+import moment from 'moment';
 
 export default function List(props) {
     const { Column, HeaderCell, Cell } = Table;
@@ -9,6 +14,7 @@ export default function List(props) {
     const [limit, setLimit] = useState(15);
     const [page, setPage] = useState(1);
     const [data, setData] = useState(props.hall);
+    const [chosenDate, setChosenDate] = useState([]);
 
     const handleChangeLimit = dataKey => {
         setPage(1);
@@ -41,13 +47,59 @@ export default function List(props) {
         return (i >= start && i < end);
     });
 
+    if (chosenDate === undefined || chosenDate === null) { } else { 
+        var result = datas.filter(itemInArray => 
+            itemInArray.date >= moment(chosenDate == '' ? '' : chosenDate[0]).format('YYYY-MM-DD') &&
+            itemInArray.date <= moment(chosenDate == '' ? '' : chosenDate[1]).format('YYYY-MM-DD')
+        );
+    }
+
+    console.log(chosenDate == '');
+
     return (
         <Layout>
             <title>Захиалгын лист</title>
+            <div className=''>
+            <DateRangePicker
+                    size="lg"
+                    value={chosenDate}
+                    onChange={setChosenDate}
+                    className='w-full'
+                    ranges={[
+                      {
+                        label: 'Today',
+                        value: [new Date(), new Date()],
+                        placement: 'bottom'
+                      },
+                      {
+                        label: 'Yesterday',
+                        value: [addDays(new Date(), -1), addDays(new Date(), -1)],
+                        placement: 'bottom'
+                      },
+                      {
+                        label: 'This week',
+                        value: [startOfWeek(new Date()), endOfWeek(new Date())],
+                        placement: 'bottom'
+                      },
+                      {
+                        label: 'Last week',
+                        closeOverlay: false,
+                        value: value => {
+                          const [start = new Date()] = value || [];
+                          return [
+                            addDays(startOfWeek(start, { weekStartsOn: 1 }), -7),
+                            addDays(endOfWeek(start, { weekStartsOn: 1 }), -7)
+                          ];
+                        },
+                        placement: 'bottom'
+                      }
+                    ]}
+                  />
+            </div>
             <div className='border'>
-                <Table height={750} data={datas}>
+                <Table height={750} data={chosenDate == '' || result == null ? datas : result}>
                     <Column width={120} align="center" fixed >
-                        <HeaderCell>ID</HeaderCell>
+                        <HeaderCell>ERP код</HeaderCell>
                         <Cell dataKey="userId" />
                     </Column>
                     <Column width={150} fixed className='font-semibold'>
@@ -60,7 +112,8 @@ export default function List(props) {
                     </Column>
                     <Column width={120} flexGrow={1} className='text-center font-semibold'>
                         <HeaderCell>Заал авсан цаг</HeaderCell>
-                        <Cell dataKey="time" />
+                        {/* <Cell dataKey="time" /> */}
+                        <Cell>{rowData => rowData.time}</Cell>
                     </Column>
                     {/* <Column width={150} flexGrow={1} className='text-center'>
                         <HeaderCell>Заалны төрөл</HeaderCell>
@@ -82,7 +135,7 @@ export default function List(props) {
                         maxButtons={5}
                         size="md"
                         layout={['total', '-', 'pager', 'skip']}
-                        total={List.length}
+                        total={chosenDate == '' || result == null ? List?.length : result?.length}
                         limitOptions={[10, 30, 50]}
                         limit={limit}
                         activePage={page}

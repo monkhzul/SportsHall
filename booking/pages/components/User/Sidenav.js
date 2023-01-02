@@ -5,7 +5,6 @@ import GroupIcon from '@rsuite/icons/legacy/Group';
 import HistoryIcon from '@rsuite/icons/History';
 import CalendarIcon from '@rsuite/icons/Calendar';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 export default function SideNav() {
     const [activeKey, setActiveKey] = useState('1');
@@ -36,7 +35,7 @@ export default function SideNav() {
     return (
         <Sidenav expanded={expanded} defaultOpenKeys={['3', '4']} className={``}>
             <Sidenav.Header>
-                <Sidenav.Toggle expanded={expanded} onToggle={expanded => setExpanded(expanded)} />
+                <Sidenav.Toggle onToggle={expanded => setExpanded(expanded)} />
             </Sidenav.Header>
             <Sidenav.Body className=''>
                 <Nav activeKey={activeKey} onSelect={setActiveKey}>

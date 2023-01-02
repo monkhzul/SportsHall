@@ -50,11 +50,9 @@ export default function List(props) {
         return (i >= start && i < end);
     });
 
-    const [updateData, setupdateData] = useState([]);
-
     const updateConfirm = (id, times, date, type) => {
 
-        axios.post('http://localhost:3000/api/updateBefore', {
+        axios.post('/api/updateBefore', {
             time: times,
             date: date
         })
